@@ -2,13 +2,13 @@
 title: "ECL8202 - Analyses des données complexes"
 ---
 
-[Recorded lectures (YouTube)](https://www.youtube.com/channel/UCfU-xwzWWTo3G_sTkquzOQg/playlists?view=50&sort=dd&shelf_id=2&view_as=subscriber)
+<!--[Recorded lectures (YouTube)](https://www.youtube.com/channel/UCfU-xwzWWTo3G_sTkquzOQg/playlists?view=50&sort=dd&shelf_id=2&view_as=subscriber)-->
 
-[Course plan](plan_de_cours/ECL8202_H2022.pdf)
+[Course plan](plan_de_cours/ECL8202_H2023.pdf)
 
 ## Lecture notes
 
-1. [The bootstrap method]<!--(notes_cours/01E-Bootstrap.html) ([PDF](notes_cours/01E-Bootstrap.pdf)) - Data: [pruche.csv](donnees/pruche.csv)-->
+1. [The bootstrap method](notes_cours/01E-Bootstrap.html) ([PDF](notes_cours/01E-Bootstrap.pdf)) - Data: [pruche.csv](donnees/pruche.csv)
 
 2. [Randomization tests]<!--(notes_cours/02E-Tests_randomisation.html) ([PDF](notes_cours/02E-Tests_randomisation.pdf)) - Data: [sphagnum_cover.csv](donnees/sphagnum_cover.csv), [environment.csv](donnees/environment.csv)-->
 
@@ -34,7 +34,7 @@ title: "ECL8202 - Analyses des données complexes"
 
 ## Exercises
 
-1. [The bootstrap method<!-- (solutions)-->]<!--(labos/01RE-Bootstrap.html) ([PDF](labos/01RE-Bootstrap.pdf)) - Data: [sphagnum_cover.csv](donnees/sphagnum_cover.csv)-->
+1. [The bootstrap method<!-- (solutions)-->](labos/01E-Bootstrap.html) ([PDF](labos/01E-Bootstrap.pdf)) - Data: [sphagnum_cover.csv](donnees/sphagnum_cover.csv)
 
 2. [Randomization tests<!-- (solutions)-->]<!--(labos/02RE-Tests_randomisation.html) ([PDF](labos/02RE-Tests_randomisation.pdf)) - Données: [sablefish.csv](donnees/sablefish.csv)-->
 

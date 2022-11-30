@@ -7,7 +7,7 @@ output:
 
 <!--[Capsules vidéo du cours (YouTube)](https://www.youtube.com/channel/UCfU-xwzWWTo3G_sTkquzOQg/playlists?view=50&sort=dd&shelf_id=2&view_as=subscriber)-->
 
-[Plan de cours](plan_de_cours/ECL8202_H2022.pdf)
+[Plan de cours](plan_de_cours/ECL8202_H2023.pdf)
 
 ## Notes de cours
 
