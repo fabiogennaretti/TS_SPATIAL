@@ -460,6 +460,14 @@ The *parametric bootstrap* is a method where the bootstrap samples are not drawn
 
 - The distribution of an estimator for these virtual samples, relative to its value calculated for the original sample, is used to approximate the distribution of the estimator relative to the value of the parameter in the population. From this distribution, we can determine the bias, variance and confidence interval of this estimator.
 
+|    type    |    why              |corrects for biais  |   ok with asymmetries  |
+|:-----------|:--------------------:|:----------------:|:----------------------:|
+|normal      | simple, if n=small  |   no             |        no            |
+|quantile    | simple              |   no             |         yes           |
+|base        | fast , if n=small |   yes              |        no           | 
+|studentised | more complex, 2x time |    yes             |      no          |
+|BCa         | best; slow          |    yes             |       no            |
+
 - The resampling must be representative of how the original sample was obtained.
 
 - To apply the bootstrap to regression parameter estimation, resampling of observations and resampling of residuals are two accepted methods; the choice of one or the other depends on the assumptions that can be made in a particular case.

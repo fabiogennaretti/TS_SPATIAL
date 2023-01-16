@@ -34,7 +34,7 @@ a) À partir du jeu de données, faites l'extraction des valeurs de *sphcover* p
 
 $$(\bar{x} + t_{(n-1)0.025} s_{\bar{x}}, \bar{x} + t_{(n-1)0.975} s_{\bar{x}})$$
 
-*Rappel*: La fonction `qt(p, df)` permet d'obtenir pour une valeur `p` donnée la valeur du quantile de la distribution $t$ avec `df` degrés de liberté.
+*Rappel*: La fonction `qt(p, df)` permet d'obtenir pour une valeur `p` donnée par la valeur du quantile de la distribution $t$ avec `df` degrés de liberté.
 
 **Réponse**
 
@@ -58,7 +58,7 @@ ic
 ```
 
 
-b) Simulez 10 000 échantillons bootstrap pour la moyenne calculée en a). Quelle est son erreur-type selon le bootstrap? Est-ce que cette statistique apparait biasée? 
+b) Simulez 10 000 échantillons bootstrap pour la moyenne calculée en a). Quelle est sont erreur-type selon le bootstrap? Est-ce que cette statistique apparait biasée? 
 
 **Réponse**
 
@@ -90,6 +90,7 @@ qqline(res$t)
 **Réponse**
 
 ```{r}
+hist(boot_moy$t)
 qqnorm(boot_moy$t)
 qqline(boot_moy$t)
 ```
