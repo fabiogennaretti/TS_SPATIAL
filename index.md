@@ -13,7 +13,7 @@ output:
 
 1. [La méthode du bootstrap](notes_cours/01-Bootstrap.html) ([PDF](notes_cours/01-Bootstrap.pdf)) - Données: [pruche.csv](donnees/pruche.csv)
 
-2. [Tests de randomisation]<!--(notes_cours/02-Tests_randomisation.html) ([PDF](notes_cours/02-Tests_randomisation.pdf)) - Données: [sphagnum_cover.csv](donnees/sphagnum_cover.csv), [environment.csv](donnees/environment.csv)-->
+2. [Tests de randomisation](notes_cours/02-Tests_randomisation.html) ([PDF](notes_cours/02-Tests_randomisation.pdf)) - Données: [sphagnum_cover.csv](donnees/sphagnum_cover.csv), [environment.csv](donnees/environment.csv)
 
 3. [Maximum de vraisemblance]<!--(notes_cours/03-Maximum_vraisemblance.html) ([PDF](notes_cours/03-Maximum_vraisemblance.pdf)) - Données: [galapagos.csv](donnees/galapagos.csv)-->
 
@@ -37,7 +37,7 @@ output:
 
 ## Exercices
 
-1. [La méthode du bootstrap<!-- (solutions)-->](labos/01-Bootstrap.html) ([PDF](labos/01-Bootstrap.pdf)) - Données: [sphagnum_cover.csv](donnees/sphagnum_cover.csv)
+1. [La méthode du bootstrap<!-- (solutions)-->](labos/01R-Bootstrap.html) ([PDF](labos/01R-Bootstrap.pdf)) - Données: [sphagnum_cover.csv](donnees/sphagnum_cover.csv)
 
 2. [Tests de randomisation<!-- (solutions)-->]<!--(labos/02R-Tests_randomisation.html) ([PDF](labos/02R-Tests_randomisation.pdf)) - Données: [sablefish.csv](donnees/sablefish.csv)-->
 

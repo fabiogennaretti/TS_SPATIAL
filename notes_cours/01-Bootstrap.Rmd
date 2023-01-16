@@ -1,6 +1,7 @@
 ---
 title: "La méthode du bootstrap"
 output:
+    pdf_document:
     html_document:
         self_contained: false
         lib_dir: libs
@@ -458,6 +459,14 @@ Le *bootstrap paramétrique* est une méthode où les échantillons bootstrap ne
 - Le bootstrap (non-paramétrique) est une technique de ré-échantillonage: on crée des échantillons virtuels à partir d'un tirage avec remise des valeurs de l'échantillon observé.
 
 - La distribution d'un estimateur pour ces échantillons virtuels, par rapport à sa valeur calculée pour l'échantillon original, sert à approximer la distribution de l'estimateur par rapport à la valeur du paramètre dans la population. À partir de cette distribution, nous pouvons déterminer le biais, la variance et l'intervalle de confiance de cet estimateur.
+
+|    type    |    POURQUOI         |corrige pour biais  |   ok avec assymetrie  |
+|:-----------|:--------------------:|:----------------:|:----------------------:|
+|normal      | simple, si n=petit  |   non             |        non            |
+|quantile    | simple              |   non             |         oui           |
+|base        | rapide , si n=petit |   oui              |        non           | 
+|studentised | plus compliqué, 2x temp |    oui             |      non          |
+|BCa         | best; lent          |    oui             |       oui            |
 
 - Le ré-échantillonnage doit être représentatif de la façon dont l'échantillon original a été obtenu.
 
