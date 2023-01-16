@@ -1568,17 +1568,23 @@ overflow-y: auto;
 border: 1px solid #ddd;
 border-radius: 4px;
 }
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+content: "";
 font-family: 'Glyphicons Halflings';
 display: inline-block;
 padding: 10px;
 border-right: 1px solid #ddd;
 }
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-content: "\e258";
-font-family: 'Glyphicons Halflings';
+content: "";
 border: none;
+}
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+content: "";
+font-family: 'Glyphicons Halflings';
+display: inline-block;
+padding: 10px;
+border-right: 1px solid #ddd;
 }
 .tabset-dropdown > .nav-tabs > li.active {
 display: block;
@@ -1633,8 +1639,8 @@ complexes</h1>
 <li><p><a href="notes_cours/01-Bootstrap.html">La méthode du
 bootstrap</a> (<a href="notes_cours/01-Bootstrap.pdf">PDF</a>) -
 Données: <a href="donnees/pruche.csv">pruche.csv</a></p></li>
-<li><p>[Tests de
-randomisation]<!--(notes_cours/02-Tests_randomisation.html) ([PDF](notes_cours/02-Tests_randomisation.pdf)) - Données: [sphagnum_cover.csv](donnees/sphagnum_cover.csv), [environment.csv](donnees/environment.csv)--></p></li>
+<li><p><a href="notes_cours/02-Tests_randomisation.html">Tests de
+randomisation</a> (<a href="notes_cours/02-Tests_randomisation.pdf">PDF</a>) - Données: <a href="donnees/sphagnum_cover.csv">sphagnum_cover.csv</a>, <a href="donnees/environment.csv">environment.csv</a></p></li>
 <li><p>[Maximum de
 vraisemblance]<!--(notes_cours/03-Maximum_vraisemblance.html) ([PDF](notes_cours/03-Maximum_vraisemblance.pdf)) - Données: [galapagos.csv](donnees/galapagos.csv)--></p></li>
 <li><p>[Régression robuste aux valeurs
@@ -1660,10 +1666,10 @@ spatiales]<!--(notes_cours/12-Donnees_spatiales.html) ([PDF](notes_cours/12-Donn
 <div id="exercices" class="section level2">
 <h2>Exercices</h2>
 <ol style="list-style-type: decimal">
-<li><p><a href="labos/01-Bootstrap.html">La méthode du
-bootstrap<!-- (solutions)--></a> (<a href="labos/01-Bootstrap.pdf">PDF</a>) - Données: <a href="donnees/sphagnum_cover.csv">sphagnum_cover.csv</a></p></li>
-<li><p>[Tests de
-randomisation<!-- (solutions)-->]<!--(labos/02R-Tests_randomisation.html) ([PDF](labos/02R-Tests_randomisation.pdf)) - Données: [sablefish.csv](donnees/sablefish.csv)--></p></li>
+<li><p><a href="labos/01R-Bootstrap.html">La méthode du
+bootstrap<!-- (solutions)--></a> (<a href="labos/01R-Bootstrap.pdf">PDF</a>) - Données: <a href="donnees/sphagnum_cover.csv">sphagnum_cover.csv</a></p></li>
+<li><p><a href="labos/02-Tests_randomisation.html">Tests de
+randomisation<!-- (solutions)--></a> (<a href="labos/02-Tests_randomisation.pdf">PDF</a>) - Données: <a href="donnees/sablefish.csv">sablefish.csv</a></p></li>
 </ol>
 <p>Labo évalué: [Tests de randomisation et
 bootstrap]<!--(labos/E02-Tests_randomisation.html) ([PDF](labos/E02-Tests_randomisation.pdf)) - Données: [portal_surveys.csv](donnees/portal_surveys.csv), [portal_plots.csv](donnees/portal_plots.csv)--></p>
