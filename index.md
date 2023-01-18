@@ -41,7 +41,7 @@ output:
 
 2. [Tests de randomisation<!-- (solutions)-->](labos/02-Tests_randomisation.html) ([PDF](labos/02-Tests_randomisation.pdf)) - Données: [sablefish.csv](donnees/sablefish.csv)
 
-Labo évalué: [Tests de randomisation et bootstrap]<!--(labos/E02-Tests_randomisation.html) ([PDF](labos/E02-Tests_randomisation.pdf)) - Données: [portal_surveys.csv](donnees/portal_surveys.csv), [portal_plots.csv](donnees/portal_plots.csv)-->
+Labo évalué: [Tests de randomisation et bootstrap](labos/E02b-Tests_randomisation.html) ([PDF](labos/E02b-Tests_randomisation.pdf)) - Données: [portal_surveysB.csv](donnees/portal_surveysB.csv), [portal_plots.csv](donnees/portal_plots.csv)
 
 3. [Maximum de vraisemblance<!-- (solutions)-->]<!--(labos/03R-Maximum_vraisemblance.html) ([PDF](labos/03R-Maximum_vraisemblance.pdf)) - Données: [thermal_range.csv](donnees/thermal_range.csv)-->
 

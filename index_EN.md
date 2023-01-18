@@ -38,7 +38,7 @@ title: "ECL8202 - Analyses des données complexes"
 
 2. [Randomization tests<!-- (solutions)-->](labos/02E-Tests_randomisation.html) ([PDF](labos/02E-Tests_randomisation.pdf)) - Données: [sablefish.csv](donnees/sablefish.csv)
 
-Graded lab: [Randomization tests and bootstrap]<!--(labos/E02E-Tests_randomisation.html) ([PDF](labos/E02E-Tests_randomisation.pdf)) - Data: [portal_surveys.csv](donnees/portal_surveys.csv), [portal_plots.csv](donnees/portal_plots.csv)-->
+Graded lab: [Randomization tests and bootstrap](labos/E02Eb-Tests_randomisation.html) ([PDF](labos/E02Eb-Tests_randomisation.pdf)) - Data: [portal_surveysB.csv](donnees/portal_surveysB.csv), [portal_plots.csv](donnees/portal_plots.csv)
 
 3. [Maximum likelihood<!-- (solutions)-->]<!--(labos/03RE-Maximum_vraisemblance.html) ([PDF](labos/03RE-Maximum_vraisemblance.pdf)) - Data: [thermal_range.csv](donnees/thermal_range.csv)-->
 

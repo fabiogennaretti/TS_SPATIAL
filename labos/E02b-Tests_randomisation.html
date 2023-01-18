@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Tests de randomisation et bootstrap</title>
+
+<script src="libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<link href="libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Tests de randomisation et bootstrap</h1>
+
+</div>
+
+
+<p>Ce travail doit être remis avant le <strong>3 février à 17h</strong>
+sur Moodle.</p>
+<div id="données" class="section level2">
+<h2>Données</h2>
+<p>Ce laboratoire utilise la base de données Portal, qui contient des
+données de suivi à long terme de plusieurs espèces de rongeurs sur un
+site d’étude en Arizona.</p>
+<blockquote>
+<p>Ernest, M., Brown, J., Valone, T. and White, E.P. (2018) <em>Portal
+Project Teaching Database</em>. <a
+href="https://figshare.com/articles/Portal_Project_Teaching_Database/1314459">https://figshare.com/articles/Portal_Project_Teaching_Database/1314459</a>.</p>
+</blockquote>
+<p>Le tableau de données <a
+href="../donnees/portal_surveys.csv">portal_surveys.csv</a> contient une
+rangée par individu capturé. Les variables incluent la date (jour, mois,
+année), le numéro de parcelle, le code d’espèce, le sexe, la longueur de
+patte arrière et le poids des individus.</p>
+<pre class="r"><code>surveys &lt;- read.csv(&quot;../donnees/portal_surveysB.csv&quot;)
+str(surveys)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    36701 obs. of  10 variables:
+##  $ X              : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ record_id      : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ month          : int  7 7 7 7 7 7 7 7 7 7 ...
+##  $ day            : int  16 16 16 16 16 16 16 16 16 16 ...
+##  $ year           : int  1977 1977 1977 1977 1977 1977 1977 1977 1977 1977 ...
+##  $ plot_id        : int  2 3 2 7 3 1 2 1 1 6 ...
+##  $ species_id     : chr  &quot;NL&quot; &quot;NL&quot; &quot;DM&quot; &quot;DM&quot; ...
+##  $ sex            : chr  &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; ...
+##  $ hindfoot_length: int  32 33 37 36 35 14 NA 37 34 20 ...
+##  $ weight         : num  NA NA NA NA NA NA NA NA NA NA ...</code></pre>
+<p>Le tableau de données <a
+href="../donnees/portal_plots.csv">portal_plots.csv</a> indique le type
+de traitement appliqué à chaque parcelle. Les traitements visent à
+exclure différents types de rongeurs: “Control” = aucune clôture, pas
+d’exclusion; “Rodent Exclosure” = clôture, tous les rongeurs exclus;
+“Krat Exclosure” = clôture avec porte laissant passer les petits
+rongeurs, mais pas les rats-kangourous. Ces traitements ont été assignés
+aléatoirement après délimitation des parcelles.</p>
+<pre class="r"><code>plots &lt;- read.csv(&quot;../donnees/portal_plots.csv&quot;)
+str(plots)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    24 obs. of  2 variables:
+##  $ plot_id  : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ plot_type: chr  &quot;Spectab exclosure&quot; &quot;Control&quot; &quot;Long-term Krat Exclosure&quot; &quot;Control&quot; ...</code></pre>
+</div>
+<div id="tests-de-randomisation" class="section level2">
+<h2>1. Tests de randomisation</h2>
+<ol style="list-style-type: lower-alpha">
+<li>Tout d’abord, nous devons préparer les données pour l’analyse:</li>
+</ol>
+<ul>
+<li>Dans le tableau <code>surveys</code> ne gardez que les captures de
+<em>Néotoma albigula</em> (NL) où le poid des n’est pas manquant.
+<em>Rappel</em>: La fonction <code>is.na(x)</code> vérifie si
+<code>x</code> est une valeur manquante.</li>
+</ul>
+<div class="figure">
+<img src="https://www.naturepl.com/cache/pcache2/01112522.jpg" alt="" />
+<p class="caption">Néotoma albigula</p>
+</div>
+<ul>
+<li>Finalement, joignez les tableaux <code>surveys</code> et
+<code>plots</code> pour connaître les traitements des parcelles liés à
+chaque observation. Vous pouvez utiliser la fonction <code>merge</code>
+dans R ou la fonction <code>inner_join</code>, qui requiet le package
+<em>dplyr</em>. Nommez le tableau résultant <code>surveys_plots</code>
+et n’y conservez que les observations des sites de type “Long-term Krat
+Exclosure”,“Short-term Krat Exclosure”, et “Control”.</li>
+</ul>
+<p>Ensuite, visualisez la distribution du poids (<code>weight</code>, en
+grammes) des individus selon l’année.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><p>Nous utiliserons un test de randomisation basé sur la régression
+linéaire pour déterminer si la masse des individus a diminuer avec le
+temps. Pourquoi penses-tu qu’une approache par permutation soit
+appropriée ?Pour ce faire, nous écrirons une fonction qui randomise les
+années, avant d’exécuter la régression.</p></li>
+<li><p>Créez la fonction décrite en (b), qui effectue une randomisation
+de <code>year</code>, exécute une régression du poids des individus en
+fonction de l’année, puis retourne la valeur <span
+class="math inline">\(t\)</span>. Déterminez la distribution de cette
+statistique pour l’hypothèse nulle avec 4999 permutations. Quelle est la
+valeur <span class="math inline">\(p\)</span> pour la valeur <span
+class="math inline">\(t\)</span> observée si il n’y a eu aucun
+changement en masse des individus capturés au court du temps?</p></li>
+<li><p>La différence est-elle significative avec un seuil <span
+class="math inline">\(\alpha = 0.01\)</span>?</p></li>
+<li><p>Effectuez un test de permutation pour tester si les changements
+en masses diffèrent selon les traitements (ie. si il y a une intéraction
+entre year et plot_type).</p></li>
+</ol>
+</div>
+<div id="bootstrap" class="section level2">
+<h2>2. Bootstrap</h2>
+<ol style="list-style-type: lower-alpha">
+<li><p>Calculez l’intervalle de confiance à 99% pour le changement en
+masse au court du temps pour chaque traitement.</p></li>
+<li><p>L’intervalle de confiance obtenu en a) est-il cohérent avec le
+résultat du test en 1.d)? Est-ce que le bootstrap représente bien le
+processus d’échantillonnage pour ce problème?</p></li>
+<li><p>Utilisez la méthode du bootstrap avec 10 000 réplicats pour
+calculer la différence de poids des individus entre le début et la fin
+de l’étude pour les traitements “Long-term Krat Exclosure” et “Control”.
+Effectuez une correction du biais et rapportez la différence corrigée
+avec son erreur-type.)</p></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
