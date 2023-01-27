@@ -52,31 +52,31 @@ a) Tout d'abord, nous devons préparer les données pour l'analyse:
 library(tidyverse)
 
 # cheating data
-surveys <- read.csv("../donnees/portal_surveys.csv")
-plots <- read.csv("../donnees/portal_plots.csv")
-
-dat=surveys %>% inner_join(plots) %>% filter(!is.na(weight)) %>% filter(species_id=="NL") 
-m=lm(weight~year*plot_type,data=dat)
-res=resid(m)
-res2=scale(res^1.3)*sd(res)+mean(res)
-dat$wt= fitted(m)+res2
-surveys=surveys %>% left_join(select(dat,record_id,wt))
-
-res3=scale(rnorm(nrow(dat),0,sd(res))^1.05)*sd(res)+mean(res)
-dat2=dat %>% select(-plot_type)
-dat2$wt= fitted(m)+res3
-dat2$wt[is.nan(dat2$wt)] <- NA
-hist(res)
-hist(res2)
-hist(res3)
-
-surveys <- rbind(surveys,filter(dat2,species_id=="NL")) %>% 
-                   arrange(year,month,day) %>% 
-                   mutate(record_id=1:n(),
-                          weight=as.numeric(ifelse(is.na(wt),weight,wt))) %>% select(-wt)
-sum(duplicated(surveys$record_id))
-            
-write.csv(surveys,file = "../donnees/portal_surveysB.csv")
+# surveys <- read.csv("../donnees/portal_surveys.csv")
+# plots <- read.csv("../donnees/portal_plots.csv")
+# 
+# dat=surveys %>% inner_join(plots) %>% filter(!is.na(weight)) %>% filter(species_id=="NL") 
+# m=lm(weight~year*plot_type,data=dat)
+# res=resid(m)
+# res2=scale(res^1.3)*sd(res)+mean(res)
+# dat$wt= fitted(m)+res2
+# surveys=surveys %>% left_join(select(dat,record_id,wt))
+# 
+# res3=scale(rnorm(nrow(dat),0,sd(res))^1.05)*sd(res)+mean(res)
+# dat2=dat %>% select(-plot_type)
+# dat2$wt= fitted(m)+res3
+# dat2$wt[is.nan(dat2$wt)] <- NA
+# hist(res)
+# hist(res2)
+# hist(res3)
+# 
+# surveys <- rbind(surveys,filter(dat2,species_id=="NL")) %>% 
+#                    arrange(year,month,day) %>% 
+#                    mutate(record_id=1:n(),
+#                           weight=as.numeric(ifelse(is.na(wt),weight,wt))) %>% select(-wt)
+# sum(duplicated(surveys$record_id))
+#             
+# write.csv(surveys,file = "../donnees/portal_surveysB.csv")
 
 
 
