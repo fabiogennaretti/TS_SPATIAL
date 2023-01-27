@@ -40,7 +40,7 @@ Ces méthodes sont conçues pour être optimales lorsque la variation résiduell
 
 Une mesure de tendance centrale vise à identifier le centre d'une distribution; la moyenne et la médiane en sont deux exemples bien connus. Le centre défini par la moyenne équilibre la *somme des écarts* de part et d'autre de la valeur moyenne, tandis que celui défini par la médiane équilibre le *nombre d'observations* de part et d'autre. Pour cette raison, l'ajout d'une valeur extrême à un échantillon peut affecter fortement sa moyenne, mais très peu sa médiane.
 
-Par exemple, prenons les 10 valeurs suivantes sont la moyenne (44) et la médiane (43.5) sont approximativement égales:
+Par exemple, prenons les 10 valeurs suivantes, dont la moyenne (44) et la médiane (43.5) sont approximativement égales:
 
 `18 29 30 40 43 44 48 49 56 83`
 

@@ -297,23 +297,17 @@ overflow-y: auto;
 border: 1px solid #ddd;
 border-radius: 4px;
 }
-.tabset-dropdown > .nav-tabs > li.active:before {
-content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+content: "\e259";
 font-family: 'Glyphicons Halflings';
 display: inline-block;
 padding: 10px;
 border-right: 1px solid #ddd;
 }
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-content: "";
-border: none;
-}
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-content: "";
+content: "\e258";
 font-family: 'Glyphicons Halflings';
-display: inline-block;
-padding: 10px;
-border-right: 1px solid #ddd;
+border: none;
 }
 .tabset-dropdown > .nav-tabs > li.active {
 display: block;
@@ -370,8 +364,8 @@ complexes</h1>
 <li><p><a href="notes_cours/02E-Tests_randomisation.html">Randomization
 tests</a> (<a href="notes_cours/02E-Tests_randomisation.pdf">PDF</a>) -
 Data: <a href="donnees/sphagnum_cover.csv">sphagnum_cover.csv</a>, <a href="donnees/environment.csv">environment.csv</a></p></li>
-<li><p>[Maximum
-likelihood]<!--(notes_cours/03E-Maximum_vraisemblance.html) ([PDF](notes_cours/03E-Maximum_vraisemblance.pdf)) - Data: [galapagos.csv](donnees/galapagos.csv)--></p></li>
+<li><p><a href="notes_cours/03E-Maximum_vraisemblance.html">Maximum
+likelihood</a> (<a href="notes_cours/03E-Maximum_vraisemblance.pdf">PDF</a>) - Data: <a href="donnees/galapagos.csv">galapagos.csv</a></p></li>
 <li><p>[Robust
 regression]<!--(notes_cours/04E-Regression_robuste.html) ([PDF](notes_cours/04E-Regression_robuste.pdf))--></p></li>
 <li><p>[Generalized linear mixed
@@ -395,17 +389,18 @@ data]<!--(notes_cours/12E-Donnees_spatiales.html) ([PDF](notes_cours/12E-Donnees
 <div id="exercises" class="section level2">
 <h2>Exercises</h2>
 <ol style="list-style-type: decimal">
-<li><p><a href="labos/01RE-Bootstrap.html">The bootstrap
-method<!-- (solutions)--></a> (<a href="labos/01RE-Bootstrap.pdf">PDF</a>) - Data: <a href="donnees/sphagnum_cover.csv">sphagnum_cover.csv</a></p></li>
-<li><p><a href="labos/02E-Tests_randomisation.html">Randomization
-tests<!-- (solutions)--></a> (<a href="labos/02E-Tests_randomisation.pdf">PDF</a>) - Données: <a href="donnees/sablefish.csv">sablefish.csv</a></p></li>
+<li><p><a href="labos/01RE-Bootstrap.html">The bootstrap method
+(solutions)</a> (<a href="labos/01RE-Bootstrap.pdf">PDF</a>) - Data: <a href="donnees/sphagnum_cover.csv">sphagnum_cover.csv</a></p></li>
+<li><p><a href="labos/02RE-Tests_randomisation.html">Randomization tests
+(solutions)</a> (<a href="labos/02E-Tests_randomisation.pdf">PDF</a>) -
+Données: <a href="donnees/sablefish.csv">sablefish.csv</a></p></li>
 </ol>
-<p>Graded lab: <a href="labos/E02Eb-Tests_randomisation.html">Randomization tests and
-bootstrap</a> (<a href="labos/E02Eb-Tests_randomisation.pdf">PDF</a>) -
-Data: <a href="donnees/portal_surveysB.csv">portal_surveysB.csv</a>, <a href="donnees/portal_plots.csv">portal_plots.csv</a></p>
+<p>Graded lab: <a href="labos/E02E-Tests_randomisation.html">Randomization tests and
+bootstrap</a> (<a href="labos/E02E-Tests_randomisation.pdf">PDF</a>) -
+Data: <a href="donnees/portal_surveys.csv">portal_surveys.csv</a>, <a href="donnees/portal_plots.csv">portal_plots.csv</a></p>
 <ol start="3" style="list-style-type: decimal">
-<li><p>[Maximum
-likelihood<!-- (solutions)-->]<!--(labos/03RE-Maximum_vraisemblance.html) ([PDF](labos/03RE-Maximum_vraisemblance.pdf)) - Data: [thermal_range.csv](donnees/thermal_range.csv)--></p></li>
+<li><p><a href="labos/03E-Maximum_vraisemblance.html">Maximum
+likelihood<!-- (solutions)--></a> (<a href="labos/03E-Maximum_vraisemblance.pdf">PDF</a>) - Data: <a href="donnees/thermal_range.csv">thermal_range.csv</a></p></li>
 <li><p>Graded lab: [Robust
 regression]<!--(labos/E04E-Regression_robuste.html) ([PDF](labos/E04E-Regression_robuste.pdf))--></p></li>
 <li><p>[Generalized linear mixed
