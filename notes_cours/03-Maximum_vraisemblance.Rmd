@@ -1,12 +1,14 @@
 ---
 title: "Maximum de vraisemblance"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
     
 ```{r setup, include=FALSE}
@@ -155,13 +157,13 @@ où en simplifiant un peu plus:
 
 $$l(\beta_0, \beta_1, \sigma) = n \log \left( \frac{1}{\sigma \sqrt{2 \pi}} \right) - \frac{1}{2 \sigma^2}  \sum_{i=1}^n \left( y_i - \beta_0 - \beta_1 x_i \right)^2$$
 
-Notons que les coefficient $\beta$ apparaissent seulement dans le deuxième terme de l'équation, qui contient la somme du carré des résidus du modèle. Plus ce terme diminue, plus $l$ augmente, ce qui explique pourquoi les estimés des coefficients $\beta$ par la méthode des moindres carrés sont les mêmes que ceux obtenus par le minimum de vraisemblance.
+Notons que les coefficient $\beta$ apparaissent seulement dans le deuxième terme de l'équation, qui contient la somme du carré des résidus du modèle. Plus ce terme diminue, plus $l$ augmente, ce qui explique pourquoi les estimés des coefficients $\beta$ par la méthode des moindres carrés sont les mêmes que ceux obtenus par le maximum de vraisemblance.
 
 Pour des fonctions assez simples, la position du maximum peut être déterminée en trouvant la valeur de chaque paramètre où la dérivée de $l$ en fonction de ce paramètre est 0. En particulier, pour la variance des résidus $\sigma^2$, on obtient ainsi l'estimé suivant:
 
 $$\hat{\sigma^2} = \frac{1}{n} \sum_{i=1}^n \left( y_i - \beta_0 - \beta_1 x_i \right)^2$$
 
-Nous savons que cet estimateur de la variance est biaisé (pour un estimé non-biaisé, il faudrait $n - 1$ au dénominateur). Le maximum de vraisemblance ne garantit pas une absence de biais, mais la théorie indique que ce biais devient négligeable pour un échantillon assez grand assez grand; dans cet exemple, la différence entre $n-1$ et $n$ devient moins importante quand $n$ augmente.
+Nous savons que cet estimateur de la variance est biaisé (pour un estimé non-biaisé, il faudrait $n - 1$ au dénominateur). Le maximum de vraisemblance ne garantit pas une absence de biais, mais la théorie indique que ce biais devient négligeable pour un échantillon assez grand; dans cet exemple, la différence entre $n-1$ et $n$ devient moins importante quand $n$ augmente.
 
 
 # Application du maximum de vraisemblance dans R
@@ -181,7 +183,7 @@ Si une variable $y$ suit une distribution de Poisson, alors sa moyenne et sa var
 
 $$y \sim \textrm{Pois}(\lambda)$$
 
-La distribution binomiale comprend deux paramètres, $\mu$ et $\theta$.
+La distribution binomiale negative comprend deux paramètres, $\mu$ et $\theta$.
 
 $$y \sim \textrm{NB}(\mu, \theta)$$
 
@@ -295,7 +297,7 @@ Il n'y a pas moyen de simplifier ce dernier terme, donc le maximum de vraisembla
 
 ## Limites du maximum de vraisemblance
 
-La plupart des propriétés avantageuses des estimés du maximum de vraisemblance, dont l'absence de biais, sont valides dans la limite où la taille de l'échantillon est grand. Ce qui constitue un échantillon assez grand dépend du modèle et en particulier du nombre de paramètres à estimer. 
+La plupart des propriétés avantageuses des estimés du maximum de vraisemblance, dont l'absence de biais, sont valides dans la limite où la taille de l'échantillon est grande. Ce qui constitue un échantillon assez grand dépend du modèle et en particulier du nombre de paramètres à estimer. 
 
 En pratique, le maximum de vraisemblance est obtenu par un algorithme numérique recherchant le maximum par un processus itératif. Une fonction de vraisemblance complexe pourrait avoir plusieurs maximums locaux (des points où la fonction est maximisée par rapport aux valeurs proches des paramètres), dans lequel cas il n'est pas garanti que l'algorithme trouve le maximum global (celui avec la vraisemblance la plus élevée).
 
