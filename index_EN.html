@@ -297,17 +297,23 @@ overflow-y: auto;
 border: 1px solid #ddd;
 border-radius: 4px;
 }
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+content: "";
 font-family: 'Glyphicons Halflings';
 display: inline-block;
 padding: 10px;
 border-right: 1px solid #ddd;
 }
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-content: "\e258";
-font-family: 'Glyphicons Halflings';
+content: "";
 border: none;
+}
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+content: "";
+font-family: 'Glyphicons Halflings';
+display: inline-block;
+padding: 10px;
+border-right: 1px solid #ddd;
 }
 .tabset-dropdown > .nav-tabs > li.active {
 display: block;
@@ -361,8 +367,8 @@ complexes</h1>
 <ol style="list-style-type: decimal">
 <li><p><a href="notes_cours/01E-Bootstrap.html">The bootstrap method</a>
 (<a href="notes_cours/01E-Bootstrap.pdf">PDF</a>) - Data: <a href="donnees/pruche.csv">pruche.csv</a></p></li>
-<li><p><a href="notes_cours/02E-Tests_randomisation.html">Randomization
-tests</a> (<a href="notes_cours/02E-Tests_randomisation.pdf">PDF</a>) -
+<li><p><a href="notes_cours/02RE-Tests_randomisation.html">Randomization
+tests</a> (<a href="notes_cours/02RE-Tests_randomisation.pdf">PDF</a>) -
 Data: <a href="donnees/sphagnum_cover.csv">sphagnum_cover.csv</a>, <a href="donnees/environment.csv">environment.csv</a></p></li>
 <li><p><a href="notes_cours/03E-Maximum_vraisemblance.html">Maximum
 likelihood</a> (<a href="notes_cours/03E-Maximum_vraisemblance.pdf">PDF</a>) - Data: <a href="donnees/galapagos.csv">galapagos.csv</a></p></li>
