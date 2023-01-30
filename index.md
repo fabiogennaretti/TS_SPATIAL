@@ -17,7 +17,7 @@ output:
 
 3. [Maximum de vraisemblance](notes_cours/03-Maximum_vraisemblance.html) ([PDF](notes_cours/03-Maximum_vraisemblance.pdf)) - Données: [galapagos.csv](donnees/galapagos.csv)
 
-4. [Régression robuste aux valeurs extrêmes]<!--(notes_cours/04-Regression_robuste.html) ([PDF](notes_cours/04-Regression_robuste.pdf))-->
+4. [Régression robuste aux valeurs extrêmes](notes_cours/04-Regression_robuste.html) ([PDF](notes_cours/04-Regression_robuste.pdf))
 
 5. [Modèles linéaires généralisés à effets mixtes]<!--(notes_cours/05-Modeles_generalises_mixtes.html) ([PDF](notes_cours/05-Modeles_generalises_mixtes.pdf)) - Données: [rikz.csv](donnees/rikz.csv)-->
 
@@ -45,7 +45,7 @@ Labo évalué: [Tests de randomisation et bootstrap](labos/E02-Tests_randomisati
 
 3. [Maximum de vraisemblance<!-- (solutions)-->](labos/03-Maximum_vraisemblance.html) ([PDF](labos/03-Maximum_vraisemblance.pdf)) - Données: [thermal_range.csv](donnees/thermal_range.csv)
 
-4. Labo évalué: [Régression robuste aux valeurs extrêmes]<!--(labos/E04-Regression_robuste.html) ([PDF](labos/E04-Regression_robuste.pdf))-->
+4. [Régression robuste aux valeurs extrêmes](labos/04-Regression_robuste.html) ([PDF](labos/04-Regression_robuste.pdf))
 
 5. [Modèles linéaires généralisés à effets mixtes<!-- (solutions)-->]<!--(labos/05R-Modeles_generalises_mixtes.html) ([PDF](labos/05R-Modeles_generalises_mixtes.pdf)) - Données: [portal_surveys.csv](donnees/portal_surveys.csv), [portal_species.csv](donnees/portal_species.csv), [portal_plots.csv](donnees/portal_plots.csv)-->
 
