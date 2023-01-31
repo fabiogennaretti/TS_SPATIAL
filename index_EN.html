@@ -297,23 +297,17 @@ overflow-y: auto;
 border: 1px solid #ddd;
 border-radius: 4px;
 }
-.tabset-dropdown > .nav-tabs > li.active:before {
-content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+content: "\e259";
 font-family: 'Glyphicons Halflings';
 display: inline-block;
 padding: 10px;
 border-right: 1px solid #ddd;
 }
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-content: "";
-border: none;
-}
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-content: "";
+content: "\e258";
 font-family: 'Glyphicons Halflings';
-display: inline-block;
-padding: 10px;
-border-right: 1px solid #ddd;
+border: none;
 }
 .tabset-dropdown > .nav-tabs > li.active {
 display: block;
@@ -372,8 +366,8 @@ tests</a> (<a href="notes_cours/02RE-Tests_randomisation.pdf">PDF</a>) -
 Data: <a href="donnees/sphagnum_cover.csv">sphagnum_cover.csv</a>, <a href="donnees/environment.csv">environment.csv</a></p></li>
 <li><p><a href="notes_cours/03E-Maximum_vraisemblance.html">Maximum
 likelihood</a> (<a href="notes_cours/03E-Maximum_vraisemblance.pdf">PDF</a>) - Data: <a href="donnees/galapagos.csv">galapagos.csv</a></p></li>
-<li><p>[Robust
-regression]<!--(notes_cours/04E-Regression_robuste.html) ([PDF](notes_cours/04E-Regression_robuste.pdf))--></p></li>
+<li><p><a href="notes_cours/04E-Regression_robuste.html">Robust
+regression</a> (<a href="notes_cours/04E-Regression_robuste.pdf">PDF</a>)</p></li>
 <li><p>[Generalized linear mixed
 models]<!--(notes_cours/05E-Modeles_generalises_mixtes.html) ([PDF](notes_cours/05E-Modeles_generalises_mixtes.pdf)) - Data: [rikz.csv](donnees/rikz.csv)--></p></li>
 <li><p>[Generalized linear mixed models
@@ -407,8 +401,8 @@ Data: <a href="donnees/portal_surveys.csv">portal_surveys.csv</a>, <a href="donn
 <ol start="3" style="list-style-type: decimal">
 <li><p><a href="labos/03E-Maximum_vraisemblance.html">Maximum
 likelihood<!-- (solutions)--></a> (<a href="labos/03E-Maximum_vraisemblance.pdf">PDF</a>) - Data: <a href="donnees/thermal_range.csv">thermal_range.csv</a></p></li>
-<li><p>Graded lab: [Robust
-regression]<!--(labos/E04E-Regression_robuste.html) ([PDF](labos/E04E-Regression_robuste.pdf))--></p></li>
+<li><p><a href="labos/04E-Regression_robuste.html">Robust regression</a>
+(<a href="labos/04E-Regression_robuste.pdf">PDF</a>)</p></li>
 <li><p>[Generalized linear mixed
 models<!-- (solutions)-->]<!--(labos/05RE-Modeles_generalises_mixtes.html) ([PDF](labos/05RE-Modeles_generalises_mixtes.pdf)) - Data: [portal_surveys.csv](donnees/portal_surveys.csv), [portal_species.csv](donnees/portal_species.csv), [portal_plots.csv](donnees/portal_plots.csv)--></p></li>
 <li><p>Graded lab: [Generalized linear mixed models

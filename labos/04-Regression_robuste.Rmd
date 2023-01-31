@@ -1,7 +1,6 @@
 ---
 title: "Régression robuste aux valeurs extrêmes"
 output:
-    pdf_document:
     html_document:
         self_contained: false
         lib_dir: libs
@@ -13,8 +12,6 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-Ce travail doit être remis avant le **18 février à 17h** sur Moodle.
 
 ## Données
 

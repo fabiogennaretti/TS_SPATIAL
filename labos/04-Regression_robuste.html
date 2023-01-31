@@ -13,7 +13,7 @@
 
 <title>Régression robuste aux valeurs extrêmes</title>
 
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -63,6 +63,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -84,6 +85,9 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
 pre code {
   padding: 0;
 }
@@ -103,8 +107,8 @@ pre code {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -112,16 +116,9 @@ pre code {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -239,22 +236,27 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Régression robuste aux valeurs extrêmes</h1>
+<h1 class="title toc-ignore">Régression robuste aux valeurs
+extrêmes</h1>
 
 </div>
 
 
-<p>Ce travail doit être remis avant le <strong>18 février à 17h</strong> sur Moodle.</p>
 <div id="données" class="section level2">
 <h2>Données</h2>
-<p>Cet exercice est basé sur le jeu de données <em>gapminder</em> du package du même nom.</p>
+<p>Cet exercice est basé sur le jeu de données <em>gapminder</em> du
+package du même nom.</p>
 <blockquote>
-<p>Jennifer Bryan (2017). gapminder: Data from Gapminder. R package version 0.3.0. <a href="https://CRAN.R-project.org/package=gapminder" class="uri">https://CRAN.R-project.org/package=gapminder</a></p>
+<p>Jennifer Bryan (2017). gapminder: Data from Gapminder. R package
+version 0.3.0. <a href="https://CRAN.R-project.org/package=gapminder"
+class="uri">https://CRAN.R-project.org/package=gapminder</a></p>
 </blockquote>
-<p>Ce jeu de données inclut l’espérance de vie (<em>lifeExp</em>), la population (<em>pop)</em> et le PIB par habitant (<em>gdpPercap</em>) pour 142 pays et 12 années (aux 5 ans entre 1952 et 2007).</p>
+<p>Ce jeu de données inclut l’espérance de vie (<em>lifeExp</em>), la
+population (<em>pop)</em> et le PIB par habitant (<em>gdpPercap</em>)
+pour 142 pays et 12 années (aux 5 ans entre 1952 et 2007).</p>
 <pre class="r"><code>library(gapminder)
 str(gapminder)</code></pre>
-<pre><code>## tibble [1,704 x 6] (S3: tbl_df/tbl/data.frame)
+<pre><code>## tibble [1,704 × 6] (S3: tbl_df/tbl/data.frame)
 ##  $ country  : Factor w/ 142 levels &quot;Afghanistan&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
 ##  $ continent: Factor w/ 5 levels &quot;Africa&quot;,&quot;Americas&quot;,..: 3 3 3 3 3 3 3 3 3 3 ...
 ##  $ year     : int [1:1704] 1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...
@@ -262,45 +264,100 @@ str(gapminder)</code></pre>
 ##  $ pop      : int [1:1704] 8425333 9240934 10267083 11537966 13079460 14880372 12881816 13867957 16317921 22227415 ...
 ##  $ gdpPercap: num [1:1704] 779 821 853 836 740 ...</code></pre>
 </div>
-<div id="effet-du-pib-et-du-temps-sur-lespérance-de-vie" class="section level2">
+<div id="effet-du-pib-et-du-temps-sur-lespérance-de-vie"
+class="section level2">
 <h2>1. Effet du PIB et du temps sur l’espérance de vie</h2>
 <ol style="list-style-type: lower-alpha">
-<li>Visualisez d’abord les données d’espérance de vie en fonction du PIB par habitant et de l’année. Il est suggéré de représenter le logarithme de <em>gdpPercap</em> et de séparer les différentes années, par exemple avec des facettes dans <em>ggplot2</em>: <code>... + facet_wrap(~year)</code>.</li>
+<li>Visualisez d’abord les données d’espérance de vie en fonction du PIB
+par habitant et de l’année. Il est suggéré de représenter le logarithme
+de <em>gdpPercap</em> et de séparer les différentes années, par exemple
+avec des facettes dans <em>ggplot2</em>:
+<code>... + facet_wrap(~year)</code>.</li>
 </ol>
-<p>Quelles tendances générales observez-vous? Semble-t-il y avoir des valeurs extrêmes qui pourraient influencer fortement un modèle de régression? Si oui, essayez d’identifier ces données dans le tableau en vous basant sur la position des points dans le graphique.</p>
+<p>Quelles tendances générales observez-vous? Semble-t-il y avoir des
+valeurs extrêmes qui pourraient influencer fortement un modèle de
+régression? Si oui, essayez d’identifier ces données dans le tableau en
+vous basant sur la position des points dans le graphique.</p>
 <ol start="2" style="list-style-type: lower-alpha">
-<li>Réalisez une régression linéaire (<code>lm</code>) pour déterminer l’effet du PIB par habitant, de l’année et de leur interaction sur l’espérance de vie. Pour faciliter l’inteprétation des coefficients, effectuez les transformations suivantes sur les prédicteurs:</li>
+<li>Réalisez une régression linéaire (<code>lm</code>) pour déterminer
+l’effet du PIB par habitant, de l’année et de leur interaction sur
+l’espérance de vie. Pour faciliter l’inteprétation des coefficients,
+effectuez les transformations suivantes sur les prédicteurs:</li>
 </ol>
 <ul>
-<li><p>Prenez le logarithme de <em>gdpPercap</em> et normalisez-le avec la fonction <code>scale</code>. <em>Rappel</em>: <code>scale(x)</code> soustrait de chaque valeur de <code>x</code> leur moyenne et divise par leur écart-type, donc la variable résultante a une moyenne de 0 et un écart-type de 1; elle représente le nombre d’écarts-types au-dessus ou en-dessous de la moyenne.</p></li>
-<li><p>Remplacez <em>year</em> par le nombre d’années écoulées depuis 1952.</p></li>
+<li><p>Prenez le logarithme de <em>gdpPercap</em> et normalisez-le avec
+la fonction <code>scale</code>. <em>Rappel</em>: <code>scale(x)</code>
+soustrait de chaque valeur de <code>x</code> leur moyenne et divise par
+leur écart-type, donc la variable résultante a une moyenne de 0 et un
+écart-type de 1; elle représente le nombre d’écarts-types au-dessus ou
+en-dessous de la moyenne.</p></li>
+<li><p>Remplacez <em>year</em> par le nombre d’années écoulées depuis
+1952.</p></li>
 </ul>
-<p>Interprétez la signification de chacun des coefficients du modèle, puis consultez les graphiques de diagnostic. Les suppositions du modèle linéaire sont-elles respectées?</p>
+<p>Interprétez la signification de chacun des coefficients du modèle,
+puis consultez les graphiques de diagnostic. Les suppositions du modèle
+linéaire sont-elles respectées?</p>
 <ol start="3" style="list-style-type: lower-alpha">
-<li>Comparez le résultat du modèle en (b) avec deux alternatives plus robustes aux valeurs extrêmes: la régression robuste basée sur le bipoids de Tukey (fonction <code>lmrob</code> du package <em>robustbase</em>) et la régression de la médiane (fonction <code>rq</code> du package <em>quantreg</em>, en choisissant seulement le quantile médian). Expliquez comment les estimés des coefficients et leurs erreurs-types diffèrent entre les trois méthodes.</li>
+<li>Comparez le résultat du modèle en (b) avec deux alternatives plus
+robustes aux valeurs extrêmes: la régression robuste basée sur le
+bipoids de Tukey (fonction <code>lmrob</code> du package
+<em>robustbase</em>) et la régression de la médiane (fonction
+<code>rq</code> du package <em>quantreg</em>, en choisissant seulement
+le quantile médian). Expliquez comment les estimés des coefficients et
+leurs erreurs-types diffèrent entre les trois méthodes.</li>
 </ol>
-<p><em>Note</em>: Utilisez l’option <code>showAlgo = FALSE</code> en appliquant la fonction <code>summary</code> au résultat de <code>lmrob</code>, pour simplifier le sommaire.</p>
+<p><em>Note</em>: Utilisez l’option <code>showAlgo = FALSE</code> en
+appliquant la fonction <code>summary</code> au résultat de
+<code>lmrob</code>, pour simplifier le sommaire.</p>
 <ol start="4" style="list-style-type: lower-alpha">
-<li>Superposez les droites de régression des trois modèles sur le graphique en (a). Avec <code>ggplot</code>, vous pouvez utiliser la fonction <code>geom_smooth</code> avec <code>method = "lm"</code> pour la régression linéaire et <code>method = "lmrob"</code> pour la régression robuste. Pour la régression de la médiane, vous pouvez utiliser <code>geom_quantile</code> tel que vu dans les notes.</li>
+<li>Superposez les droites de régression des trois modèles sur le
+graphique en (a). Avec <code>ggplot</code>, vous pouvez utiliser la
+fonction <code>geom_smooth</code> avec <code>method = "lm"</code> pour
+la régression linéaire et <code>method = "lmrob"</code> pour la
+régression robuste. Pour la régression de la médiane, vous pouvez
+utiliser <code>geom_quantile</code> tel que vu dans les notes.</li>
 </ol>
 </div>
 <div id="variation-des-effets-par-quantile" class="section level2">
 <h2>2. Variation des effets par quantile</h2>
 <ol style="list-style-type: lower-alpha">
-<li><p>D’après votre observation des données en 1(a), serait-il utile de modéliser différents quantiles de l’espérance de vie en fonction des prédicteurs? Justifiez votre réponse.</p></li>
-<li><p>Réalisez une régression quantile avec les mêmes prédicteurs qu’en 1(b), avec les quantiles suivants: <code>(0.1, 0.25, 0.5, 0.75, 0.9)</code>. Utilisez la fonction <code>plot</code> sur le sommaire de la régression quantile et décrivez comment l’effet des prédicteurs varie entre les quantiles.</p></li>
-<li><p>Superposez les droites de régression quantile au graphique des données. Les tendances pour chaque quantile semblent-elles affectées par des valeurs extrêmes?</p></li>
+<li><p>D’après votre observation des données en 1(a), serait-il utile de
+modéliser différents quantiles de l’espérance de vie en fonction des
+prédicteurs? Justifiez votre réponse.</p></li>
+<li><p>Réalisez une régression quantile avec les mêmes prédicteurs qu’en
+1(b), avec les quantiles suivants:
+<code>(0.1, 0.25, 0.5, 0.75, 0.9)</code>. Utilisez la fonction
+<code>plot</code> sur le sommaire de la régression quantile et décrivez
+comment l’effet des prédicteurs varie entre les quantiles.</p></li>
+<li><p>Superposez les droites de régression quantile au graphique des
+données. Les tendances pour chaque quantile semblent-elles affectées par
+des valeurs extrêmes?</p></li>
 </ol>
 </div>
-<div id="note-sur-les-comparaisons-internationales" class="section level2">
+<div id="note-sur-les-comparaisons-internationales"
+class="section level2">
 <h2>Note sur les comparaisons internationales</h2>
-<p>Bien que ce jeu de données soit utile pour illustrer les concepts de régression robuste et de régression quantile, soulignons que ce type d’analyse statistique comparant des variables mesurées au niveau national comporte plusieurs limites:</p>
+<p>Bien que ce jeu de données soit utile pour illustrer les concepts de
+régression robuste et de régression quantile, soulignons que ce type
+d’analyse statistique comparant des variables mesurées au niveau
+national comporte plusieurs limites:</p>
 <ul>
-<li><p>On ne peut pas supposer que les associations détectées s’appliquent à une échelle plus petite (ex.: le lien entre espérance de vie et revenu en comparant les moyennes nationales n’est pas nécessairement le même que le lien entre espérance de vie et revenu au niveau des individus habitant chaque pays).</p></li>
-<li><p>Les moyennes calculées dans différents pays ne sont pas des observations indépendantes, car les conditions environnementales, sociales et économiques sont corrélées entre pays proches.</p></li>
-<li><p>Il y a de nombreux facteurs qui différencient les pays, donc il est difficile d’interpréter une association comme un lien de cause à effet.</p></li>
+<li><p>On ne peut pas supposer que les associations détectées
+s’appliquent à une échelle plus petite (ex.: le lien entre espérance de
+vie et revenu en comparant les moyennes nationales n’est pas
+nécessairement le même que le lien entre espérance de vie et revenu au
+niveau des individus habitant chaque pays).</p></li>
+<li><p>Les moyennes calculées dans différents pays ne sont pas des
+observations indépendantes, car les conditions environnementales,
+sociales et économiques sont corrélées entre pays proches.</p></li>
+<li><p>Il y a de nombreux facteurs qui différencient les pays, donc il
+est difficile d’interpréter une association comme un lien de cause à
+effet.</p></li>
 </ul>
-<p>Beaucoup d’articles, en particulier dans les domaines des sciences sociales, ont été publiés au sujet des méthodes à suivre pour réaliser ce type de comparaisons internationales (<em>cross-country comparisons</em>).</p>
+<p>Beaucoup d’articles, en particulier dans les domaines des sciences
+sociales, ont été publiés au sujet des méthodes à suivre pour réaliser
+ce type de comparaisons internationales (<em>cross-country
+comparisons</em>).</p>
 </div>
 
 
