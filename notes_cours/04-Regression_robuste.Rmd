@@ -1,12 +1,14 @@
 ---
 title: "Régression robuste aux valeurs extrêmes"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
     
 ```{r setup, include=FALSE}
@@ -324,7 +326,7 @@ $$\epsilon/\sigma \sim t(\nu)$$
 
 Notez qu'ici $\sigma$ n'est pas égale à l'écart-type des résidus, car la variance de la distribution $t$ est plus grande que celle d'une distribution normale centrée réduite.
 
-En appliquant ce modèle au jeu de données *Animals2*, nous obtenons des coefficients de régression comparables (en tenant compte de la marge d'erreur) à ceux obtenus dans la section précédente avec `lmrob`. Ces résultats de retrouvent dans la section `Location model` du sommaire de `tlm`.
+En appliquant ce modèle au jeu de données *Animals2*, nous obtenons des coefficients de régression comparables (en tenant compte de la marge d'erreur) à ceux obtenus dans la section précédente avec `lmrob`. Ces résultats se retrouvent dans la section `Location model` du sommaire de `tlm`.
 
 ```{r, warning = FALSE, message = FALSE}
 library(hett)
