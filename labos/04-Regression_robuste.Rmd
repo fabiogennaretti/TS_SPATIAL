@@ -1,12 +1,14 @@
 ---
 title: "Régression robuste aux valeurs extrêmes"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -42,9 +44,7 @@ Interprétez la signification de chacun des coefficients du modèle, puis consul
 
 c) Comparez le résultat du modèle en (b) avec deux alternatives plus robustes aux valeurs extrêmes: la régression robuste basée sur le bipoids de Tukey (fonction `lmrob` du package *robustbase*) et la régression de la médiane (fonction `rq` du package *quantreg*, en choisissant seulement le quantile médian). Expliquez comment les estimés des coefficients et leurs erreurs-types diffèrent entre les trois méthodes.
 
-*Note*: Utilisez l'option `showAlgo = FALSE` en appliquant la fonction `summary` au résultat de `lmrob`, pour simplifier le sommaire.
-
-d) Superposez les droites de régression des trois modèles sur le graphique en (a). Avec `ggplot`, vous pouvez utiliser la fonction `geom_smooth` avec `method = "lm"` pour la régression linéaire et `method = "lmrob"` pour la régression robuste. Pour la régression de la médiane, vous pouvez utiliser `geom_quantile` tel que vu dans les notes.
+d) Superposez les droites de régression des trois modèles sur le graphique en (a). <!-- Avec `ggplot`, vous pouvez utiliser la fonction `geom_smooth` avec `method = "lm"` pour la régression linéaire et `method = "lmrob"` pour la régression robuste. Pour la régression de la médiane, vous pouvez utiliser `geom_quantile` tel que vu dans les notes. -->
 
 
 ## 2. Variation des effets par quantile

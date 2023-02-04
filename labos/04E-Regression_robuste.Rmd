@@ -1,14 +1,14 @@
 ---
 title: "Robust regression"
 output:
-  pdf_document:
-    toc: yes
   html_document:
     self_contained: no
     lib_dir: libs
     theme: spacelab
     toc: yes
     toc_float: yes
+  pdf_document:
+    toc: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -44,9 +44,7 @@ Interpret the meaning of each of the coefficients in the model and then refer to
 
 c) Compare the result of the model in (b) with two more robust alternatives: robust regression based on Tukey's biweight (function `lmrob` from the *robustbase* package) and median regression (function `rq` from the *quantreg* package, choosing only the median quantile). Explain how the estimates and standard errors of the coefficients differ between the three methods.
 
-*Note*: Use the `showAlgo = FALSE` option when applying the `summary` function to the output of `lmrob`, to simplify the summary.
-
-(d) Superimpose the regression lines of the three models on the graph in (a). With `ggplot` you can use the `geom_smooth` function with `method = "lm"` for linear regression and `method = "lmrob"` for robust regression. For median regression you can use `geom_quantile` as seen in the notes.
+(d) Superimpose the regression lines of the three models on the graph in (a). <!-- With `ggplot` you can use the `geom_smooth` function with `method = "lm"` for linear regression and `method = "lmrob"` for robust regression. For median regression you can use `geom_quantile` as seen in the notes. -->
 
 
 ## 2. Variation of effects by quantile

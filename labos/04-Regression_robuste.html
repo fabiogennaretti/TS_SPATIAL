@@ -298,24 +298,16 @@ en-dessous de la moyenne.</p></li>
 puis consultez les graphiques de diagnostic. Les suppositions du modèle
 linéaire sont-elles respectées?</p>
 <ol start="3" style="list-style-type: lower-alpha">
-<li>Comparez le résultat du modèle en (b) avec deux alternatives plus
+<li><p>Comparez le résultat du modèle en (b) avec deux alternatives plus
 robustes aux valeurs extrêmes: la régression robuste basée sur le
 bipoids de Tukey (fonction <code>lmrob</code> du package
 <em>robustbase</em>) et la régression de la médiane (fonction
 <code>rq</code> du package <em>quantreg</em>, en choisissant seulement
 le quantile médian). Expliquez comment les estimés des coefficients et
-leurs erreurs-types diffèrent entre les trois méthodes.</li>
-</ol>
-<p><em>Note</em>: Utilisez l’option <code>showAlgo = FALSE</code> en
-appliquant la fonction <code>summary</code> au résultat de
-<code>lmrob</code>, pour simplifier le sommaire.</p>
-<ol start="4" style="list-style-type: lower-alpha">
-<li>Superposez les droites de régression des trois modèles sur le
-graphique en (a). Avec <code>ggplot</code>, vous pouvez utiliser la
-fonction <code>geom_smooth</code> avec <code>method = "lm"</code> pour
-la régression linéaire et <code>method = "lmrob"</code> pour la
-régression robuste. Pour la régression de la médiane, vous pouvez
-utiliser <code>geom_quantile</code> tel que vu dans les notes.</li>
+leurs erreurs-types diffèrent entre les trois méthodes.</p></li>
+<li><p>Superposez les droites de régression des trois modèles sur le
+graphique en (a).
+<!-- Avec `ggplot`, vous pouvez utiliser la fonction `geom_smooth` avec `method = "lm"` pour la régression linéaire et `method = "lmrob"` pour la régression robuste. Pour la régression de la médiane, vous pouvez utiliser `geom_quantile` tel que vu dans les notes. --></p></li>
 </ol>
 </div>
 <div id="variation-des-effets-par-quantile" class="section level2">
