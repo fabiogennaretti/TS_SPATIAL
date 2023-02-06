@@ -19,7 +19,7 @@ output:
 
 4. [Régression robuste aux valeurs extrêmes](notes_cours/04-Regression_robuste.html) ([PDF](notes_cours/04-Regression_robuste.pdf))
 
-5. [Modèles linéaires généralisés à effets mixtes]<!--(notes_cours/05-Modeles_generalises_mixtes.html) ([PDF](notes_cours/05-Modeles_generalises_mixtes.pdf)) - Données: [rikz.csv](donnees/rikz.csv)-->
+5. [Modèles linéaires généralisés à effets mixtes](notes_cours/05-Modeles_generalises_mixtes.html) ([PDF](notes_cours/05-Modeles_generalises_mixtes.pdf)) - Données: [rikz.csv](donnees/rikz.csv)
 
 6. [Modèles linéaires généralisés à effets mixtes 2]<!--(notes_cours/06-Modeles_generalises_mixtes2.html) ([PDF](notes_cours/06-Modeles_generalises_mixtes2.pdf)) - Données: [acer_transplant.csv](donnees/acer_transplant.csv)-->
 
@@ -45,11 +45,11 @@ Labo évalué: [Tests de randomisation et bootstrap](labos/E02-Tests_randomisati
 
 3. [Maximum de vraisemblance (solutions)](labos/03R-Maximum_vraisemblance.html) ([PDF](labos/03R-Maximum_vraisemblance.pdf)) - Données: [thermal_range.csv](donnees/thermal_range.csv)
 
-4. [Régression robuste aux valeurs extrêmes](labos/04-Regression_robuste.html) ([PDF](labos/04-Regression_robuste.pdf))
+4. [Régression robuste aux valeurs extrêmes (solutions)](labos/04R-Regression_robuste.html) ([PDF](labos/04R-Regression_robuste.pdf))
 
 Labo évalué: [Régression robuste aux valeurs extrêmes](labos/E04-Regression_robuste.html) ([PDF](labos/E04-Regression_robuste.pdf)) - Données: [dailyTWD.csv](donnees/dailyTWD.csv)
 
-5. [Modèles linéaires généralisés à effets mixtes<!-- (solutions)-->]<!--(labos/05R-Modeles_generalises_mixtes.html) ([PDF](labos/05R-Modeles_generalises_mixtes.pdf)) - Données: [portal_surveys.csv](donnees/portal_surveys.csv), [portal_species.csv](donnees/portal_species.csv), [portal_plots.csv](donnees/portal_plots.csv)-->
+5. [Modèles linéaires généralisés à effets mixtes<!-- (solutions)-->](labos/05-Modeles_generalises_mixtes.html) ([PDF](labos/05-Modeles_generalises_mixtes.pdf)) - Données: [portal_surveys.csv](donnees/portal_surveys.csv), [portal_species.csv](donnees/portal_species.csv), [portal_plots.csv](donnees/portal_plots.csv)
 
 6. Labo évalué: [Modèles linéaires généralisés à effets mixtes 2]<!--(labos/E06-Modeles_generalises_mixtes2.html) ([PDF](labos/E06-Modeles_generalises_mixtes2.pdf)) - Données: [aiv_ducks.csv](donnees/aiv_ducks.csv)-->
 
