@@ -49,7 +49,7 @@ Labo évalué: [Tests de randomisation et bootstrap](labos/E02-Tests_randomisati
 
 Labo évalué: [Régression robuste aux valeurs extrêmes](labos/E04-Regression_robuste.html) ([PDF](labos/E04-Regression_robuste.pdf)) - Données: [dailyTWD.csv](donnees/dailyTWD.csv)
 
-5. [Modèles linéaires généralisés à effets mixtes<!-- (solutions)-->](labos/05R-Modeles_generalises_mixtes.html) ([PDF](labos/05R-Modeles_generalises_mixtes.pdf)) - Données: [portal_surveys.csv](donnees/portal_surveys.csv), [portal_species.csv](donnees/portal_species.csv), [portal_plots.csv](donnees/portal_plots.csv)
+5. [Modèles linéaires généralisés à effets mixtes (solutions)](labos/05R-Modeles_generalises_mixtes.html) ([PDF](labos/05R-Modeles_generalises_mixtes.pdf)) - Données: [portal_surveys.csv](donnees/portal_surveys.csv), [portal_species.csv](donnees/portal_species.csv), [portal_plots.csv](donnees/portal_plots.csv)
 
 6. [Modèles linéaires généralisés à effets mixtes 2](labos/06-Modeles_generalises_mixtes2.html) ([PDF](labos/06-Modeles_generalises_mixtes2.pdf)) - Données: [aiv_ducks.csv](donnees/aiv_ducks.csv)
 
