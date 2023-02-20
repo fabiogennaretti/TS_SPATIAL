@@ -11,7 +11,7 @@
 
 
 
-<title>ECL8202 - Analyses des données complexes</title>
+<title>Modèles linéaires généralisés à effets mixtes - Solutions</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1619,94 +1619,110 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">ECL8202 - Analyses des données
-complexes</h1>
+<h1 class="title toc-ignore">Modèles linéaires généralisés à effets
+mixtes - Solutions</h1>
 
 </div>
 
 
-<!--[Capsules vidéo du cours (YouTube)](https://www.youtube.com/channel/UCfU-xwzWWTo3G_sTkquzOQg/playlists?view=50&sort=dd&shelf_id=2&view_as=subscriber)-->
-<p><a href="plan_de_cours/ECL8202_H2023.pdf">Plan de cours</a></p>
-<div id="notes-de-cours" class="section level2">
-<h2>Notes de cours</h2>
-<ol style="list-style-type: decimal">
-<li><p><a href="notes_cours/01-Bootstrap.html">La méthode du
-bootstrap</a> (<a href="notes_cours/01-Bootstrap.pdf">PDF</a>) -
-Données: <a href="donnees/pruche.csv">pruche.csv</a></p></li>
-<li><p><a href="notes_cours/02-Tests_randomisation.html">Tests de
-randomisation</a> (<a href="notes_cours/02-Tests_randomisation.pdf">PDF</a>) - Données: <a href="donnees/sphagnum_cover.csv">sphagnum_cover.csv</a>, <a href="donnees/environment.csv">environment.csv</a></p></li>
-<li><p><a href="notes_cours/03-Maximum_vraisemblance.html">Maximum de
-vraisemblance</a> (<a href="notes_cours/03-Maximum_vraisemblance.pdf">PDF</a>) - Données: <a href="donnees/galapagos.csv">galapagos.csv</a></p></li>
-<li><p><a href="notes_cours/04-Regression_robuste.html">Régression
-robuste aux valeurs extrêmes</a> (<a href="notes_cours/04-Regression_robuste.pdf">PDF</a>)</p></li>
-<li><p><a href="notes_cours/05-Modeles_generalises_mixtes.html">Modèles
-linéaires généralisés à effets mixtes</a> (<a href="notes_cours/05-Modeles_generalises_mixtes.pdf">PDF</a>) - Données:
-<a href="donnees/rikz.csv">rikz.csv</a></p></li>
-<li><p><a href="notes_cours/06-Modeles_generalises_mixtes2.html">Modèles
-linéaires généralisés à effets mixtes 2</a> (<a href="notes_cours/06-Modeles_generalises_mixtes2.pdf">PDF</a>) -
-Données: <a href="donnees/acer_transplant.csv">acer_transplant.csv</a></p></li>
-<li><p>[Modeles additifs
-generalises]<!--(notes_cours/07-Modeles_additifs_generalises.html) ([PDF](notes_cours/07-Modeles_additifs_generalises.pdf))--></p></li>
-<li><p>[Introduction a l’analyse
-bayesienne]<!--(notes_cours/08-Intro_Bayes.html) ([PDF](notes_cours/08-Intro_Bayes.pdf)) - Données: [galapagos.csv](donnees/galapagos.csv)--></p></li>
-<li><p>[Modeles hierarchiques
-bayesiens]<!--(notes_cours/09-Modeles_hierarchiques_bayesiens.html) ([PDF](notes_cours/09-Modeles_hierarchiques_bayesiens.pdf)) - Data: [rikz.csv](donnees/rikz.csv)--></p></li>
-<li><p>[Modeles hierarchiques bayesiens
-2]<!--(notes_cours/10-Modeles_hierarchiques_bayesiens2.html) ([PDF](notes_cours/10-Modeles_hierarchiques_bayesiens2.pdf)) - Data: [rikz.csv](donnees/rikz.csv)--></p></li>
-<li><p>[Series
-temporelles]<!--(notes_cours/11-Series_temporelles.html) ([PDF](notes_cours/11-Series_temporelles.pdf)) - Data: [sea_ice.txt](donnees/sea_ice.txt), [dendro_wa082.csv](donnees/dendro_wa082.csv)--></p></li>
-<li><p>[Données
-spatiales]<!--(notes_cours/12-Donnees_spatiales.html) ([PDF](notes_cours/12-Donnees_spatiales.pdf)) - Data: [semis_xy.csv](donnees/semis_xy.csv)--></p></li>
-</ol>
+<p>Ce travail doit être mis en ligne sur Moodle avant le
+<strong>vendredi 10 février, 17h</strong>.</p>
+<p><strong>Les chiffres entre parenthèses indiquent le nombre de points
+pour chaque question.</strong></p>
+<p><strong>Total : 10 points.</strong></p>
+<div id="données" class="section level2">
+<h2>Données</h2>
+<p>Les données de cet exercice proviennent de l’article :</p>
+<blockquote>
+<p>Marrotte, R. R., &amp; Bowman, J. (2021). Seven decades of southern
+range dynamics of Canada lynx. Ecology and Evolution, 11(9), 4644–4655.
+doi: <a href="https://doi.org/10.1002/ece3.7364" class="uri">https://doi.org/10.1002/ece3.7364</a></p>
+</blockquote>
+<p>Nous voulons vérifier si la population de lynx du sud de l’Ontario
+est sensible à la connectivité à la forêt boréale et aux conditions
+d’enneigement. La table <a href="../donnees/spatial_df.csv">spatial_df.csv</a> contient les
+colonnes suivantes :</p>
+<p><em>Hex</em>: Sampling unit or Hexagon ID</p>
+<p><em>x</em> = Easting in North America Lambert Conformal Conic of the
+sampling unit centroid</p>
+<p><em>y</em> = Northing in North America Lambert Conformal Conic of the
+sampling unit centroid</p>
+<p><em>region</em>: Region of the southern range of the Canada lynx.
+West, Central, East</p>
+<p><em>OccNb</em>: Number of years where Canada lynx are harvested
+within a sampling unit</p>
+<p><em>Dist_boreal</em>: Distance to the boreal forest in km</p>
+<p><em>Road_dist_km</em>: Distance to the nearest major road in km.</p>
+<p><em>Snow</em>: Average Winter Severity Index</p>
+<p><em>BobcatP</em>: Number of years where bobcats are harvested within
+a sampling unit</p>
+<p><em>CoyoteP</em>: Number of years where coyotes are harvested within
+a sampling unit</p>
+<pre class="r"><code>data = read.csv(&quot;spatial_df.csv&quot;)
+str(data)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    65 obs. of  10 variables:
+##  $ Hex         : chr  &quot;H100&quot; &quot;H116&quot; &quot;H117&quot; &quot;H118&quot; ...
+##  $ x           : num  1299659 1215422 1271580 1327737 1383895 ...
+##  $ y           : num  586392 635026 635026 635026 635026 ...
+##  $ region      : chr  &quot;East&quot; &quot;East&quot; &quot;East&quot; &quot;East&quot; ...
+##  $ OccNb       : int  0 0 0 0 0 0 0 0 0 0 ...
+##  $ Dist_boreal : num  332 244 276 304 339 ...
+##  $ Road_dist_km: num  0.305 0.838 1.175 1.093 1.154 ...
+##  $ Snow        : num  497 644 624 554 454 ...
+##  $ BobcatP     : int  1 1 1 2 6 3 2 8 1 0 ...
+##  $ CoyoteP     : int  41 60 49 52 51 42 45 45 43 49 ...</code></pre>
 </div>
-<div id="exercices" class="section level2">
-<h2>Exercices</h2>
-<ol style="list-style-type: decimal">
-<li><p><a href="labos/01R-Bootstrap.html">La méthode du bootstrap
-(solutions)</a> (<a href="labos/01R-Bootstrap.pdf">PDF</a>) - Données:
-<a href="donnees/sphagnum_cover.csv">sphagnum_cover.csv</a></p></li>
-<li><p><a href="labos/02R-Tests_randomisation.html">Tests de
-randomisation (solutions)</a> (<a href="labos/02R-Tests_randomisation.pdf">PDF</a>) - Données: <a href="donnees/sablefish.csv">sablefish.csv</a></p></li>
-</ol>
-<p>Labo évalué: <a href="labos/E02-Tests_randomisation.html">Tests de
-randomisation et bootstrap</a> (<a href="labos/E02-Tests_randomisation.pdf">PDF</a>) - Données: <a href="donnees/portal_surveys.csv">portal_surveys.csv</a>, <a href="donnees/portal_plots.csv">portal_plots.csv</a></p>
-<ol start="3" style="list-style-type: decimal">
-<li><p><a href="labos/03R-Maximum_vraisemblance.html">Maximum de
-vraisemblance (solutions)</a> (<a href="labos/03R-Maximum_vraisemblance.pdf">PDF</a>) - Données: <a href="donnees/thermal_range.csv">thermal_range.csv</a></p></li>
-<li><p><a href="labos/04R-Regression_robuste.html">Régression robuste
-aux valeurs extrêmes (solutions)</a> (<a href="labos/04R-Regression_robuste.pdf">PDF</a>)</p></li>
-</ol>
-<p>Labo évalué: <a href="labos/E04-Regression_robuste.html">Régression
-robuste aux valeurs extrêmes</a> (<a href="labos/E04-Regression_robuste.pdf">PDF</a>) - Données: <a href="donnees/dailyTWD.csv">dailyTWD.csv</a></p>
-<ol start="5" style="list-style-type: decimal">
-<li><p><a href="labos/05R-Modeles_generalises_mixtes.html">Modèles
-linéaires généralisés à effets mixtes (solutions)</a> (<a href="labos/05R-Modeles_generalises_mixtes.pdf">PDF</a>) - Données: <a href="donnees/portal_surveys.csv">portal_surveys.csv</a>, <a href="donnees/portal_species.csv">portal_species.csv</a>, <a href="donnees/portal_plots.csv">portal_plots.csv</a></p></li>
-<li><p><a href="labos/06-Modeles_generalises_mixtes2.html">Modèles
-linéaires généralisés à effets mixtes 2</a> (<a href="labos/06-Modeles_generalises_mixtes2.pdf">PDF</a>) - Données: <a href="donnees/aiv_ducks.csv">aiv_ducks.csv</a></p></li>
-</ol>
-<p>Labo évalué: <a href="labos/E06-GLMM_NEW.html">Modèles linéaires
-généralisés à effets mixtes 2</a> (<a href="labos/E06-GLMM_NEW.pdf">PDF</a>) - <a href="donnees/spatial_df.csv">spatial_df.csv</a></p>
-<ol start="7" style="list-style-type: decimal">
-<li>[Modeles additifs
-generalises<!-- (solutions)-->]<!--(labos/07R-Modeles_additifs_generalises.html) ([PDF](labos/07R-Modeles_additifs_generalises.pdf)) - Données: [dendro_wa082.csv](donnees/dendro_wa082.csv)--></li>
-</ol>
-<p>Labo évalué: [Modeles additifs
-generalises]<!--(labos/E07-Modeles_additifs_generalises.html) ([PDF](labos/E07-Modeles_additifs_generalises.pdf)) - Données: [portal_ot.csv](donnees/portal_ot.csv)--></p>
-<ol start="8" style="list-style-type: decimal">
-<li><p>[Introduction a l’analyse
-bayesienne<!-- (solutions)-->]<!--(labos/08R-Intro_Bayes.html) ([PDF](labos/08R-Intro_Bayes.pdf)) - Données: [thermal_range.csv](donnees/thermal_range.csv)--></p></li>
-<li><p>[Modeles hierarchiques
-bayesiens]<!--(labos/09-Modeles_hierarchiques_bayesiens.html) ([PDF](labos/09-Modeles_hierarchiques_bayesiens.pdf)) - Data: [rikz.csv](donnees/rikz.csv)--></p></li>
-<li><p>Labo évalué: [Modeles hierarchiques bayesiens
-2]<!--(labos/E10-Modeles_hierarchiques_bayesiens2.html) ([PDF](labos/E10-Modeles_hierarchiques_bayesiens2.pdf))--></p></li>
-<li><p>[Series
-temporelles<!-- (solutions)-->]<!--(labos/11R-Series_temporelles.html) ([PDF](labos/11R-Series_temporelles.pdf)) - Data: [oak_seeds.csv](donnees/oak_seeds.csv), [oak_weather.csv](donnees/oak_weather.csv)--></p></li>
-</ol>
-<p>Labo évalué: [Series
-temporelles]<!--(labos/E11-Series_temporelles.html) ([PDF](labos/E11-Series_temporelles.pdf)) - Données: [EOBS_fluxnet2.csv](donnees/EOBS_fluxnet2.csv), [EOBS_fluxnet_inmet2.txt](donnees/EOBS_fluxnet_inmet2.txt)--></p>
-<ol start="12" style="list-style-type: decimal">
-<li>[Données
-spatiales<!-- (solutions)-->]<!--(labos/12R-Donnees_spatiales_updated.html) ([PDF](labos/12R-Donnees_spatiales_updated.pdf)) - Data: [bryo_belg.csv](donnees/bryo_belg.csv)--></li>
+<div id="variations-du-nombre-dannées-avec-succès-de-capture-pour-le-lynx" class="section level2">
+<h2>1. Variations du nombre d’années avec succès de capture pour le
+lynx</h2>
+<ol style="list-style-type: lower-alpha">
+<li><p>Préparation des données. Transformez la distance à la forêt
+boréale (<em>Dist_boreal</em>) de km en centaines de km et normalisez
+l’indice de sévérité hivernale moyenne (<em>Snow</em>) pour avoir 0 de
+moyenne et 1 d’écart-type. <strong>(1)</strong></p></li>
+<li><p>Nous voulons savoir si la connectivité à la forêt boréale et les
+conditions de neige ont un impact sur le nombre d’années où le lynx du
+Canada est capturé dans une unité d’échantillonnage (<em>OccNb</em>), en
+contrôlant les différences entre les régions. Nous supposons que
+l’effort d’échantillonnage est identique dans les unités
+d’échantillonnage et sur des années différentes. Quel type de modèle
+proposeriez-vous et pourquoi ? <strong>(1)</strong></p></li>
+<li><p>Exploration de données. Répresentez le <em>OccNb</em> en fonction
+de <em>Dist_boreal</em> en donnant différentes couleurs aux unités
+d’échantillonnage dans la même région. Vous pouvez utiliser l’option
+<em>theme(aspect.ratio = 1)</em>. Ensuite, tracez le <em>OccNb</em> en
+fonction de <em>Snow</em> en donnant différentes couleurs aux unités
+d’échantillonnage dans la même région. Enfin, regroupez les données par
+région en utilisant les fonctions du package <em>dplyr</em> et calculez
+la moyenne et l’écart type de <em>OccNb</em>. Vous pouvez maintenant
+répresenter la moyenne <em>OccNb</em> par région et sa variabilité (+ 1
+SD) avec un bar plot. <strong>(1)</strong></p></li>
+<li><p>Avec le modèle complet (fonction de <em>Dist_boreal</em>,
+<em>Snow</em>, leur interaction et avec l’effet aléatoire de la région
+sur l’ordonnée à l’origine), nous testerons si l’excès de zéros peut
+poser problème. Nous utiliserons la fonction <em>glmmTMB</em> testant
+les modèles de poisson et binomiaux négatifs, avec et sans versions avec
+excès de zéros. Nous évaluerons la surdispersion de ces modèles et
+justifierons le choix du meilleur modèle. <strong>(1)</strong></p></li>
+<li><p>Testez l’ajustement de différents modèles selon l’AIC. Comparez
+le modèle final du point <em>d</em> avec d’autres versions du modèle :
+sans effet aléatoire, sans interaction, avec des variables explicatives
+uniques. Décrivez le meilleur modèle. <strong>(1)</strong></p></li>
+<li><p>Tester les suppositions. Tester l’absence de surdispersion dans
+le meilleur modèle. <strong>(1)</strong></p></li>
+<li><p>Calculer la probabilité d’avoir des zéros.
+<strong>(1)</strong></p></li>
+<li><p>Selon la section des effets fixes du sommaire, définissez le
+nombre moyen d’années où le lynx du Canada est capturé dans une unité
+d’échantillonnage et l’effet <em>Dist_boreal</em> sur ce nombre. Ignorer
+la probabilité d’avoir des zéros dans le calcul.
+<strong>(1)</strong></p></li>
+<li><p>Calculez les intervalles de confiance pour chacun des paramètres
+du modèle mixte. <strong>(1)</strong></p></li>
+<li><p>Réprésentz le <em>OccNb</em> en fonction de la distance à la
+forêt boréale puis de <em>Snow</em>. Dans les deux graphiques, ajoutez
+une ligne indiquant les valeurs prédites par le meilleur modèle.
+Commentez les résultats des graphiques. <strong>(1)</strong></p></li>
 </ol>
 </div>
 

@@ -50,6 +50,8 @@ Graded lab: [Robust regression](labos/E04E-Regression_robuste.html) ([PDF](labos
 
 6. [Generalized linear mixed models 2](labos/06E-Modeles_generalises_mixtes2.html) ([PDF](labos/06E-Modeles_generalises_mixtes2.pdf)) - Data: [aiv_ducks.csv](donnees/aiv_ducks.csv)
 
+Graded lab: [Generalized linear mixed models 2](labos/E06E-GLMM_NEW.html) ([PDF](labos/E06E-GLMM_NEW.pdf)) - Data: [spatial_df.csv](donnees/spatial_df.csv)
+
 7. [Generalized additive models<!-- (solutions)-->]<!--(labos/07RE-Modeles_additifs_generalises.html) ([PDF](labos/07RE-Modeles_additifs_generalises.pdf)) - Data: [dendro_wa082.csv](donnees/dendro_wa082.csv)-->
 
 Graded lab: [Generalized additive models]<!--(labos/E07E-Modeles_additifs_generalises.html) ([PDF](labos/E07E-Modeles_additifs_generalises.pdf)) - Data: [portal_ot.csv](donnees/portal_ot.csv)-->

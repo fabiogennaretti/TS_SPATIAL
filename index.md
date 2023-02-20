@@ -53,6 +53,8 @@ Labo évalué: [Régression robuste aux valeurs extrêmes](labos/E04-Regression_
 
 6. [Modèles linéaires généralisés à effets mixtes 2](labos/06-Modeles_generalises_mixtes2.html) ([PDF](labos/06-Modeles_generalises_mixtes2.pdf)) - Données: [aiv_ducks.csv](donnees/aiv_ducks.csv)
 
+Labo évalué: [Modèles linéaires généralisés à effets mixtes 2](labos/E06-GLMM_NEW.html) ([PDF](labos/E06-GLMM_NEW.pdf)) - [spatial_df.csv](donnees/spatial_df.csv)
+
 7. [Modeles additifs generalises<!-- (solutions)-->]<!--(labos/07R-Modeles_additifs_generalises.html) ([PDF](labos/07R-Modeles_additifs_generalises.pdf)) - Données: [dendro_wa082.csv](donnees/dendro_wa082.csv)-->
 
 Labo évalué: [Modeles additifs generalises]<!--(labos/E07-Modeles_additifs_generalises.html) ([PDF](labos/E07-Modeles_additifs_generalises.pdf)) - Données: [portal_ot.csv](donnees/portal_ot.csv)-->
