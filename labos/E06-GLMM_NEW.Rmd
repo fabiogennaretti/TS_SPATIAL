@@ -10,7 +10,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Ce travail doit être mis en ligne sur Moodle avant le **vendredi 10 février, 17h**.
+Ce travail doit être mis en ligne sur Moodle avant le **vendredi 10 mars, 17h**.
 
 **Les chiffres entre parenthèses indiquent le nombre de points pour chaque question.**
 
