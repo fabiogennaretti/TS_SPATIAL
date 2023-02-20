@@ -56,7 +56,6 @@ e) The authors of the original study determined a significant effect of populati
 
 a) Add columns to the original dataset representing the prediction of the probability of occurrence of AIV (1) based only on the fixed effects of the model; (2) based on both fixed and random effects. Use the best model identified in the previous section.
 
-b) For each type of prediction obtained (fixed effects; fixed and random effects), determine the predicted mean probability of occurrence of AIV for observations with AIV = 1 and the predicted mean probability of occurrence for observations with A
-AIV = 0. Based on your results, do the model's fixed effects provide a good distinction between presence and absence? What about random effects?
+b) For each type of prediction obtained (fixed effects; fixed and random effects), determine the predicted mean probability of occurrence of AIV for observations with AIV = 1 and the predicted mean probability of occurrence for observations with AIV = 0. Based on your results, do the model's fixed effects provide a good distinction between presence and absence? What about random effects?
 
 c) Group the dataset by site and year, then calculate the mean longitude, latitude, and probability of AIV predicted by the full model for each site-year combination. Using these variables, produce a map of the sites with their predicted probability of AIV for each year. (You can use the facets in *ggplot2* to separate the graph into panels for each year).

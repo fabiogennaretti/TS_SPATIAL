@@ -23,7 +23,7 @@ output:
 
 6. [Modèles linéaires généralisés à effets mixtes 2](notes_cours/06-Modeles_generalises_mixtes2.html) ([PDF](notes_cours/06-Modeles_generalises_mixtes2.pdf)) - Données: [acer_transplant.csv](donnees/acer_transplant.csv)
 
-7. [Modeles additifs generalises]<!--(notes_cours/07-Modeles_additifs_generalises.html) ([PDF](notes_cours/07-Modeles_additifs_generalises.pdf))-->
+7. [Modeles additifs generalises](notes_cours/07-Modeles_additifs_generalises.html) ([PDF](notes_cours/07-Modeles_additifs_generalises.pdf))
 
 8. [Introduction a l'analyse bayesienne]<!--(notes_cours/08-Intro_Bayes.html) ([PDF](notes_cours/08-Intro_Bayes.pdf)) - Données: [galapagos.csv](donnees/galapagos.csv)-->
 
@@ -51,11 +51,11 @@ Labo évalué: [Régression robuste aux valeurs extrêmes](labos/E04-Regression_
 
 5. [Modèles linéaires généralisés à effets mixtes (solutions)](labos/05R-Modeles_generalises_mixtes.html) ([PDF](labos/05R-Modeles_generalises_mixtes.pdf)) - Données: [portal_surveys.csv](donnees/portal_surveys.csv), [portal_species.csv](donnees/portal_species.csv), [portal_plots.csv](donnees/portal_plots.csv)
 
-6. [Modèles linéaires généralisés à effets mixtes 2](labos/06-Modeles_generalises_mixtes2.html) ([PDF](labos/06-Modeles_generalises_mixtes2.pdf)) - Données: [aiv_ducks.csv](donnees/aiv_ducks.csv)
+6. [Modèles linéaires généralisés à effets mixtes 2 (solutions)](labos/06R-Modeles_generalises_mixtes2.html) ([PDF](labos/06R-Modeles_generalises_mixtes2.pdf)) - Données: [aiv_ducks.csv](donnees/aiv_ducks.csv)
 
 Labo évalué: [Modèles linéaires généralisés à effets mixtes 2](labos/E06-GLMM_NEW.html) ([PDF](labos/E06-GLMM_NEW.pdf)) - [spatial_df.csv](donnees/spatial_df.csv)
 
-7. [Modeles additifs generalises<!-- (solutions)-->]<!--(labos/07R-Modeles_additifs_generalises.html) ([PDF](labos/07R-Modeles_additifs_generalises.pdf)) - Données: [dendro_wa082.csv](donnees/dendro_wa082.csv)-->
+7. [Modeles additifs generalises<!-- (solutions)-->](labos/07-Modeles_additifs_generalises.html) ([PDF](labos/07-Modeles_additifs_generalises.pdf)) - Données: [dendro_wa082.csv](donnees/dendro_wa082.csv)
 
 Labo évalué: [Modeles additifs generalises]<!--(labos/E07-Modeles_additifs_generalises.html) ([PDF](labos/E07-Modeles_additifs_generalises.pdf)) - Données: [portal_ot.csv](donnees/portal_ot.csv)-->
 

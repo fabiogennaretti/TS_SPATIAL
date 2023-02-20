@@ -20,7 +20,7 @@ title: "ECL8202 - Analyses des données complexes"
 
 6. [Generalized linear mixed models 2](notes_cours/06E-Modeles_generalises_mixtes2.html) ([PDF](notes_cours/06E-Modeles_generalises_mixtes2.pdf)) - Data: [acer_transplant.csv](donnees/acer_transplant.csv)
 
-7. [Generalized additive models]<!--(notes_cours/07E-Modeles_additifs_generalises.html) ([PDF](notes_cours/07E-Modeles_additifs_generalises.pdf))-->
+7. [Generalized additive models](notes_cours/07E-Modeles_additifs_generalises.html) ([PDF](notes_cours/07E-Modeles_additifs_generalises.pdf))
 
 8. [Introduction to Bayesian analysis]<!--(notes_cours/08E-Intro_Bayes.html) ([PDF](notes_cours/08E-Intro_Bayes.pdf)) - Data: [galapagos.csv](donnees/galapagos.csv)-->
 
@@ -48,11 +48,11 @@ Graded lab: [Robust regression](labos/E04E-Regression_robuste.html) ([PDF](labos
 
 5. [Generalized linear mixed models (solutions)](labos/05RE-Modeles_generalises_mixtes.html) ([PDF](labos/05RE-Modeles_generalises_mixtes.pdf)) - Data: [portal_surveys.csv](donnees/portal_surveys.csv), [portal_species.csv](donnees/portal_species.csv), [portal_plots.csv](donnees/portal_plots.csv)
 
-6. [Generalized linear mixed models 2](labos/06E-Modeles_generalises_mixtes2.html) ([PDF](labos/06E-Modeles_generalises_mixtes2.pdf)) - Data: [aiv_ducks.csv](donnees/aiv_ducks.csv)
+6. [Generalized linear mixed models 2 (solutions)](labos/06RE-Modeles_generalises_mixtes2.html) ([PDF](labos/06RE-Modeles_generalises_mixtes2.pdf)) - Data: [aiv_ducks.csv](donnees/aiv_ducks.csv)
 
 Graded lab: [Generalized linear mixed models 2](labos/E06E-GLMM_NEW.html) ([PDF](labos/E06E-GLMM_NEW.pdf)) - Data: [spatial_df.csv](donnees/spatial_df.csv)
 
-7. [Generalized additive models<!-- (solutions)-->]<!--(labos/07RE-Modeles_additifs_generalises.html) ([PDF](labos/07RE-Modeles_additifs_generalises.pdf)) - Data: [dendro_wa082.csv](donnees/dendro_wa082.csv)-->
+7. [Generalized additive models<!-- (solutions)-->](labos/07E-Modeles_additifs_generalises.html) ([PDF](labos/07E-Modeles_additifs_generalises.pdf)) - Data: [dendro_wa082.csv](donnees/dendro_wa082.csv)
 
 Graded lab: [Generalized additive models]<!--(labos/E07E-Modeles_additifs_generalises.html) ([PDF](labos/E07E-Modeles_additifs_generalises.pdf)) - Data: [portal_ot.csv](donnees/portal_ot.csv)-->
 
