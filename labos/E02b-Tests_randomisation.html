@@ -13,7 +13,7 @@
 
 <title>Tests de randomisation et bootstrap</title>
 
-<script src="libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -107,8 +107,8 @@ pre code {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -116,16 +116,9 @@ pre code {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -261,23 +254,29 @@ Project Teaching Database</em>. <a
 href="https://figshare.com/articles/Portal_Project_Teaching_Database/1314459">https://figshare.com/articles/Portal_Project_Teaching_Database/1314459</a>.</p>
 </blockquote>
 <p>Le tableau de données <a
-href="../donnees/portal_surveys.csv">portal_surveys.csv</a> contient une
-rangée par individu capturé. Les variables incluent la date (jour, mois,
-année), le numéro de parcelle, le code d’espèce, le sexe, la longueur de
-patte arrière et le poids des individus.</p>
-<pre class="r"><code>surveys &lt;- read.csv(&quot;../donnees/portal_surveysB.csv&quot;)
-str(surveys)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    36701 obs. of  10 variables:
-##  $ X              : int  1 2 3 4 5 6 7 8 9 10 ...
-##  $ record_id      : int  1 2 3 4 5 6 7 8 9 10 ...
-##  $ month          : int  7 7 7 7 7 7 7 7 7 7 ...
-##  $ day            : int  16 16 16 16 16 16 16 16 16 16 ...
-##  $ year           : int  1977 1977 1977 1977 1977 1977 1977 1977 1977 1977 ...
-##  $ plot_id        : int  2 3 2 7 3 1 2 1 1 6 ...
-##  $ species_id     : chr  &quot;NL&quot; &quot;NL&quot; &quot;DM&quot; &quot;DM&quot; ...
-##  $ sex            : chr  &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; ...
-##  $ hindfoot_length: int  32 33 37 36 35 14 NA 37 34 20 ...
-##  $ weight         : num  NA NA NA NA NA NA NA NA NA NA ...</code></pre>
+href="../donnees/portal_surveysB.csv">portal_surveysB.csv</a> contient
+une rangée par individu capturé. Les variables incluent la date (jour,
+mois, année), le numéro de parcelle, le code d’espèce, le sexe, la
+longueur de patte arrière et le poids des individus.</p>
+<pre class="r"><code>library(tidyverse)
+library(boot)
+library(cowplot)
+library(permuco)
+
+surveys &lt;- read.csv(&quot;donnees/portal_surveysB.csv&quot;)
+glimpse(surveys)</code></pre>
+<pre><code>## Rows: 36,701
+## Columns: 10
+## $ X               &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,…
+## $ record_id       &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,…
+## $ month           &lt;int&gt; 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, …
+## $ day             &lt;int&gt; 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16…
+## $ year            &lt;int&gt; 1977, 1977, 1977, 1977, 1977, 1977, 1977, 1977, 1977, …
+## $ plot_id         &lt;int&gt; 2, 3, 2, 7, 3, 1, 2, 1, 1, 6, 5, 7, 3, 8, 6, 4, 3, 2, …
+## $ species_id      &lt;chr&gt; &quot;NL&quot;, &quot;NL&quot;, &quot;DM&quot;, &quot;DM&quot;, &quot;DM&quot;, &quot;PF&quot;, &quot;PE&quot;, &quot;DM&quot;, &quot;DM&quot;, …
+## $ sex             &lt;chr&gt; &quot;M&quot;, &quot;M&quot;, &quot;F&quot;, &quot;M&quot;, &quot;M&quot;, &quot;M&quot;, &quot;F&quot;, &quot;M&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;,…
+## $ hindfoot_length &lt;int&gt; 32, 33, 37, 36, 35, 14, NA, 37, 34, 20, 53, 38, 35, NA…
+## $ weight          &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…</code></pre>
 <p>Le tableau de données <a
 href="../donnees/portal_plots.csv">portal_plots.csv</a> indique le type
 de traitement appliqué à chaque parcelle. Les traitements visent à
@@ -286,11 +285,16 @@ d’exclusion; “Rodent Exclosure” = clôture, tous les rongeurs exclus;
 “Krat Exclosure” = clôture avec porte laissant passer les petits
 rongeurs, mais pas les rats-kangourous. Ces traitements ont été assignés
 aléatoirement après délimitation des parcelles.</p>
-<pre class="r"><code>plots &lt;- read.csv(&quot;../donnees/portal_plots.csv&quot;)
-str(plots)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    24 obs. of  2 variables:
-##  $ plot_id  : int  1 2 3 4 5 6 7 8 9 10 ...
-##  $ plot_type: chr  &quot;Spectab exclosure&quot; &quot;Control&quot; &quot;Long-term Krat Exclosure&quot; &quot;Control&quot; ...</code></pre>
+<pre class="r"><code>plots &lt;- read.csv(&quot;donnees/portal_plots.csv&quot;)
+glimpse(plots)</code></pre>
+<pre><code>## Rows: 24
+## Columns: 2
+## $ plot_id   &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 1…
+## $ plot_type &lt;chr&gt; &quot;Spectab exclosure&quot;, &quot;Control&quot;, &quot;Long-term Krat Exclosure&quot;, …</code></pre>
+<div class="figure">
+<img src="https://www.naturepl.com/cache/pcache2/01112522.jpg" alt="" />
+<p class="caption">Néotoma albigula</p>
+</div>
 </div>
 <div id="tests-de-randomisation" class="section level2">
 <h2>1. Tests de randomisation</h2>
@@ -298,61 +302,484 @@ str(plots)</code></pre>
 <li>Tout d’abord, nous devons préparer les données pour l’analyse:</li>
 </ol>
 <ul>
-<li>Dans le tableau <code>surveys</code> ne gardez que les captures de
-<em>Néotoma albigula</em> (NL) où le poid des n’est pas manquant.
+<li><p>Dans le tableau <code>surveys</code> ne gardez que les captures
+de <em>Néotoma albigula</em> (NL) où le poid des n’est pas manquant.
 <em>Rappel</em>: La fonction <code>is.na(x)</code> vérifie si
-<code>x</code> est une valeur manquante.</li>
-</ul>
-<div class="figure">
-<img src="https://www.naturepl.com/cache/pcache2/01112522.jpg" alt="" />
-<p class="caption">Néotoma albigula</p>
-</div>
-<ul>
-<li>Finalement, joignez les tableaux <code>surveys</code> et
+<code>x</code> est une valeur manquante.</p></li>
+<li><p>Finalement, joignez les tableaux <code>surveys</code> et
 <code>plots</code> pour connaître les traitements des parcelles liés à
 chaque observation. Vous pouvez utiliser la fonction <code>merge</code>
 dans R ou la fonction <code>inner_join</code>, qui requiet le package
 <em>dplyr</em>. Nommez le tableau résultant <code>surveys_plots</code>
 et n’y conservez que les observations des sites de type “Long-term Krat
-Exclosure”,“Short-term Krat Exclosure”, et “Control”.</li>
+Exclosure”,“Short-term Krat Exclosure”, et “Control”.</p></li>
 </ul>
+<pre class="r"><code>surveys_plots= surveys %&gt;% filter(!is.na(weight)) %&gt;% filter(species_id==&quot;NL&quot;)  %&gt;% 
+  inner_join(plots) %&gt;% 
+  filter(plot_type %in% c(&quot;Long-term Krat Exclosure&quot;,&quot;Short-term Krat Exclosure&quot;,&quot;Control&quot;) )</code></pre>
+<pre><code>## Joining with `by = join_by(plot_id)`</code></pre>
 <p>Ensuite, visualisez la distribution du poids (<code>weight</code>, en
 grammes) des individus selon l’année.</p>
+<blockquote>
+<p>Ces 2 visualisations sont équivalente. Quelques points à noter:<br />
+1) j’ai indiqué l’unité sur l’axe des y,<br />
+2) j’ai ajusté les étiquettes de l’axe des x pour qu’il soit bien
+lisible (fig a),<br />
+3) j’ai ajouté du bruit horizontale et de la transparence au points (Fig
+b) pour éviter de masquer des points se superposant.</p>
+</blockquote>
+<pre class="r"><code>ga &lt;- ggplot(surveys_plots,aes(x=as.factor(year),y=weight))+ 
+  geom_boxplot()+
+  labs(x=&quot;Year&quot;,y=&quot;Weigth (g)&quot;)+  # change le titre des axes
+  theme(axis.text.x = element_text(angle = 45,hjust = 1)) # texte en angle
+
+gb &lt;- ggplot(surveys_plots,aes(x=year,y=weight))+
+  geom_point(position = position_jitter(w=0.2),   # ajoute du bruit sur la largeur
+             alpha=0.3)+  # ajuste la transparence
+  geom_smooth(method = &quot;lm&quot;)+  # ajoute une droite de régression avec lm
+  labs(x=&quot;Year&quot;,y=&quot;Weigth (g)&quot;)
+
+plot_grid(ga,gb, ncol=1,labels = c(&quot;a)&quot;,&quot;b)&quot;)) # combine les 2 figure</code></pre>
+<p><img src="E02b-Tests_randomisation_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <ol start="2" style="list-style-type: lower-alpha">
-<li><p>Nous utiliserons un test de randomisation basé sur la régression
+<li>Nous utiliserons un test de randomisation basé sur la régression
 linéaire pour déterminer si la masse des individus a diminuer avec le
 temps. Pourquoi penses-tu qu’une approache par permutation soit
-appropriée ?Pour ce faire, nous écrirons une fonction qui randomise les
-années, avant d’exécuter la régression.</p></li>
-<li><p>Créez la fonction décrite en (b), qui effectue une randomisation
-de <code>year</code>, exécute une régression du poids des individus en
+appropriée ? Pour ce faire, nous écrirons une fonction qui randomise les
+années, avant d’exécuter la régression.</li>
+</ol>
+<blockquote>
+<p>Les distributions de poids sont non normal et non homogène, ce qui
+pourrait biaiser les estimées, leurs CI et les test statistique. On peut
+le voir sur l’histograme qui a une queue longue à droite et sur le
+graphique de quantile ou il y a une déviation au niveau des haute
+valeurs. Une permutation est plus approprié qu’un bootstrap puisque nous
+voulons un test statisique.</p>
+</blockquote>
+<pre class="r"><code>ga &lt;- ggplot(surveys_plots,aes(x=weight))+geom_histogram()
+gb &lt;- ggplot(surveys_plots,aes(sample=weight))+geom_qq()+geom_qq_line()
+
+plot_grid(ga,gb,ncol=2)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="E02b-Tests_randomisation_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Créez la fonction décrite en (b), qui effectue une randomisation de
+<code>year</code>, exécute une régression du poids des individus en
 fonction de l’année, puis retourne la valeur <span
 class="math inline">\(t\)</span>. Déterminez la distribution de cette
 statistique pour l’hypothèse nulle avec 4999 permutations. Quelle est la
 valeur <span class="math inline">\(p\)</span> pour la valeur <span
 class="math inline">\(t\)</span> observée si il n’y a eu aucun
-changement en masse des individus capturés au court du temps?</p></li>
-<li><p>La différence est-elle significative avec un seuil <span
-class="math inline">\(\alpha = 0.01\)</span>?</p></li>
-<li><p>Effectuez un test de permutation pour tester si les changements
-en masses diffèrent selon les traitements (ie. si il y a une intéraction
-entre year et plot_type).</p></li>
+changement en masse des individus capturés au court du temps?</li>
 </ol>
+<pre class="r"><code>mod1 &lt;- lm(weight~year,data=surveys_plots)
+summary(mod1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = weight ~ year, data = surveys_plots)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -117.39  -29.00   -6.23   24.13  190.25 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept) -460.8480   303.6186  -1.518   0.1292  
+## year           0.3067     0.1527   2.008   0.0448 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 44.3 on 1868 degrees of freedom
+## Multiple R-squared:  0.002154,   Adjusted R-squared:  0.00162 
+## F-statistic: 4.033 on 1 and 1868 DF,  p-value: 0.04476</code></pre>
+<pre class="r"><code>t1 &lt;- coef(summary(mod1))[2,3]
+
+permufun &lt;- function(){
+  surv_perm &lt;- surveys_plots %&gt;% mutate(year_perm=sample(surveys_plots$year))
+  mod0 &lt;- lm(weight~year_perm,data=surv_perm)
+  t0=coef(summary(mod0))[2,3]
+  return(t0)
+}
+
+nperm=4999
+t0 &lt;- replicate(nperm,permufun())
+
+
+pv= (sum(abs(t0) &gt;= abs(t1)) + 1) / (nperm + 1)
+
+
+
+ggplot()+geom_histogram(aes(x=t0))+geom_vline(xintercept = t1,color=&quot;red&quot;)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="E02b-Tests_randomisation_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<blockquote>
+<p>Le déclin en masse semble être significatif. En effet, avec une
+valeurs de t observé est de <code>2.008</code>, nous obtenon une valeur
+de p de <code>0.05</code> suite à la permutation. Ceci est en ligne avec
+la valeur de p rapporté par la régression linéaire qui était de
+<code>0.045</code>.</p>
+</blockquote>
+<pre class="r"><code># Point Bonus:
+  # Cette permutation ne respecte pas la structure annuel des données
+  # car elle ne gardes pas les indivius d&#39;une même année ensemble
+ # ce poroblème peut être régler en changeant le re-échantillonage pour les garder ensemble.
+# un modèle linéaire mixed aurait aussi été mieux, mais ne ne sommes pas encore rendu là.
+
+permufun_BONUS &lt;- function(){
+  permu &lt;- data.frame(year=unique(surveys_plots$year),
+                      year_perm=sample(unique(surveys_plots$year)))
+  surv_perm &lt;- surveys_plots %&gt;% left_join(permu,by=&quot;year&quot;)
+  mod0 &lt;- lm(weight~year_perm,data=surv_perm)
+  t0=coef(summary(mod0))[2,3]
+  return(t0)
+}
+
+t0b &lt;- replicate(nperm,permufun_BONUS())
+(sum(abs(t0b) &gt;= abs(t1)) + 1) / (nperm + 1)</code></pre>
+<pre><code>## [1] 0.211</code></pre>
+<pre class="r"><code># le déclin n&#39;est pas VRAIMENT significatif
+# cette permutation prend en compte la non-indépendance des années
+# un peu comme si nous avions fait un modèle mixte
+# la valeur de P obtenue est d&#39;ailleur assez similaire
+# (noter que les p values ne sont pas rapportées lmer pour de bonne raisons.
+# la suite n&#39;est qu&#39;une approximation)
+
+
+library(lme4)</code></pre>
+<pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## 
+## Attaching package: &#39;Matrix&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:tidyr&#39;:
+## 
+##     expand, pack, unpack</code></pre>
+<pre class="r"><code>lmm &lt;- lmer(weight~year+(1|year),data=surveys_plots)
+coef(summary(lmm))</code></pre>
+<pre><code>##                Estimate Std. Error    t value
+## (Intercept) -504.699755 560.121193 -0.9010546
+## year           0.328677   0.281576  1.1672765</code></pre>
+<pre class="r"><code>dt(coef(summary(lmm))[&quot;year&quot;,&quot;t value&quot;], nrow(surveys_plots)-3)</code></pre>
+<pre><code>## [1] 0.2018045</code></pre>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>La différence est-elle significative avec un seuil <span
+class="math inline">\(\alpha = 0.01\)</span>?</li>
+</ol>
+<blockquote>
+<p>non, la probability que la valeur de t observée soit obtenue par
+hasard (hypothese nulle) est &gt; 0.01</p>
+</blockquote>
+<ol start="5" style="list-style-type: lower-alpha">
+<li>Effectuez un test de permutation pour tester si les changements en
+masses diffèrent selon les traitements (ie. si il y a une intéraction
+entre year et plot_type).</li>
+</ol>
+<pre class="r"><code>ggplot(data = surveys_plots,aes(x=year,y=weight,color=plot_type))+
+  geom_point()+
+  geom_smooth(method = &quot;lm&quot;)</code></pre>
+<p><img src="E02b-Tests_randomisation_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>res=lmperm(weight~year*plot_type,data=surveys_plots)
+res$table[,-c(3,5,6)]</code></pre>
+<pre><code>## 
+## 
+##                                           Estimate Std. Error
+## (Intercept)                             -1116.1640   373.9887
+## year                                        0.6371     0.1881
+## plot_typeLong-term Krat Exclosure        5685.8430  1068.7573
+## plot_typeShort-term Krat Exclosure        823.8891   715.2799
+## year:plot_typeLong-term Krat Exclosure     -2.8632     0.5378
+## year:plot_typeShort-term Krat Exclosure    -0.4164     0.3599
+##                                         parametric Pr(&gt;|t|) resampled Pr(&gt;|t|)
+## (Intercept)                                    0.0028774959                   
+## year                                           0.0007200466             0.0010
+## plot_typeLong-term Krat Exclosure              0.0000001162             0.0002
+## plot_typeShort-term Krat Exclosure             0.2495339367             0.2330
+## year:plot_typeLong-term Krat Exclosure         0.0000001141             0.0002
+## year:plot_typeShort-term Krat Exclosure        0.2474389604             0.2314</code></pre>
+<blockquote>
+<p>ce test suggère que l’intéraction est très importante. En
+effet,l’interaction entre l’année et le site d’exclos à long terme est
+significative (pv=<code>0</code>), suggérant que le poid diminue plus
+rapidement dans ce site que dans le site controle.</p>
+</blockquote>
+<pre class="r"><code># la fonction lmperm, bien que fort utile n&#39;offre pas beaucoup de flexibilité. 
+# si nous voulons continuer à maintenir la structure annuel des années, 
+# la permutation doit être calculé à la main.
+# cela est peut être dificille a faire si l&#39;on veut maintenir
+# la covariance entre variables explicatives. Heureusement, les types de site et 
+# l&#39;année sont biologiquement et méthodologiquement indépendants.
+
+mod2 &lt;- lm(weight~year*plot_type,data=surveys_plots)
+t2 &lt;- coef(summary(mod2))[,3]
+
+permufun2_BONUS &lt;- function(){
+  permu &lt;- data.frame(year=unique(surveys_plots$year),
+                      year_perm=sample(unique(surveys_plots$year)))
+  surv_perm &lt;- surveys_plots %&gt;% left_join(permu,by=&quot;year&quot;)
+  mod0 &lt;- lm(weight~year_perm*plot_type,data=surv_perm)
+  t0=coef(summary(mod0))[,3]
+  return(t0)
+}
+
+t0c &lt;- replicate(nperm,permufun2_BONUS())
+pv &lt;-  (sapply(1:length(t2), function(x) sum(abs(t0c[x,]) &gt;= abs(t2[x]))) + 1) / (nperm + 1)
+
+lmm2 &lt;- lmer(weight~year*plot_type+(1|year)+(1|plot_id),data=surveys_plots) 
+cbind(coef(summary(mod2)),pv_perm=pv,
+      pv_lmm=round(dt(coef(summary(lmm2))[,&quot;t value&quot;],nrow(surveys_plots)-8),5)
+      )</code></pre>
+<pre><code>##                                              Estimate   Std. Error   t value
+## (Intercept)                             -1116.1639891  373.9886501 -2.984486
+## year                                        0.6370609    0.1880634  3.387480
+## plot_typeLong-term Krat Exclosure        5685.8430099 1068.7573330  5.320051
+## plot_typeShort-term Krat Exclosure        823.8891053  715.2799495  1.151841
+## year:plot_typeLong-term Krat Exclosure     -2.8631983    0.5378367 -5.323546
+## year:plot_typeShort-term Krat Exclosure    -0.4164000    0.3599102 -1.156955
+##                                               Pr(&gt;|t|) pv_perm  pv_lmm
+## (Intercept)                             0.002877495914  0.1000 0.28899
+## year                                    0.000720046630  0.0536 0.22993
+## plot_typeLong-term Krat Exclosure       0.000000116241  0.0144 0.00024
+## plot_typeShort-term Krat Exclosure      0.249533936671  0.4614 0.28722
+## year:plot_typeLong-term Krat Exclosure  0.000000114061  0.0142 0.00025
+## year:plot_typeShort-term Krat Exclosure 0.247438960391  0.4590 0.28796</code></pre>
 </div>
 <div id="bootstrap" class="section level2">
 <h2>2. Bootstrap</h2>
 <ol style="list-style-type: lower-alpha">
-<li><p>Calculez l’intervalle de confiance à 99% pour le changement en
-masse au court du temps pour chaque traitement.</p></li>
-<li><p>L’intervalle de confiance obtenu en a) est-il cohérent avec le
-résultat du test en 1.d)? Est-ce que le bootstrap représente bien le
-processus d’échantillonnage pour ce problème?</p></li>
-<li><p>Utilisez la méthode du bootstrap avec 10 000 réplicats pour
-calculer la différence de poids des individus entre le début et la fin
-de l’étude pour les traitements “Long-term Krat Exclosure” et “Control”.
-Effectuez une correction du biais et rapportez la différence corrigée
-avec son erreur-type.)</p></li>
+<li>Calculez l’intervalle de confiance à 99% pour le changement en masse
+au court du temps pour chaque traitement.</li>
 </ol>
+<pre class="r"><code>lm_time &lt;- function(dat, i)  {
+    mod &lt;- lm(weight~year*plot_type,data=dat[i,])
+    c(coef(mod),
+      penteShortExclo=coef(mod)[2]+coef(mod)[6],
+      penteLongExclo=coef(mod)[2]+coef(mod)[5])
+}
+
+boot_hab &lt;- boot(surveys_plots, lm_time, R = 10000)
+
+# il est cependant mieux de stratifier par type de site pour s&#39;assurer 
+# de garder des représentant de chacun d&#39;eux dans chaque re-échantillonage
+boot_hab &lt;- boot(surveys_plots, lm_time,R = 10000, 
+                 strata = as.factor(surveys_plots$plot_id ))
+
+#Intervale de confiance l&#39;intéraction entre année et l&#39;exclos à long terme
+boot.ci(boot_hab,index = 5,type = &quot;bca&quot;,conf = 0.99)</code></pre>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 10000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot_hab, conf = 0.99, type = &quot;bca&quot;, index = 5)
+## 
+## Intervals : 
+## Level       BCa          
+## 99%   (-4.106, -1.631 )  
+## Calculations and Intervals on Original Scale</code></pre>
+<pre class="r"><code>#Intervale de confiance pour la pente dans les sites Control
+boot.ci(boot_hab,index = 2,type = &quot;bca&quot;,conf = 0.99)</code></pre>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 10000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot_hab, conf = 0.99, type = &quot;bca&quot;, index = 2)
+## 
+## Intervals : 
+## Level       BCa          
+## 99%   ( 0.1544,  1.1205 )  
+## Calculations and Intervals on Original Scale</code></pre>
+<pre class="r"><code>#Intervale de confiance pour la pente dans les sites shortExclos
+boot.ci(boot_hab,index = 7,type = &quot;bca&quot;,conf = 0.99)</code></pre>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 10000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot_hab, conf = 0.99, type = &quot;bca&quot;, index = 7)
+## 
+## Intervals : 
+## Level       BCa          
+## 99%   (-0.4990,  0.9079 )  
+## Calculations and Intervals on Original Scale</code></pre>
+<pre class="r"><code>#Intervale de confiance pour la pente dans les sites longExclos
+boot.ci(boot_hab,index = 8,type = &quot;bca&quot;,conf = 0.99)</code></pre>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 10000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = boot_hab, conf = 0.99, type = &quot;bca&quot;, index = 8)
+## 
+## Intervals : 
+## Level       BCa          
+## 99%   (-3.348, -1.058 )  
+## Calculations and Intervals on Original Scale</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>L’intervalle de confiance obtenu en a) est-il cohérent avec le
+résultat du test en 1.e)? Est-ce que le bootstrap représente bien le
+processus d’échantillonnage pour ce problème?</li>
+</ol>
+<blockquote>
+<p>oui, les CI sont en ;ligne avec le test de randomisation 1e.</p>
+</blockquote>
+<blockquote>
+<p>en partie,le bootstrap est représentatif de l’échantillonage si il a
+été fait de façon stratifié. Sinon, il aurait pu être stratifié. Une
+stratification par année-site aurait aussi été approprié. Cependant, le
+bootstrap est basé sur une régression linéaire. il souffre donc lui
+aussi des problèmes de pseudo-réplication. une approche par modèle mixed
+aurait pu être meilleures en générale.</p>
+</blockquote>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Utilisez la méthode du bootstrap avec 10 000 réplicats pour calculer
+la différence de poids des individus entre le début et la fin de l’étude
+pour les traitements “Long-term Krat Exclosure” et “Control”. Effectuez
+une correction du biais et rapportez la différence corrigée avec son
+erreur-type.</li>
+</ol>
+<pre class="r"><code>diffBootFun &lt;- function(dat,i){
+  booted &lt;- dat[i,]
+  mean(booted$weight[booted$year==max(booted$year)])-mean(booted$weight[booted$year==min(booted$year)])
+}
+
+dat_ex &lt;- surveys_plots %&gt;% filter(plot_type==&quot;Long-term Krat Exclosure&quot;) %&gt;% filter(year %in% range(year))
+dat_ctrl &lt;- surveys_plots %&gt;% filter(plot_type==&quot;Control&quot;) %&gt;% filter(year %in% range(year))
+
+boot_ex &lt;- boot(dat_ex,diffBootFun,strata = as.factor(dat_ex$plot_id), R = 10000)
+# Biais
+bias_ex &lt;- mean(boot_ex$t) - boot_ex$t0
+corrected &lt;- boot_ex$t0-bias_ex
+# Erreur-type
+se_ex &lt;- sd(boot_ex$t)
+
+print(paste(&quot;la différence pour le traitement long Exclosure est de&quot;,corrected))</code></pre>
+<pre><code>## [1] &quot;la différence pour le traitement long Exclosure est de -52.6419480857838&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;l&#39;erreur-type est de&quot;,se_ex))</code></pre>
+<pre><code>## [1] &quot;l&#39;erreur-type est de 20.8643347208553&quot;</code></pre>
+<pre class="r"><code>boot_ctrl &lt;- boot(dat_ctrl,diffBootFun,strata = as.factor(dat_ctrl$plot_id),R = 10000)
+bias_ctrl &lt;- mean(boot_ctrl$t) - boot_ctrl$t0
+correctedctrl &lt;- boot_ctrl$t0-bias_ctrl
+# Erreur-type
+se_ctrl &lt;- sd(boot_ctrl$t)
+
+print(paste(&quot;la différence pour le traitement long Exclosure est de&quot;,correctedctrl))</code></pre>
+<pre><code>## [1] &quot;la différence pour le traitement long Exclosure est de 6.72540557545154&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;l&#39;erreur-type est de&quot;,se_ctrl))</code></pre>
+<pre><code>## [1] &quot;l&#39;erreur-type est de 7.19543721637956&quot;</code></pre>
+</div>
+<div id="grille-dévaluation" class="section level2">
+<h2>grille d’évaluation</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">q</th>
+<th align="center">element</th>
+<th align="center">point</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1a</td>
+<td align="center">got data frame with 1870 rows</td>
+<td align="center">0.5</td>
+</tr>
+<tr class="even">
+<td align="left">1a</td>
+<td align="center">got data frame with 643 rows</td>
+<td align="center">0.25</td>
+</tr>
+<tr class="odd">
+<td align="left">1a</td>
+<td align="center">made a figure showing weight~year</td>
+<td align="center">0.25</td>
+</tr>
+<tr class="even">
+<td align="left">1a</td>
+<td align="center">figure had units and no overlap hiding points</td>
+<td align="center">0.25</td>
+</tr>
+<tr class="odd">
+<td align="left">1b</td>
+<td align="center">mention non-normality or non-homogeneity</td>
+<td align="center">0.33</td>
+</tr>
+<tr class="even">
+<td align="left">1b</td>
+<td align="center">a figure or test to show it</td>
+<td align="center">0.33</td>
+</tr>
+<tr class="odd">
+<td align="left">1b</td>
+<td align="center">permutation for testing</td>
+<td align="center">0.33</td>
+</tr>
+<tr class="even">
+<td align="left">1c</td>
+<td align="center">made the wright permutation function</td>
+<td align="center">0.5</td>
+</tr>
+<tr class="odd">
+<td align="left">1c</td>
+<td align="center">made a working permutation function</td>
+<td align="center">0.25</td>
+</tr>
+<tr class="even">
+<td align="left">1c</td>
+<td align="center">properly calculated p-value</td>
+<td align="center">0.5</td>
+</tr>
+<tr class="odd">
+<td align="left">1c</td>
+<td align="center">* bonus: thinks about data structure and year*</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="left">1d</td>
+<td align="center">no</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="left">1e</td>
+<td align="center">modeled the year*plot_type</td>
+<td align="center">0.5</td>
+</tr>
+<tr class="even">
+<td align="left">1e</td>
+<td align="center">used lmperm</td>
+<td align="center">0.5</td>
+</tr>
+<tr class="odd">
+<td align="left">2a</td>
+<td align="center">used the previous model</td>
+<td align="center">0.17</td>
+</tr>
+<tr class="even">
+<td align="left">2a</td>
+<td align="center">used a bootstrap to get CI</td>
+<td align="center">0.17</td>
+</tr>
+<tr class="odd">
+<td align="left">2a</td>
+<td align="center">got CI for 3 slopes</td>
+<td align="center">0.17</td>
+</tr>
+<tr class="even">
+<td align="left">2b</td>
+<td align="center">yes consistent</td>
+<td align="center">0.5</td>
+</tr>
+<tr class="odd">
+<td align="left">2b</td>
+<td align="center">talk about non-independance</td>
+<td align="center">0.5</td>
+</tr>
+<tr class="even">
+<td align="left">2c</td>
+<td align="center">correct bootstrap</td>
+<td align="center">0.5</td>
+</tr>
+<tr class="odd">
+<td align="left">2c</td>
+<td align="center">correct formula for bias, se, and the correction</td>
+<td align="center">0.5</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 
