@@ -1,13 +1,13 @@
 ---
 title: "Tests de randomisation et bootstrap"
 output:
+  pdf_document:
   html_document:
     self_contained: no
     lib_dir: libs
     theme: spacelab
     toc: yes
     toc_float: yes
-  pdf_document:
 editor_options:
   chunk_output_type: console
 ---
@@ -33,18 +33,18 @@ library(boot)
 library(cowplot)
 library(permuco)
 
-surveys <- read.csv("donnees/portal_surveysB.csv")
+surveys <- read.csv("../donnees/portal_surveysB.csv")
 glimpse(surveys)
 ```
 
 Le tableau de données [portal_plots.csv](../donnees/portal_plots.csv) indique le type de traitement appliqué à chaque parcelle. Les traitements visent à exclure différents types de rongeurs: "Control" = aucune clôture, pas d'exclusion; "Rodent Exclosure" = clôture, tous les rongeurs exclus; "Krat Exclosure" = clôture avec porte laissant passer les petits rongeurs, mais pas les rats-kangourous. Ces traitements ont été assignés aléatoirement après délimitation des parcelles.
 
 ```{r}
-plots <- read.csv("donnees/portal_plots.csv")
+plots <- read.csv("../donnees/portal_plots.csv")
 glimpse(plots)
 ```
 
-![Néotoma albigula](https://www.naturepl.com/cache/pcache2/01112522.jpg) 
+<!-- ![Néotoma albigula](https://www.naturepl.com/cache/pcache2/01112522.jpg)  -->
 
 
 ## 1. Tests de randomisation

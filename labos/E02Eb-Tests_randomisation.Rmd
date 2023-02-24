@@ -1,6 +1,8 @@
 ---
 title: "Randomization tests and bootstrap"
 output:
+  pdf_document:
+    toc: yes
   html_document:
     self_contained: no
     lib_dir: libs
@@ -28,14 +30,14 @@ library(tidyverse)
 library(boot)
 library(cowplot)
 library(permuco)
-surveys <- read.csv("donnees/portal_surveysB.csv")
+surveys <- read.csv("../donnees/portal_surveysB.csv")
 glimpse(surveys)
 ```
 
 The [portal_plots.csv](../donnees/portal_plots.csv) dataset indicates the type of treatment applied to each plot. The treatments are designed to exclude different types of rodents: "Control" = no fence, no exclusion; "Rodent Exclusion" = fence, all rodents excluded; "Krat Exclusion" = fence with a gate for small rodents, but not for kangaroo rats. These treatments were randomly assigned after setting up the plots.
 
 ```{r}
-plots <- read.csv("donnees/portal_plots.csv")
+plots <- read.csv("../donnees/portal_plots.csv")
 glimpse(plots)
 ```
 
@@ -45,7 +47,7 @@ a) First, we must prepare the data for analysis:
 
 - In the `surveys` table, keep only the observations from *Néotoma albigula* (NL) where the weight is not missing. *Reminder*: The function `is.na(x)` checks if `x` is a missing value.
 
-![Néotoma albigula](https://www.naturepl.com/cache/pcache2/01112522.jpg)
+<!-- ![Néotoma albigula](https://www.naturepl.com/cache/pcache2/01112522.jpg) -->
 
 - Finally, join the `surveys` and `plots` data frames  and only keep plots of type "Long-term Krat Exclosure","Short-term Krat Exclosure", and "Control". to find out which plot treatment is related to each observation. You can use the `merge` function in R or the `inner_join` function, which requires the *dplyr* package. Name the resulting data frame `surveys_plots`.
 
