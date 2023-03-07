@@ -22,7 +22,7 @@ title: "ECL8202 - Analyses des données complexes"
 
 7. [Generalized additive models](notes_cours/07E-Modeles_additifs_generalises.html) ([PDF](notes_cours/07E-Modeles_additifs_generalises.pdf))
 
-8. [Introduction to Bayesian analysis]<!--(notes_cours/08E-Intro_Bayes.html) ([PDF](notes_cours/08E-Intro_Bayes.pdf)) - Data: [galapagos.csv](donnees/galapagos.csv)-->
+8. [Introduction to Bayesian analysis](notes_cours/08E-Intro_Bayes.html) ([PDF](notes_cours/08E-Intro_Bayes.pdf)) - Data: [galapagos.csv](donnees/galapagos.csv)
 
 9. [Hierarchical Bayesian models]<!--(notes_cours/09E-Modeles_hierarchiques_bayesiens.html) ([PDF](notes_cours/09E-Modeles_hierarchiques_bayesiens.pdf)) - Data: [rikz.csv](donnees/rikz.csv)-->
 
@@ -52,11 +52,11 @@ Graded lab: [Robust regression](labos/E04E-Regression_robuste.html) ([PDF](labos
 
 Graded lab: [Generalized linear mixed models 2](labos/E06E-GLMM_NEW.html) ([PDF](labos/E06E-GLMM_NEW.pdf)) - Data: [spatial_df.csv](donnees/spatial_df.csv)
 
-7. [Generalized additive models<!-- (solutions)-->](labos/07E-Modeles_additifs_generalises.html) ([PDF](labos/07E-Modeles_additifs_generalises.pdf)) - Data: [dendro_wa082.csv](donnees/dendro_wa082.csv)
+7. [Generalized additive models (solutions)](labos/07RE-Modeles_additifs_generalises.html) ([PDF](labos/07RE-Modeles_additifs_generalises.pdf)) - Data: [dendro_wa082.csv](donnees/dendro_wa082.csv)
 
-Graded lab: [Generalized additive models]<!--(labos/E07E-Modeles_additifs_generalises.html) ([PDF](labos/E07E-Modeles_additifs_generalises.pdf)) - Data: [portal_ot.csv](donnees/portal_ot.csv)-->
+Graded lab: [Generalized additive models](labos/E07E-Modeles_additifs_generalises.html) ([PDF](labos/E07E-Modeles_additifs_generalises.pdf)) - Data: [portal_ot.csv](donnees/portal_ot.csv)
 
-8. [Introduction to Bayesian analysis<!-- (solutions)-->]<!--(labos/08RE-Intro_Bayes.html) ([PDF](labos/08RE-Intro_Bayes.pdf)) - Data: [thermal_range.csv](donnees/thermal_range.csv)-->
+8. [Introduction to Bayesian analysis<!-- (solutions)-->](labos/08E-Intro_Bayes.html) ([PDF](labos/08E-Intro_Bayes.pdf)) - Data: [thermal_range.csv](donnees/thermal_range.csv)
 
 9. [Hierarchical Bayesian models]<!--(labos/09E-Modeles_hierarchiques_bayesiens.html) ([PDF](labos/09E-Modeles_hierarchiques_bayesiens.pdf)) - Data: [rikz.csv](donnees/rikz.csv)-->
 
