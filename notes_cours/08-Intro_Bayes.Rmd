@@ -1,12 +1,14 @@
 ---
 title: "Introduction à l'analyse bayésienne"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
     
 ```{r setup, include=FALSE}
@@ -428,7 +430,7 @@ marginal_effects(bmod)
 La fonction `stanplot` permet de réaliser différentes visualisations de la distribution *a posteriori* des paramètres. Par exemple, nous affichons ici la densité de probabilité (`type = "dens"`) pour le coefficient de `log(Area)`:
 
 ```{r}
-stanplot(bmod, pars = "b_logArea", type = "dens")
+mcmc_plot(bmod, variable = "b_logArea", type = "dens")
 ```
 
 L'aspect "bosselé" de la courbe de densité est dû au fait que la distribution *a posteriori* est approximée par l'algorithme, comme nous verrons dans les prochains cours.
