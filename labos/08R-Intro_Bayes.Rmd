@@ -103,7 +103,7 @@ therm_fit <- brm(bf(num_eggs ~ logNo - (temp-To)^2/sigmaT^2,
 ```
 
 ```{r}
-marginal_effects(therm_fit)
+conditional_effects(therm_fit)
 ```
 
 ```{r}
