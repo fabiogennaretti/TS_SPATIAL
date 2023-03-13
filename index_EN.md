@@ -24,7 +24,7 @@ title: "ECL8202 - Analyses des données complexes"
 
 8. [Introduction to Bayesian analysis](notes_cours/08E-Intro_Bayes.html) ([PDF](notes_cours/08E-Intro_Bayes.pdf)) - Data: [galapagos.csv](donnees/galapagos.csv)
 
-9. [Hierarchical Bayesian models]<!--(notes_cours/09E-Modeles_hierarchiques_bayesiens.html) ([PDF](notes_cours/09E-Modeles_hierarchiques_bayesiens.pdf)) - Data: [rikz.csv](donnees/rikz.csv)-->
+9. [Hierarchical Bayesian models](notes_cours/09E-Modeles_hierarchiques_bayesiens.html) ([PDF](notes_cours/09E-Modeles_hierarchiques_bayesiens.pdf)) - Data: [rikz.csv](donnees/rikz.csv)
 
 10. [Hierarchical Bayesian models 2]<!--(notes_cours/10E-Modeles_hierarchiques_bayesiens2.html) ([PDF](notes_cours/10E-Modeles_hierarchiques_bayesiens2.pdf)) - Data: [rikz.csv](donnees/rikz.csv)-->
 
@@ -56,9 +56,9 @@ Graded lab: [Generalized linear mixed models 2](labos/E06E-GLMM_NEW.html) ([PDF]
 
 Graded lab: [Generalized additive models](labos/E07E-Modeles_additifs_generalises.html) ([PDF](labos/E07E-Modeles_additifs_generalises.pdf)) - Data: [portal_ot.csv](donnees/portal_ot.csv)
 
-8. [Introduction to Bayesian analysis<!-- (solutions)-->](labos/08E-Intro_Bayes.html) ([PDF](labos/08E-Intro_Bayes.pdf)) - Data: [thermal_range.csv](donnees/thermal_range.csv)
+8. [Introduction to Bayesian analysis(solutions)](labos/08RE-Intro_Bayes.html) ([PDF](labos/08RE-Intro_Bayes.pdf)) - Data: [thermal_range.csv](donnees/thermal_range.csv)
 
-9. [Hierarchical Bayesian models]<!--(labos/09E-Modeles_hierarchiques_bayesiens.html) ([PDF](labos/09E-Modeles_hierarchiques_bayesiens.pdf)) - Data: [rikz.csv](donnees/rikz.csv)-->
+9. [Hierarchical Bayesian models](labos/09E-Modeles_hierarchiques_bayesiens.html) ([PDF](labos/09E-Modeles_hierarchiques_bayesiens.pdf)) - Data: [rikz.csv](donnees/rikz.csv)
 
 10. Graded lab: [Hierarchical Bayesian models 2]<!--(labos/E10E-Modeles_hierarchiques_bayesiens2.html) ([PDF](labos/E10E-Modeles_hierarchiques_bayesiens2.pdf))-->
 
