@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Modèles hiérarchiques bayésiens 2</title>
+
+<script src="libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<link href="libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Modèles hiérarchiques bayésiens 2</h1>
+
+</div>
+
+
+<div id="données" class="section level2">
+<h2>Données</h2>
+<div class="figure">
+<img src="../images/GAB4770.jpg" alt="" />
+<p class="caption">Svalbard reindeer</p>
+</div>
+<p>The data are from my post-doc. We will analyze the probability of a
+reindeer to have a baby during the summer. In this system, one of the
+most important environmental factors is the presence of rain-on-snow
+events. These occur when precipitation occurs during the winter. These
+freeze and then form a thick layer of ice that blocks access to food
+resources.</p>
+<p>However, as the Arctic continues to warm, some researchers believe
+that the ros will no longer have an effect. When there are sustained
+rain events followed by a warm period, the rain causes a release of food
+resources and has time to run off before freezing. We will attempt to
+explore these changes in the effect of ros.</p>
+<p>Translated with www.DeepL.com/Translator (free version)</p>
+<pre class="r"><code>library(dplyr)
+library(readr)
+library(ggplot2)
+library(tidyr)
+library(cowplot)
+library(lubridate)
+
+dat &lt;- read_csv(&quot;../donnees/SvalbardDat.csv&quot;)
+dat &lt;- dat %&gt;% mutate(age=year-yrbirth) %&gt;% filter(age&gt;1)
+
+ros &lt;- read_csv(&quot;../donnees/ROS.csv&quot;)</code></pre>
+<p>We first transform the predictors: - <em>rosNorm</em> is the
+logarithm of <em>ros</em>, normalized to have a mean of 0 and a standard
+deviation of 1. - we create a variable <em>age2</em> for the quadratic
+effect of age - and finally a <em>period</em> variable that separates
+the study into 5 periods</p>
+</div>
+<div
+id="bayesian-model-of-the-probability-of-reproduction-according-to-age-and-ros"
+class="section level2">
+<h2>Bayesian model of the probability of reproduction according to age
+and ros</h2>
+<p>Of course, we will also need to control for the age of the
+individuals. The model will therefore be a binomial model with age and
+ros as fixed effects. The random effects will consist of the year, the
+period and a slope of the ros varying with the period.</p>
+<p><em>Notes</em>:</p>
+<ul>
+<li><p>The model formula in <code>brm</code> follows the same syntax as
+<code>lmer</code> for the specification of fixed and random
+effects.</p></li>
+<li><p>Although it would be possible to add a random country effect on
+the <code>age:ros</code> interaction, year, ID, density and several
+other control variables. We omit them here to reduce the computational
+time of the models.</p></li>
+</ul>
+<p><strong>A</strong> Choose <em>a priori</em> distributions for the
+parameters of the model described above. Here is an example of code
+where only the specification of the distributions is missing. The first
+four lines define the <em>a priori</em> distributions for the intercept
+and coefficients of the three fixed effects, the next three define the
+distributions for the standard deviations of the random effects
+(<code>class = "sd"</code>), while the last one refers to the standard
+deviation of the individual observations
+(<code>class = "sigma"</code>).</p>
+<pre class="r"><code>library(brms)
+my_prior &lt;- c(set_prior(&quot;&quot;, class = &quot;Intercept&quot;),
+               set_prior(&quot;&quot;, class = &quot;b&quot;, coef = &quot;ages&quot;),
+               set_prior(&quot;&quot;, class = &quot;b&quot;, coef = &quot;age2&quot;),
+               set_prior(&quot;&quot;, class = &quot;b&quot;, coef = &quot;rosNorm&quot;),
+               set_prior(&quot;&quot;, class = &quot;sd&quot;, coef = &quot;Intercept&quot;, group = &quot;id&quot;),
+               set_prior(&quot;&quot;, class = &quot;sd&quot;, coef = &quot;Intercept&quot;, group = &quot;period&quot;),
+               set_prior(&quot;&quot;, class = &quot;sd&quot;, coef = &quot;rosNorm&quot;, group = &quot;period&quot;))</code></pre>
+<p>It is recommended to choose normal distributions in all cases. For
+‘sd’, these distributions will be interpreted as half-normal because it
+is implied that these parameters are <span class="math inline">\(\geq
+0\)</span>. To choose the mean and standard deviation of each normal
+distribution, consider the interpretation of each parameter and in
+particular the scales of the predictors <code>ros</code> ,
+<code>ages</code> and <code>age2</code>. In bmrs, the family used will
+be <code>family=bernoulli("logit")</code>.</p>
+<p>As for the standard deviations of the random effects (“sd”), their
+distribution <em>a priori</em> can have the same width as that of the
+corresponding “b” coefficient.</p>
+<p>Now draw a sample of the joint <em>a priori</em> distribution of
+parameters with <code>brm</code>. I suggest specifying
+<code>chains = 1, iter = 1500, warmup = 1000</code> to produce a single
+Markov chain with 1000 run-in iterations and 500 sample iterations. Then
+visualize the distribution of <code>calf</code> predicted for each
+iteration of the <em>a priori</em> parameters.</p>
+<p>Because of the large number of effects estimated and the fact that we
+are imposing only mild constraints on each distribution <em>a
+priori</em>, extreme or even impossible values (large positive and
+negative values) are to be expected; the important thing is that the
+density is larger within a realistic range. It may be useful to “zoom
+in” on part of the <code>ggplot</code> by adding
+<code>coord_cartesian(xlim = c(..., ...), ylim = c(..., ...))</code>
+with limits in <span class="math inline">\(x\)</span> and <span
+class="math inline">\(y\)</span>.</p>
+<p><strong>C</strong> Now fit the model with <code>brm</code>. You can
+reduce the number of Markov chains to 2 to save time, but keep the
+default values for the number of iterations. (You can ignore the warning
+that the effective sample size or ESS is small). How can you evaluate
+the convergence of the model?</p>
+<p><strong>D</strong> Compare the magnitude of the `rosNorm’ coefficient
+to that of the random effects. What does this comparison tell you?</p>
+<p><strong>E</strong> Check posterior: Apply <code>predict</code> to the
+model to get the mean, standard deviation and 95% interval for the
+<em>hindcast</em> prediction. You can give a data.frame to the newdata
+argument to get the desired predictions
+(<code>expand.grid(rosNorm=seq(-1.6,1.6,l=30),period=unique(dat$period),...)</code>).
+Illustrate the model predictions and their credibility intervals for the
+different periods for a 7 year old individual.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

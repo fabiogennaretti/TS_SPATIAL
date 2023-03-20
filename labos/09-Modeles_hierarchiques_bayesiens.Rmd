@@ -1,5 +1,5 @@
 ---
-title: "Modèles hiérarchiques bayésiens"
+title: "Modèles hiérarchiques bayésiens 2"
 output:
     html_document:
         self_contained: false

@@ -1,0 +1,284 @@
+---
+title: "Modèles hiérarchiques bayésiens 2"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Données
+
+![Svalbard reindeer](../images/GAB4770.jpg)
+
+The data are from my post-doc. We will analyze the probability of a reindeer to have a baby during the summer. In this system, one of the most important environmental factors is the presence of rain-on-snow events. These occur when precipitation occurs during the winter. These freeze and then form a thick layer of ice that blocks access to food resources.
+
+However, as the Arctic continues to warm, some researchers believe that the ros will no longer have an effect. When there are sustained rain events followed by a warm period, the rain causes a release of food resources and has time to run off before freezing. We will attempt to explore these changes in the effect of ros.
+
+
+Translated with www.DeepL.com/Translator (free version)
+
+```{r include=FALSE, eval=FALSE}
+library(dplyr)
+library(readr)
+library(ggplot)
+library(lubridate)
+
+dat <- read_tsv('../donnees/svalbard_data_aug_2019.txt') %>% 
+  filter(!is.na(calf), !is.na(yrbirth)) %>% 
+  select(id, year,yrbirth,  apr.wt,calf ) %>% write_csv("SvalbardDat.csv")
+
+
+
+sl2 <- read_csv('../donnees/Lyr_1977-apr2019.txt',na = c("NA","x",'-')) %>% as_tibble() %>%
+  mutate(day=as.numeric(substr(Dato,1,2)),
+         month=as.numeric(substr(Dato,4,5)),
+         year=as.numeric(substr(Dato,7,10)),
+         date=dmy(Dato)) %>%
+  mutate(RRTA=ifelse(is.na(RRTA),RR,RRTA)) %>%
+  mutate(year=ifelse(month>7,year+1,year)) %>%
+  filter(year>=1995,month %in% c(11:12,1:5)) %>%
+  group_by(year) %>%
+  summarise(ros=round(sum(RRTA*(TAM>0),na.rm = T))) %>% write_csv("ROS.csv")
+
+
+```
+
+```{r, warning=FALSE, message=FALSE}
+library(dplyr)
+library(readr)
+library(ggplot2)
+library(tidyr)
+library(cowplot)
+library(lubridate)
+
+dat <- read_csv("../donnees/SvalbardDat.csv")
+dat <- dat %>% mutate(age=year-yrbirth) %>% filter(age>1)
+
+ros <- read_csv("../donnees/ROS.csv")
+```
+
+```{r, warning=FALSE, message=FALSE, include=FALSE}
+
+dat <- dat %>% left_join(ros) %>% 
+  mutate(rosNorm = scale(log(ros)),
+         ages=scale(age),
+         age2=ages^2,
+         obsid=1:n(),
+         period=cut(year,breaks = seq(1994,2020,by=5)))
+```
+
+
+```{r message=FALSE, include=FALSE}
+g1 <- dat %>% group_by(age) %>% summarise(mc=mean(calf,na.rm=T),n()) %>% 
+  ggplot(aes(age,mc))+geom_point()
+
+g2 <- dat %>% group_by(period,year,rosNorm) %>% summarise(mc=mean(calf,na.rm=T),n()) %>% 
+  ggplot(aes(rosNorm,mc,color=period))+geom_point()+geom_smooth(method = lm,se=F)+guides(color='none')
+
+plot_grid(g1,g2)
+
+```
+
+
+
+
+We first transform the predictors:
+- *rosNorm* is the logarithm of *ros*, normalized to have a mean of 0 and a standard deviation of 1.
+- we create a variable *age2* for the quadratic effect of age
+- and finally a *period* variable that separates the study into 5 periods
+
+## Bayesian model of the probability of reproduction according to age and ros
+
+Of course, we will also need to control for the age of the individuals. The model will therefore be a binomial model with age and ros as fixed effects. The random effects will consist of the year, the period and a slope of the ros varying with the period.
+
+
+
+*Notes*:
+
+- The model formula in `brm` follows the same syntax as `lmer` for the specification of fixed and random effects.  
+
+- Although it would be possible to add a random country effect on the `age:ros` interaction, year, ID, density and several other control variables. We omit them here to reduce the computational time of the models.
+
+
+**A** Choose *a priori* distributions for the parameters of the model described above. Here is an example of code where only the specification of the distributions is missing. The first four lines define the *a priori* distributions for the intercept and coefficients of the three fixed effects, the next three define the distributions for the standard deviations of the random effects (`class = "sd"`), while the last one refers to the standard deviation of the individual observations (`class = "sigma"`).
+
+
+```{r, eval = FALSE}
+library(brms)
+my_prior <- c(set_prior("", class = "Intercept"),
+               set_prior("", class = "b", coef = "ages"),
+               set_prior("", class = "b", coef = "age2"),
+               set_prior("", class = "b", coef = "rosNorm"),
+               set_prior("", class = "sd", coef = "Intercept", group = "id"),
+               set_prior("", class = "sd", coef = "Intercept", group = "period"),
+               set_prior("", class = "sd", coef = "rosNorm", group = "period"))
+
+```
+
+
+It is recommended to choose normal distributions in all cases. For 'sd', these distributions will be interpreted as half-normal because it is implied that these parameters are $\geq 0$. To choose the mean and standard deviation of each normal distribution, consider the interpretation of each parameter and in particular the scales of the predictors `ros` , `ages` and `age2`. In bmrs, the family used will be `family=bernoulli("logit")`.
+
+As for the standard deviations of the random effects ("sd"), their distribution *a priori* can have the same width as that of the corresponding "b" coefficient.
+
+```{r, include=FALSE}
+library(brms)
+my_prior <- c(set_prior("normal(0,1.5)", class = "Intercept"),
+               set_prior("normal(.5,.25)", class = "b", coef = "ages"),
+               set_prior("normal(-.5,.25)", class = "b", coef = "age2"),
+               set_prior("normal(0,.25)", class = "b", coef = "rosNorm"),
+               # set_prior("normal(0,.5)", class = "sd", coef = "Intercept", group = "id"),
+               set_prior("normal(0,1)", class = "sd", coef = "Intercept", group = "period"),
+               set_prior("normal(0,.5)", class = "sd", coef = "rosNorm", group = "period"))
+
+```
+Now draw a sample of the joint *a priori* distribution of parameters with `brm`. I suggest specifying `chains = 1, iter = 1500, warmup = 1000` to produce a single Markov chain with 1000 run-in iterations and 500 sample iterations. Then visualize the distribution of `calf` predicted for each iteration of the *a priori* parameters. 
+
+```{r, message=FALSE, cache=TRUE, include=FALSE}
+res_prior <- brm(calf ~ ages+age2+rosNorm +(rosNorm|period),family=bernoulli("logit"),
+    prior = my_prior,sample_prior = "only",
+    data = dat,chains = 1, iter = 3000, warmup = 1000)
+summary(res_prior)
+prior_params <- as_draws_df(res_prior) %>% mutate(id=1:n())
+
+hist(prior_params$b_Intercept)
+hist(plogis(prior_params$b_Intercept))
+hist(prior_params$sd_period__Intercept)
+
+prior_pred <- posterior_predict(res_prior)
+prior_df <- data.frame(prior_pred)[1:200,]
+prior_df$sim_id <- 1:nrow(prior_df)
+prior_df <- pivot_longer(prior_df, cols = -sim_id,
+names_to = "obsid", values_to = "calfprior") %>%
+  mutate(obsid=as.numeric(substr(obsid,2,9)))
+
+ggplot(prior_df, aes(x = calfprior)) +
+stat_density(aes(group = sim_id), position = "identity", geom = "line", alpha = 0.3) 
+
+
+prior_df <- prior_df %>% left_join(dat)
+  
+prior_df %>% ggplot(aes(x=as.factor(round(ages,2)),y=calfprior))+geom_violin()
+
+ggplot(prior_df,aes(x=age,y=calfprior))+
+  geom_smooth(aes(group = sim_id),method="glm",formula = y~x+I(x^2),method.args = list(family='binomial'),se=F,linewidth=0.2)
+
+ggplot(prior_df,aes(x=rosNorm,y=calfprior))+ 
+  geom_smooth(aes(group = sim_id),method="glm",formula = y~x,method.args = list(family='binomial'),se=F,linewidth=0.2)
+
+prior_df %>%group_by(sim_id,id) %>% summarise(calfprior=sum(calfprior)) %>% 
+  ggplot(aes(x=calfprior))+
+  stat_density(aes(group = sim_id), position = "identity", geom = "line", alpha = 0.3)+
+  stat_density(data=data.frame(calfprior=tapply(dat$calf,INDEX = dat$id,FUN = sum)),
+               aes(x=calfprior),
+               position = "identity",
+               geom = "line", color="blue")+
+  coord_cartesian(ylim=c(0,1))
+
+prior_df %>%group_by(sim_id,period) %>% summarise(calfprior=mean(calfprior)) %>% 
+   ggplot(aes(x=as.factor(period),y=calfprior))+geom_violin()
+```
+
+
+
+Because of the large number of effects estimated and the fact that we are imposing only mild constraints on each distribution *a priori*, extreme or even impossible values (large positive and negative values) are to be expected; the important thing is that the density is larger within a realistic range. It may be useful to "zoom in" on part of the `ggplot` by adding `coord_cartesian(xlim = c(..., ...), ylim = c(..., ...))` with limits in $x$ and $y$.
+
+**C** Now fit the model with `brm`. You can reduce the number of Markov chains to 2 to save time, but keep the default values for the number of iterations. (You can ignore the warning that the effective sample size or ESS is small). How can you evaluate the convergence of the model?
+
+```{r warning=FALSE, message=FALSE,results='hide', include=FALSE}
+res_br <- brm(calf ~ ages+age2+rosNorm +(rosNorm|period),family=bernoulli("logit"),
+    prior = my_prior,iter = 4000,thin=2,
+    data = dat,chains = 2)
+```
+
+```{r warning=FALSE, message=FALSE,echo=FALSE, include=FALSE}
+summary(res_br)
+
+post_params <- as_draws_df(res_br)
+
+mcmc_plot(res_br, type = "trace")
+mcmc_plot(res_br, type = "acf_bar")
+# mcmc_plot(res_br, type = "hist"),
+# mcmc_plot(res_br, type = "intervals")
+mcmc_plot(res_br,variable = 'r_period', type = "intervals")
+
+
+rbind(
+  post_params[,c( "b_Intercept","b_ages","b_age2","b_rosNorm",
+               "sd_period__Intercept"  ,"sd_period__rosNorm"  )] %>% 
+  mutate(post=T),
+  prior_params[,c( "b_Intercept","b_ages","b_age2","b_rosNorm",
+                "sd_period__Intercept"  ,"sd_period__rosNorm"  )]%>% 
+  mutate(post=F)
+) %>% pivot_longer(-post) %>% 
+  ggplot(aes(x=value))+geom_density(aes(color=post))+facet_wrap(~name,scales = "free_x")
+  
+pp_check(res_br, type = "stat", stat = function(x) sum(x == 1))
+
+```
+
+**D** Compare the magnitude of the `rosNorm' coefficient to that of the random effects. What does this comparison tell you?
+
+```{r, include=FALSE}
+summary(res_br)
+```
+
+**E**  Check posterior: Apply `predict` to the model to get the mean, standard deviation and 95% interval for the *hindcast* prediction. You can give a data.frame to the newdata argument to get the desired predictions (`expand.grid(rosNorm=seq(-1.6,1.6,l=30),period=unique(dat$period),...)`). Illustrate the model predictions and their credibility intervals for the different periods for a 7 year old individual.
+
+```{r, include=FALSE}
+post_pred <- posterior_epred(res_br,
+                              newdata = mutate(dat,ages=0,age2=0),
+                              re_formula =~(rosNorm|period))
+dat$y=apply(post_pred,2,mean)
+dat$y.sd=apply(post_pred,2,sd)
+dat$ymin=apply(post_pred,2,function(x) quantile(x,0.025))
+dat$ymax=apply(post_pred,2,function(x) quantile(x,0.975))
+pt <- dat %>% group_by(period,year) %>% summarise_if(is.numeric,mean)
+
+newd=expand.grid(ages=0,age2=0,rosNorm=seq(-1.6,1.6,l=30),period=unique(dat$period),id="W16")
+post_pred2 <- posterior_epred(res_br,newdata =newd, re_formula =~(rosNorm|period) )
+newd$y=apply(post_pred2,2,mean)
+newd$y.sd=apply(post_pred2,2,sd)
+newd$ymin=apply(post_pred2,2,function(x) quantile(x,0.025))
+newd$ymax=apply(post_pred2,2,function(x) quantile(x,0.975))
+
+
+ggplot(newd,aes(x=rosNorm,y=y))+
+  geom_point(data=pt)+
+  geom_ribbon(aes(fill=period,ymin=ymin,ymax=ymax),alpha=0.2)+
+  geom_path(aes(color=period))
+```
+
+```{r, include=FALSE}
+post_pred <- posterior_epred(res_br,
+                              newdata = mutate(dat,rosNorm=0),
+                              re_formula =NA)
+dat$y=apply(post_pred,2,mean)
+dat$y.sd=apply(post_pred,2,sd)
+dat$ymin=apply(post_pred,2,function(x) quantile(x,0.025))
+dat$ymax=apply(post_pred,2,function(x) quantile(x,0.975))
+pt <- dat %>% group_by(period,age,year) %>% summarise_if(is.numeric,mean)
+
+newd=dat %>% select(age,ages,age2) %>% unique() %>% mutate(rosNorm=0)
+post_pred2 <- posterior_epred(res_br,newdata =newd, re_formula =NA)
+newd$y=apply(post_pred2,2,mean)
+newd$y.sd=apply(post_pred2,2,sd)
+newd$ymin=apply(post_pred2,2,function(x) quantile(x,0.025))
+newd$ymax=apply(post_pred2,2,function(x) quantile(x,0.975))
+
+ggplot(newd)+
+  stat_summary(data=pt,aes(x=age,y=calf),fun.data = 'mean_cl_boot',geom='pointrange')+
+  geom_ribbon(aes(x=age,y=y,ymin=ymin,ymax=ymax),alpha=0.2)+
+  geom_line(aes(x=age,y=y,ymin=ymin,ymax=ymax))
+```
+
