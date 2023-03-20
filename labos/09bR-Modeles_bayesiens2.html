@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Modèles hiérarchiques bayésiens 2</title>
+
+<script src="libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<link href="libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Modèles hiérarchiques bayésiens 2</h1>
+
+</div>
+
+
+<div id="données" class="section level2">
+<h2>Données</h2>
+<div class="figure">
+<img src="../images/GAB4770.jpg" alt="" />
+<p class="caption">Svalbard reindeer</p>
+</div>
+<p>Les données proviennent de mon post-doctorat. Nous analyserons la
+probabilité d’un renne d’avoir un bébé durant l’été. Dans ce système, un
+des plus importants facteurs environnementaux est la présence d’épisodes
+de pluie-sur-neige. Ceux-ci surviennent quand des précipitations
+surviennent au cours de l’hivers. Celles-ci gèlent et forment ensuite
+d’épaisse couche de glace bloquant l’accès aux ressources
+alimentaires.</p>
+<p>Cependant, avec le réchauffement continue de l’arctique, certain
+chercheur croient que le ros n’aura plus d’effet. Quand il y a des
+épisodes de pluies durables suivi d’une période chaude, la pluie cause
+un dégagement des ressources alimentaires et a le temps de ruisseler
+avant de geler. Nous tenterons d’explorer ces changements dans l’effet
+du ros.</p>
+<pre class="r"><code>library(dplyr)
+library(readr)
+library(ggplot2)
+library(tidyr)
+library(cowplot)
+library(lubridate)
+
+dat &lt;- read_csv(&quot;../donnees/SvalbardDat.csv&quot;)
+dat &lt;- dat %&gt;% mutate(age=year-yrbirth) %&gt;% filter(age&gt;1)
+
+ros &lt;- read_csv(&quot;../donnees/ROS.csv&quot;)</code></pre>
+<pre class="r"><code>dat &lt;- dat %&gt;% left_join(ros) %&gt;% 
+  mutate(rosNorm = scale(log(ros)),
+         ages=scale(age),
+         age2=ages^2,
+         obsid=1:n(),
+         period=cut(year,breaks = seq(1994,2020,by=5)))</code></pre>
+<pre class="r"><code>g1 &lt;- dat %&gt;% group_by(age) %&gt;% summarise(mc=mean(calf,na.rm=T),n()) %&gt;% 
+  ggplot(aes(age,mc))+geom_point()
+
+g2 &lt;- dat %&gt;% group_by(period,year,rosNorm) %&gt;% summarise(mc=mean(calf,na.rm=T),n()) %&gt;% 
+  ggplot(aes(rosNorm,mc,color=period))+geom_point()+geom_smooth(method = lm,se=F)+guides(color=&#39;none&#39;)
+
+plot_grid(g1,g2)</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Nous transformons d’abord les prédicteurs:</p>
+<ul>
+<li><em>rosNorm</em> est le logarithme de <em>ros</em>, normalisé pour
+avoir une moyenne de 0 et un écart-type de 1.</li>
+<li><em>ages</em> est la normalisation de age pour avoir une moyenne de
+0 et un écart-type de 1</li>
+<li>Nous créons une variable <em>age2</em> pour l’effet quadratique de
+l’âge.</li>
+<li>et finalement une variable <em>période</em> qui sépare l’étude en 5
+périodes</li>
+</ul>
+</div>
+<div
+id="modèle-bayésien-de-la-probabilité-de-reproduction-selon-lâge-et-du-ros"
+class="section level2">
+<h2>1. Modèle bayésien de la probabilité de reproduction selon l’âge et
+du ros</h2>
+<p>Bien entendu, il faudra contrôler pour l’âge des individus. Le modèle
+sera donc un modèle binomial avec comme effet fixe, l’âge et son carré,
+et le ros. Les effets aléatoires consisteront de l’année, la période et
+une pente du ros variant selon la période.</p>
+<p><em>Notes</em>:</p>
+<ul>
+<li><p>La formule du modèle dans <code>brm</code> suit la même syntaxe
+que <code>lmer</code> pour la spécification des effets fixes et
+aléatoires.</p></li>
+<li><p>Bien qu’il serait possible d’ajouter l’interaction
+<code>age:ros</code>, l’année, l’ID, la densité et plusieurs autres
+variables contrôle. Nous les omettons ici afin de réduire le temps de
+calcul des modèles.</p></li>
+</ul>
+<p><strong>A</strong> Choisissez des distributions <em>a priori</em>
+pour les paramètres du modèle décrit ci-dessus. Voici un exemple de code
+où il ne manque que la spécification des distributions. Les quatre
+premières lignes définissent les distributions <em>a priori</em> pour
+l’ordonnée à l’origine et les coefficients des trois effets fixes, les
+trois suivantes définissent les distributions pour les écarts-types des
+effets aléatoires (<code>class = "sd"</code>), tandis que la dernière
+réfère à l’écart-type des observations individuelles
+(<code>class = "sigma"</code>).</p>
+<pre class="r"><code>library(brms)
+my_prior &lt;- c(set_prior(&quot;&quot;, class = &quot;Intercept&quot;),
+               set_prior(&quot;&quot;, class = &quot;b&quot;, coef = &quot;ages&quot;),
+               set_prior(&quot;&quot;, class = &quot;b&quot;, coef = &quot;age2&quot;),
+               set_prior(&quot;&quot;, class = &quot;b&quot;, coef = &quot;rosNorm&quot;),
+               set_prior(&quot;&quot;, class = &quot;sd&quot;, coef = &quot;Intercept&quot;, group = &quot;id&quot;),
+               set_prior(&quot;&quot;, class = &quot;sd&quot;, coef = &quot;Intercept&quot;, group = &quot;period&quot;),
+               set_prior(&quot;&quot;, class = &quot;sd&quot;, coef = &quot;rosNorm&quot;, group = &quot;period&quot;))</code></pre>
+<p>Il est recommandé de choisir des distributions normales dans tous les
+cas. Pour “sd”, ces distributions seront interprétées comme des
+demi-normales car il est sous-entendu que ces paramètres sont <span
+class="math inline">\(\geq 0\)</span>. Pour choisir la moyenne et
+l’écart-type de chaque distribution normale, considérez l’interprétation
+de chaque paramètre et en particulier les échelles des prédicteurs
+<code>ros</code> , <code>ages</code> et <code>age2</code>. Dans bmrs, la
+famille utilisé sera <code>family=bernoulli("logit")</code>.</p>
+<p>Quant aux écarts-types des effets aléatoires (“sd”), leur
+distribution <em>a priori</em> peut avoir la même largeur que celle du
+coefficient “b” correspondant.</p>
+<pre class="r"><code>library(brms)</code></pre>
+<pre><code>## Warning: package &#39;brms&#39; was built under R version 4.2.2</code></pre>
+<pre><code>## Loading required package: Rcpp</code></pre>
+<pre><code>## Warning: package &#39;Rcpp&#39; was built under R version 4.2.2</code></pre>
+<pre><code>## Loading &#39;brms&#39; package (version 2.18.0). Useful instructions
+## can be found by typing help(&#39;brms&#39;). A more detailed introduction
+## to the package is available through vignette(&#39;brms_overview&#39;).</code></pre>
+<pre><code>## 
+## Attaching package: &#39;brms&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     ar</code></pre>
+<pre class="r"><code>my_prior &lt;- c(set_prior(&quot;normal(0,1.5)&quot;, class = &quot;Intercept&quot;),
+               set_prior(&quot;normal(.5,.25)&quot;, class = &quot;b&quot;, coef = &quot;ages&quot;),
+               set_prior(&quot;normal(-.5,.25)&quot;, class = &quot;b&quot;, coef = &quot;age2&quot;),
+               set_prior(&quot;normal(0,.25)&quot;, class = &quot;b&quot;, coef = &quot;rosNorm&quot;),
+               # set_prior(&quot;normal(0,.5)&quot;, class = &quot;sd&quot;, coef = &quot;Intercept&quot;, group = &quot;id&quot;),
+               set_prior(&quot;normal(0,1)&quot;, class = &quot;sd&quot;, coef = &quot;Intercept&quot;, group = &quot;period&quot;),
+               set_prior(&quot;normal(0,.5)&quot;, class = &quot;sd&quot;, coef = &quot;rosNorm&quot;, group = &quot;period&quot;))</code></pre>
+<p><strong>B</strong> Tirez maintenant un échantillon de la distribution
+conjointe <em>a priori</em> des paramètres avec <code>brm</code>. Je
+suggère de spécifier <code>chains = 1, iter = 1500, warmup = 1000</code>
+pour produire une seule chaîne de Markov avec 1000 itérations de rodage
+et 500 itérations d’échantillonnage. Visualisez ensuite la distribution
+de <code>calf</code> prédite pour chaque itération des paramètres <em>a
+priori</em>.</p>
+<pre class="r"><code>res_prior &lt;- brm(calf ~ ages+age2+rosNorm +(rosNorm|period),family=bernoulli(&quot;logit&quot;),
+    prior = my_prior,sample_prior = &quot;only&quot;,
+    data = dat,chains = 1, iter = 3000, warmup = 1000)</code></pre>
+<pre><code>## 
+## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 1).
+## Chain 1: 
+## Chain 1: Gradient evaluation took 4e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.4 seconds.
+## Chain 1: Adjust your expectations accordingly!
+## Chain 1: 
+## Chain 1: 
+## Chain 1: Iteration:    1 / 3000 [  0%]  (Warmup)
+## Chain 1: Iteration:  300 / 3000 [ 10%]  (Warmup)
+## Chain 1: Iteration:  600 / 3000 [ 20%]  (Warmup)
+## Chain 1: Iteration:  900 / 3000 [ 30%]  (Warmup)
+## Chain 1: Iteration: 1001 / 3000 [ 33%]  (Sampling)
+## Chain 1: Iteration: 1300 / 3000 [ 43%]  (Sampling)
+## Chain 1: Iteration: 1600 / 3000 [ 53%]  (Sampling)
+## Chain 1: Iteration: 1900 / 3000 [ 63%]  (Sampling)
+## Chain 1: Iteration: 2200 / 3000 [ 73%]  (Sampling)
+## Chain 1: Iteration: 2500 / 3000 [ 83%]  (Sampling)
+## Chain 1: Iteration: 2800 / 3000 [ 93%]  (Sampling)
+## Chain 1: Iteration: 3000 / 3000 [100%]  (Sampling)
+## Chain 1: 
+## Chain 1:  Elapsed Time: 0.123 seconds (Warm-up)
+## Chain 1:                0.27 seconds (Sampling)
+## Chain 1:                0.393 seconds (Total)
+## Chain 1:</code></pre>
+<pre class="r"><code>summary(res_prior)</code></pre>
+<pre><code>##  Family: bernoulli 
+##   Links: mu = logit 
+## Formula: calf ~ ages + age2 + rosNorm + (rosNorm | period) 
+##    Data: dat (Number of observations: 1922) 
+##   Draws: 1 chains, each with iter = 3000; warmup = 1000; thin = 1;
+##          total post-warmup draws = 2000
+## 
+## Group-Level Effects: 
+## ~period (Number of levels: 5) 
+##                        Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
+## sd(Intercept)              0.78      0.59     0.03     2.19 1.00     1445
+## sd(rosNorm)                0.40      0.31     0.01     1.14 1.00     1469
+## cor(Intercept,rosNorm)     0.00      0.56    -0.94     0.95 1.00     4210
+##                        Tail_ESS
+## sd(Intercept)               762
+## sd(rosNorm)                 797
+## cor(Intercept,rosNorm)     1691
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept     0.46      1.55    -2.62     3.46 1.00     4562     1388
+## ages          0.50      0.24     0.04     0.98 1.00     3523      905
+## age2         -0.50      0.25    -0.99    -0.02 1.00     3834     1399
+## rosNorm      -0.00      0.24    -0.47     0.46 1.00     4622     1289
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<pre class="r"><code>prior_params &lt;- as_draws_df(res_prior) %&gt;% mutate(id=1:n())
+
+hist(prior_params$b_Intercept)</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>hist(plogis(prior_params$b_Intercept))</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
+<pre class="r"><code>hist(prior_params$sd_period__Intercept)</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-3.png" width="672" /></p>
+<pre class="r"><code>prior_pred &lt;- posterior_predict(res_prior)
+prior_df &lt;- data.frame(prior_pred)[1:200,]
+prior_df$sim_id &lt;- 1:nrow(prior_df)
+prior_df &lt;- pivot_longer(prior_df, cols = -sim_id,
+names_to = &quot;obsid&quot;, values_to = &quot;calfprior&quot;) %&gt;%
+  mutate(obsid=as.numeric(substr(obsid,2,9)))
+
+ggplot(prior_df, aes(x = calfprior)) +
+stat_density(aes(group = sim_id), position = &quot;identity&quot;, geom = &quot;line&quot;, alpha = 0.3) </code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-4.png" width="672" /></p>
+<pre class="r"><code>prior_df &lt;- prior_df %&gt;% left_join(dat)
+  
+prior_df %&gt;% ggplot(aes(x=as.factor(round(ages,2)),y=calfprior))+geom_violin()</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-5.png" width="672" /></p>
+<pre class="r"><code>ggplot(prior_df,aes(x=age,y=calfprior))+
+  geom_smooth(aes(group = sim_id),method=&quot;glm&quot;,formula = y~x+I(x^2),method.args = list(family=&#39;binomial&#39;),se=F,linewidth=0.2)</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-6.png" width="672" /></p>
+<pre class="r"><code>ggplot(prior_df,aes(x=rosNorm,y=calfprior))+ 
+  geom_smooth(aes(group = sim_id),method=&quot;glm&quot;,formula = y~x,method.args = list(family=&#39;binomial&#39;),se=F,linewidth=0.2)</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-7.png" width="672" /></p>
+<pre class="r"><code>prior_df %&gt;%group_by(sim_id,id) %&gt;% summarise(calfprior=sum(calfprior)) %&gt;% 
+  ggplot(aes(x=calfprior))+
+  stat_density(aes(group = sim_id), position = &quot;identity&quot;, geom = &quot;line&quot;, alpha = 0.3)+
+  stat_density(data=data.frame(calfprior=tapply(dat$calf,INDEX = dat$id,FUN = sum)),
+               aes(x=calfprior),
+               position = &quot;identity&quot;,
+               geom = &quot;line&quot;, color=&quot;blue&quot;)+
+  coord_cartesian(ylim=c(0,1))</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-8.png" width="672" /></p>
+<pre class="r"><code>prior_df %&gt;%group_by(sim_id,period) %&gt;% summarise(calfprior=mean(calfprior)) %&gt;% 
+   ggplot(aes(x=as.factor(period),y=calfprior))+geom_violin()</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-9.png" width="672" /></p>
+<p>En raison du grand nombre d’effets estimés et du fait que nous
+n’imposons que des contraintes légères sur chaque distribution <em>a
+priori</em>, on doit s’attendre à des valeurs extrêmes voire impossibles
+(grandes valeurs positives et négatives); l’important est que la densité
+soit plus grande dans une plage de valeurs réalistes. Il peut être utile
+de faire un “zoom” sur une partie du graphique <code>ggplot</code> en y
+ajoutant
+<code>coord_cartesian(xlim = c(..., ...), ylim = c(..., ...))</code>
+avec des limites en <span class="math inline">\(x\)</span> et <span
+class="math inline">\(y\)</span>.</p>
+<p><strong>C</strong> Ajustez maintenant le modèle avec
+<code>brm</code>. Vous pouvez réduire le nombre de chaînes de Markov à 2
+pour sauver du temps, mais conservez les valeurs par défaut pour le
+nombre d’itérations. (Vous pouvez ignorer l’avertissement selon lequel
+la taille effective de l’échantillon ou ESS est faible.) Comment
+pouvez-vous évaluer la convergence du modèle?</p>
+<pre class="r"><code>res_br &lt;- brm(calf ~ ages+age2+rosNorm +(rosNorm|period),family=bernoulli(&quot;logit&quot;),
+    prior = my_prior,iter = 4000,thin=2,
+    data = dat,chains = 2)</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-1.png" width="672" /><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-2.png" width="672" /><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-3.png" width="672" /><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-4.png" width="672" /><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-5.png" width="672" /></p>
+<p><strong>D</strong> Comparez la magnitude du coefficient de
+<code>rosNorm</code> à celle des effets aléatoires. Qu’est-ce que cette
+comparaison vous apprend?</p>
+<pre class="r"><code>summary(res_br)</code></pre>
+<pre><code>## Warning: There were 4 divergent transitions after warmup. Increasing
+## adapt_delta above 0.8 may help. See
+## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</code></pre>
+<pre><code>##  Family: bernoulli 
+##   Links: mu = logit 
+## Formula: calf ~ ages + age2 + rosNorm + (rosNorm | period) 
+##    Data: dat (Number of observations: 1922) 
+##   Draws: 2 chains, each with iter = 4000; warmup = 2000; thin = 2;
+##          total post-warmup draws = 2000
+## 
+## Group-Level Effects: 
+## ~period (Number of levels: 5) 
+##                        Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
+## sd(Intercept)              0.56      0.28     0.24     1.30 1.00      873
+## sd(rosNorm)                0.50      0.20     0.20     0.97 1.00     1476
+## cor(Intercept,rosNorm)     0.30      0.40    -0.53     0.91 1.00      995
+##                        Tail_ESS
+## sd(Intercept)               488
+## sd(rosNorm)                1683
+## cor(Intercept,rosNorm)      933
+## 
+## Population-Level Effects: 
+##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+## Intercept     0.59      0.32     0.01     1.25 1.00      674      459
+## ages          0.63      0.06     0.52     0.75 1.00     1645     1717
+## age2         -0.67      0.05    -0.78    -0.58 1.00     1009      555
+## rosNorm      -0.31      0.19    -0.62     0.09 1.00     1389     1143
+## 
+## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
+## and Tail_ESS are effective sample size measures, and Rhat is the potential
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<p><strong>E</strong> Vérifier les prédictions a posteriori: Appliquez
+<code>predict</code> au modèle pour obtenir la moyenne, l’écart-type et
+l’intervalle à 95% pour la prédiction <em>a posteriori</em>. Vous pouvez
+donner un data.frame à l’argument newdata pour obtenir les prédictions
+voulues
+(<code>expand.grid(rosNorm=seq(-1.6,1.6,l=30),period=unique(dat$period),...)</code>).
+Illustrez les prédictions du modèle et leurs intervalles de crédibilité
+pour les différentes périodes pour un individu de 7 ans.</p>
+<pre class="r"><code>post_pred &lt;- posterior_epred(res_br,
+                              newdata = mutate(dat,ages=0,age2=0),
+                              re_formula =~(rosNorm|period))
+dat$y=apply(post_pred,2,mean)
+dat$y.sd=apply(post_pred,2,sd)
+dat$ymin=apply(post_pred,2,function(x) quantile(x,0.025))
+dat$ymax=apply(post_pred,2,function(x) quantile(x,0.975))
+pt &lt;- dat %&gt;% group_by(period,year) %&gt;% summarise_if(is.numeric,mean)
+
+newd=expand.grid(ages=0,age2=0,rosNorm=seq(-1.6,1.6,l=30),period=unique(dat$period),id=&quot;W16&quot;)
+post_pred2 &lt;- posterior_epred(res_br,newdata =newd, re_formula =~(rosNorm|period) )
+newd$y=apply(post_pred2,2,mean)
+newd$y.sd=apply(post_pred2,2,sd)
+newd$ymin=apply(post_pred2,2,function(x) quantile(x,0.025))
+newd$ymax=apply(post_pred2,2,function(x) quantile(x,0.975))
+
+
+ggplot(newd,aes(x=rosNorm,y=y))+
+  geom_point(data=pt)+
+  geom_ribbon(aes(fill=period,ymin=ymin,ymax=ymax),alpha=0.2)+
+  geom_path(aes(color=period))</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>post_pred &lt;- posterior_epred(res_br,
+                              newdata = mutate(dat,rosNorm=0),
+                              re_formula =NA)
+dat$y=apply(post_pred,2,mean)
+dat$y.sd=apply(post_pred,2,sd)
+dat$ymin=apply(post_pred,2,function(x) quantile(x,0.025))
+dat$ymax=apply(post_pred,2,function(x) quantile(x,0.975))
+pt &lt;- dat %&gt;% group_by(period,age,year) %&gt;% summarise_if(is.numeric,mean)
+
+newd=dat %&gt;% select(age,ages,age2) %&gt;% unique() %&gt;% mutate(rosNorm=0)
+post_pred2 &lt;- posterior_epred(res_br,newdata =newd, re_formula =NA)
+newd$y=apply(post_pred2,2,mean)
+newd$y.sd=apply(post_pred2,2,sd)
+newd$ymin=apply(post_pred2,2,function(x) quantile(x,0.025))
+newd$ymax=apply(post_pred2,2,function(x) quantile(x,0.975))
+
+ggplot(newd)+
+  stat_summary(data=pt,aes(x=age,y=calf),fun.data = &#39;mean_cl_boot&#39;,geom=&#39;pointrange&#39;)+
+  geom_ribbon(aes(x=age,y=y,ymin=ymin,ymax=ymax),alpha=0.2)+
+  geom_line(aes(x=age,y=y,ymin=ymin,ymax=ymax))</code></pre>
+<pre><code>## Warning in geom_line(aes(x = age, y = y, ymin = ymin, ymax = ymax)): Ignoring
+## unknown aesthetics: ymin and ymax</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
