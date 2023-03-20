@@ -1,19 +1,19 @@
 ---
 title: "Hierarchical Bayesian models 2"
 output:
-    html_document:
-        self_contained: false
-        lib_dir: libs
-        theme: spacelab
-        toc: true
-        toc_float: true
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Answers for this lab must be submitted on Moodle before April 8th at 5pm.
+Answers for this lab must be submitted on Moodle before friday April 7th at 5pm.
 
 > **Tip**: In RMarkdown you can add the argument `cache = TRUE` to a block of code (`{r, cache = TRUE}`) to save the result of the block. In this case, as long as the code remains the same, the calculation is not repeated every time the RMarkdown document is compiled. This function is especially useful for time-consuming operations, such as fitting a Bayesian model with `brm`.
 

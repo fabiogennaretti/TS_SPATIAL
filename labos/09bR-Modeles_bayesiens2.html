@@ -277,14 +277,6 @@ ros &lt;- read_csv(&quot;../donnees/ROS.csv&quot;)</code></pre>
          age2=ages^2,
          obsid=1:n(),
          period=cut(year,breaks = seq(1994,2020,by=5)))</code></pre>
-<pre class="r"><code>g1 &lt;- dat %&gt;% group_by(age) %&gt;% summarise(mc=mean(calf,na.rm=T),n()) %&gt;% 
-  ggplot(aes(age,mc))+geom_point()
-
-g2 &lt;- dat %&gt;% group_by(period,year,rosNorm) %&gt;% summarise(mc=mean(calf,na.rm=T),n()) %&gt;% 
-  ggplot(aes(rosNorm,mc,color=period))+geom_point()+geom_smooth(method = lm,se=F)+guides(color=&#39;none&#39;)
-
-plot_grid(g1,g2)</code></pre>
-<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>Nous transformons d’abord les prédicteurs:</p>
 <ul>
 <li><em>rosNorm</em> est le logarithme de <em>ros</em>, normalisé pour
@@ -296,6 +288,14 @@ l’âge.</li>
 <li>et finalement une variable <em>période</em> qui sépare l’étude en 5
 périodes</li>
 </ul>
+<pre class="r"><code>g1 &lt;- dat %&gt;% group_by(age) %&gt;% summarise(mc=mean(calf,na.rm=T),n()) %&gt;% 
+  ggplot(aes(age,mc))+geom_point()
+
+g2 &lt;- dat %&gt;% group_by(period,year,rosNorm) %&gt;% summarise(mc=mean(calf,na.rm=T),n()) %&gt;% 
+  ggplot(aes(rosNorm,mc,color=period))+geom_point()+geom_smooth(method = lm,se=F)+guides(color=&#39;none&#39;)
+
+plot_grid(g1,g2)</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 <div
 id="modèle-bayésien-de-la-probabilité-de-reproduction-selon-lâge-et-du-ros"
@@ -316,6 +316,9 @@ aléatoires.</p></li>
 variables contrôle. Nous les omettons ici afin de réduire le temps de
 calcul des modèles.</p></li>
 </ul>
+<pre class="r"><code>brm(calf ~ ages+age2+rosNorm +(rosNorm|period),family=bernoulli(&quot;logit&quot;),
+    prior = my_prior,iter = 4000,thin=2,
+    data = dat,chains = 2)</code></pre>
 <p><strong>A</strong> Choisissez des distributions <em>a priori</em>
 pour les paramètres du modèle décrit ci-dessus. Voici un exemple de code
 où il ne manque que la spécification des distributions. Les quatre
@@ -344,25 +347,23 @@ famille utilisé sera <code>family=bernoulli("logit")</code>.</p>
 <p>Quant aux écarts-types des effets aléatoires (“sd”), leur
 distribution <em>a priori</em> peut avoir la même largeur que celle du
 coefficient “b” correspondant.</p>
-<pre class="r"><code>library(brms)</code></pre>
-<pre><code>## Warning: package &#39;brms&#39; was built under R version 4.2.2</code></pre>
-<pre><code>## Loading required package: Rcpp</code></pre>
-<pre><code>## Warning: package &#39;Rcpp&#39; was built under R version 4.2.2</code></pre>
-<pre><code>## Loading &#39;brms&#39; package (version 2.18.0). Useful instructions
-## can be found by typing help(&#39;brms&#39;). A more detailed introduction
-## to the package is available through vignette(&#39;brms_overview&#39;).</code></pre>
-<pre><code>## 
-## Attaching package: &#39;brms&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:stats&#39;:
-## 
-##     ar</code></pre>
-<pre class="r"><code>my_prior &lt;- c(set_prior(&quot;normal(0,1.5)&quot;, class = &quot;Intercept&quot;),
+<pre class="r"><code>library(brms)
+my_prior &lt;- c(set_prior(&quot;normal(0,1.5)&quot;, class = &quot;Intercept&quot;),
                set_prior(&quot;normal(.5,.25)&quot;, class = &quot;b&quot;, coef = &quot;ages&quot;),
                set_prior(&quot;normal(-.5,.25)&quot;, class = &quot;b&quot;, coef = &quot;age2&quot;),
-               set_prior(&quot;normal(0,.25)&quot;, class = &quot;b&quot;, coef = &quot;rosNorm&quot;),
+               set_prior(&quot;normal(0,.5)&quot;, class = &quot;b&quot;, coef = &quot;rosNorm&quot;),
                # set_prior(&quot;normal(0,.5)&quot;, class = &quot;sd&quot;, coef = &quot;Intercept&quot;, group = &quot;id&quot;),
-               set_prior(&quot;normal(0,1)&quot;, class = &quot;sd&quot;, coef = &quot;Intercept&quot;, group = &quot;period&quot;),
+               set_prior(&quot;normal(0,.5)&quot;, class = &quot;sd&quot;, coef = &quot;Intercept&quot;, group = &quot;period&quot;),
                set_prior(&quot;normal(0,.5)&quot;, class = &quot;sd&quot;, coef = &quot;rosNorm&quot;, group = &quot;period&quot;))</code></pre>
+<p>l’intercept sera centrer autour de 0 avec une sd=1.5. Ceci résulte en
+un prior assez peut informatif sur l’échelle des probabilité. Les prior
+pour l’age sont choisis pour aller d’environ 0 jusqu’à une valeur
+raisonnable. celle-ci est positive pour ages et négative pour age2. Ceci
+résulte en une forme de U inversé pour l’effet de l’age. Le prior pour
+ros est normal(0,.5), la moyenne est peut informative (centré sur 0), la
+sd=0.5 signifie que la pente pourrait aller de -1 à 1 (2*sd). Dans un
+contexte de régression binomial avec des variables explicative
+normalisé, une pente de 1 est considéré comme un effet fort.</p>
 <p><strong>B</strong> Tirez maintenant un échantillon de la distribution
 conjointe <em>a priori</em> des paramètres avec <code>brm</code>. Je
 suggère de spécifier <code>chains = 1, iter = 1500, warmup = 1000</code>
@@ -373,89 +374,54 @@ priori</em>.</p>
 <pre class="r"><code>res_prior &lt;- brm(calf ~ ages+age2+rosNorm +(rosNorm|period),family=bernoulli(&quot;logit&quot;),
     prior = my_prior,sample_prior = &quot;only&quot;,
     data = dat,chains = 1, iter = 3000, warmup = 1000)</code></pre>
-<pre><code>## 
-## SAMPLING FOR MODEL &#39;anon_model&#39; NOW (CHAIN 1).
-## Chain 1: 
-## Chain 1: Gradient evaluation took 4e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.4 seconds.
-## Chain 1: Adjust your expectations accordingly!
-## Chain 1: 
-## Chain 1: 
-## Chain 1: Iteration:    1 / 3000 [  0%]  (Warmup)
-## Chain 1: Iteration:  300 / 3000 [ 10%]  (Warmup)
-## Chain 1: Iteration:  600 / 3000 [ 20%]  (Warmup)
-## Chain 1: Iteration:  900 / 3000 [ 30%]  (Warmup)
-## Chain 1: Iteration: 1001 / 3000 [ 33%]  (Sampling)
-## Chain 1: Iteration: 1300 / 3000 [ 43%]  (Sampling)
-## Chain 1: Iteration: 1600 / 3000 [ 53%]  (Sampling)
-## Chain 1: Iteration: 1900 / 3000 [ 63%]  (Sampling)
-## Chain 1: Iteration: 2200 / 3000 [ 73%]  (Sampling)
-## Chain 1: Iteration: 2500 / 3000 [ 83%]  (Sampling)
-## Chain 1: Iteration: 2800 / 3000 [ 93%]  (Sampling)
-## Chain 1: Iteration: 3000 / 3000 [100%]  (Sampling)
-## Chain 1: 
-## Chain 1:  Elapsed Time: 0.123 seconds (Warm-up)
-## Chain 1:                0.27 seconds (Sampling)
-## Chain 1:                0.393 seconds (Total)
-## Chain 1:</code></pre>
-<pre class="r"><code>summary(res_prior)</code></pre>
-<pre><code>##  Family: bernoulli 
-##   Links: mu = logit 
-## Formula: calf ~ ages + age2 + rosNorm + (rosNorm | period) 
-##    Data: dat (Number of observations: 1922) 
-##   Draws: 1 chains, each with iter = 3000; warmup = 1000; thin = 1;
-##          total post-warmup draws = 2000
-## 
-## Group-Level Effects: 
-## ~period (Number of levels: 5) 
-##                        Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-## sd(Intercept)              0.78      0.59     0.03     2.19 1.00     1445
-## sd(rosNorm)                0.40      0.31     0.01     1.14 1.00     1469
-## cor(Intercept,rosNorm)     0.00      0.56    -0.94     0.95 1.00     4210
-##                        Tail_ESS
-## sd(Intercept)               762
-## sd(rosNorm)                 797
-## cor(Intercept,rosNorm)     1691
-## 
-## Population-Level Effects: 
-##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-## Intercept     0.46      1.55    -2.62     3.46 1.00     4562     1388
-## ages          0.50      0.24     0.04     0.98 1.00     3523      905
-## age2         -0.50      0.25    -0.99    -0.02 1.00     3834     1399
-## rosNorm      -0.00      0.24    -0.47     0.46 1.00     4622     1289
-## 
-## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
-## and Tail_ESS are effective sample size measures, and Rhat is the potential
-## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <pre class="r"><code>prior_params &lt;- as_draws_df(res_prior) %&gt;% mutate(id=1:n())
 
-hist(prior_params$b_Intercept)</code></pre>
-<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<pre class="r"><code>hist(plogis(prior_params$b_Intercept))</code></pre>
-<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
-<pre class="r"><code>hist(prior_params$sd_period__Intercept)</code></pre>
-<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-3.png" width="672" /></p>
-<pre class="r"><code>prior_pred &lt;- posterior_predict(res_prior)
-prior_df &lt;- data.frame(prior_pred)[1:200,]
+hist(prior_params$b_Intercept) # prior sur l&#39;échelle de la fct lien</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code>hist(plogis(prior_params$b_Intercept)) # prior sur l&#39;échelle de la reponse</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<pre class="r"><code>hist(prior_params$sd_period__Intercept) </code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-3.png" width="672" /></p>
+<pre class="r"><code># siluation de valeur reponse base
+# sur les parametre simulé à partir des prior
+prior_pred &lt;- posterior_predict(res_prior)
+prior_df &lt;- data.frame(prior_pred)[1:200,] # en garder juste 200 pour garder leger
 prior_df$sim_id &lt;- 1:nrow(prior_df)
 prior_df &lt;- pivot_longer(prior_df, cols = -sim_id,
 names_to = &quot;obsid&quot;, values_to = &quot;calfprior&quot;) %&gt;%
-  mutate(obsid=as.numeric(substr(obsid,2,9)))
+  mutate(obsid=as.numeric(substr(obsid,2,9))) #pivoter pour la manipulation
+# et extraite l&#39;id de l&#39;observation (pourt un join futur)
 
+
+# regardon dabord la distribution de valeurs prédite
+# ceci est peu informatif puisqu&#39;il ne sagit que de 0 et de 1
 ggplot(prior_df, aes(x = calfprior)) +
 stat_density(aes(group = sim_id), position = &quot;identity&quot;, geom = &quot;line&quot;, alpha = 0.3) </code></pre>
-<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-4.png" width="672" /></p>
-<pre class="r"><code>prior_df &lt;- prior_df %&gt;% left_join(dat)
-  
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-4.png" width="672" /></p>
+<pre class="r"><code># joignon plutot les prediction a prior au donnée pour voir 
+# comment cele-ci change en fct de différente var explicative
+# premierement l&#39;age
+# les prior semblent résulter en prédiction plus extrème que prévues
+# dans ce cas, ceci est du à l&#39;effet cumulatif de l&#39;intercept et de l&#39;effets aléatoire
+
+
+prior_df &lt;- prior_df %&gt;% left_join(dat)
 prior_df %&gt;% ggplot(aes(x=as.factor(round(ages,2)),y=calfprior))+geom_violin()</code></pre>
-<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-5.png" width="672" /></p>
-<pre class="r"><code>ggplot(prior_df,aes(x=age,y=calfprior))+
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-5.png" width="672" /></p>
+<pre class="r"><code># mais si nous regardont les tendence moyenne, elles ont la bonne forme
+# la mojorité comment faible, augmente et sont faible pour les vielles femmelles
+ggplot(prior_df,aes(x=age,y=calfprior))+
   geom_smooth(aes(group = sim_id),method=&quot;glm&quot;,formula = y~x+I(x^2),method.args = list(family=&#39;binomial&#39;),se=F,linewidth=0.2)</code></pre>
-<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-6.png" width="672" /></p>
-<pre class="r"><code>ggplot(prior_df,aes(x=rosNorm,y=calfprior))+ 
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-6.png" width="672" /></p>
+<pre class="r"><code>#on peut faire le meme exercise pour le ros
+ggplot(prior_df,aes(x=rosNorm,y=calfprior))+ 
   geom_smooth(aes(group = sim_id),method=&quot;glm&quot;,formula = y~x,method.args = list(family=&#39;binomial&#39;),se=F,linewidth=0.2)</code></pre>
-<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-7.png" width="672" /></p>
-<pre class="r"><code>prior_df %&gt;%group_by(sim_id,id) %&gt;% summarise(calfprior=sum(calfprior)) %&gt;% 
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-7.png" width="672" /></p>
+<pre class="r"><code>#Parfois, il peut etre bien de regarder les prédiction de variable dérivé 
+# et non directement mesurer par le modèle. 
+# ici on regarde la somme de bébé produit pour chaque femmelle
+# les valeurs prédite s&#39;aligne bien avec celle observé en bleur
+prior_df %&gt;%group_by(sim_id,id) %&gt;% summarise(calfprior=sum(calfprior)) %&gt;% 
   ggplot(aes(x=calfprior))+
   stat_density(aes(group = sim_id), position = &quot;identity&quot;, geom = &quot;line&quot;, alpha = 0.3)+
   stat_density(data=data.frame(calfprior=tapply(dat$calf,INDEX = dat$id,FUN = sum)),
@@ -463,10 +429,10 @@ prior_df %&gt;% ggplot(aes(x=as.factor(round(ages,2)),y=calfprior))+geom_violin(
                position = &quot;identity&quot;,
                geom = &quot;line&quot;, color=&quot;blue&quot;)+
   coord_cartesian(ylim=c(0,1))</code></pre>
-<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-8.png" width="672" /></p>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-8.png" width="672" /></p>
 <pre class="r"><code>prior_df %&gt;%group_by(sim_id,period) %&gt;% summarise(calfprior=mean(calfprior)) %&gt;% 
    ggplot(aes(x=as.factor(period),y=calfprior))+geom_violin()</code></pre>
-<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-6-9.png" width="672" /></p>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-9.png" width="672" /></p>
 <p>En raison du grand nombre d’effets estimés et du fait que nous
 n’imposons que des contraintes légères sur chaque distribution <em>a
 priori</em>, on doit s’attendre à des valeurs extrêmes voire impossibles
@@ -486,12 +452,36 @@ pouvez-vous évaluer la convergence du modèle?</p>
 <pre class="r"><code>res_br &lt;- brm(calf ~ ages+age2+rosNorm +(rosNorm|period),family=bernoulli(&quot;logit&quot;),
     prior = my_prior,iter = 4000,thin=2,
     data = dat,chains = 2)</code></pre>
-<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-1.png" width="672" /><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-2.png" width="672" /><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-3.png" width="672" /><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-4.png" width="672" /><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-8-5.png" width="672" /></p>
+<pre class="r"><code># as_draw extrait les postérieur (oui prior) du modèle et 
+# les arrange dans un data.frame
+post_params &lt;- as_draws_df(res_br)
+
+mcmc_plot(res_br, type = &quot;trace&quot;) # voir les trace plot</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>mcmc_plot(res_br, type = &quot;acf_bar&quot;) # voir l&#39;auto-correlation</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<pre class="r"><code># voir les estimé des parametre et leurs CI (50 et 95)
+mcmc_plot(res_br,variable = &#39;r_period&#39;, type = &quot;intervals&quot;)</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-10-3.png" width="672" /></p>
+<pre class="r"><code># il est très informatif de comparer les postérieurs au prior
+rbind(
+  post_params[,c( &quot;b_Intercept&quot;,&quot;b_ages&quot;,&quot;b_age2&quot;,&quot;b_rosNorm&quot;,
+               &quot;sd_period__Intercept&quot;  ,&quot;sd_period__rosNorm&quot;  )] %&gt;% 
+  mutate(post=T),
+  prior_params[,c( &quot;b_Intercept&quot;,&quot;b_ages&quot;,&quot;b_age2&quot;,&quot;b_rosNorm&quot;,
+                &quot;sd_period__Intercept&quot;  ,&quot;sd_period__rosNorm&quot;  )]%&gt;% 
+  mutate(post=F)
+) %&gt;% pivot_longer(-post) %&gt;% 
+  ggplot(aes(x=value))+geom_density(aes(color=post))+facet_wrap(~name,scales = &quot;free_x&quot;)</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-10-4.png" width="672" /></p>
+<pre class="r"><code># nous pouvons aussi faire un test de comparaisont des prédictions pposterieur au vrai donnée
+pp_check(res_br, type = &quot;stat&quot;, stat = function(x) sum(x == 1))</code></pre>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-10-5.png" width="672" /></p>
 <p><strong>D</strong> Comparez la magnitude du coefficient de
 <code>rosNorm</code> à celle des effets aléatoires. Qu’est-ce que cette
 comparaison vous apprend?</p>
 <pre class="r"><code>summary(res_br)</code></pre>
-<pre><code>## Warning: There were 4 divergent transitions after warmup. Increasing
+<pre><code>## Warning: There were 1 divergent transitions after warmup. Increasing
 ## adapt_delta above 0.8 may help. See
 ## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</code></pre>
 <pre><code>##  Family: bernoulli 
@@ -504,20 +494,20 @@ comparaison vous apprend?</p>
 ## Group-Level Effects: 
 ## ~period (Number of levels: 5) 
 ##                        Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-## sd(Intercept)              0.56      0.28     0.24     1.30 1.00      873
-## sd(rosNorm)                0.50      0.20     0.20     0.97 1.00     1476
-## cor(Intercept,rosNorm)     0.30      0.40    -0.53     0.91 1.00      995
+## sd(Intercept)              0.48      0.17     0.24     0.88 1.00     1568
+## sd(rosNorm)                0.46      0.18     0.20     0.88 1.00     1533
+## cor(Intercept,rosNorm)     0.31      0.38    -0.49     0.89 1.00     1363
 ##                        Tail_ESS
-## sd(Intercept)               488
-## sd(rosNorm)                1683
-## cor(Intercept,rosNorm)      933
+## sd(Intercept)              1818
+## sd(rosNorm)                1586
+## cor(Intercept,rosNorm)     1633
 ## 
 ## Population-Level Effects: 
 ##           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-## Intercept     0.59      0.32     0.01     1.25 1.00      674      459
-## ages          0.63      0.06     0.52     0.75 1.00     1645     1717
-## age2         -0.67      0.05    -0.78    -0.58 1.00     1009      555
-## rosNorm      -0.31      0.19    -0.62     0.09 1.00     1389     1143
+## Intercept     0.53      0.24     0.05     1.03 1.00     1077     1249
+## ages          0.63      0.06     0.52     0.75 1.00     1908     1859
+## age2         -0.67      0.05    -0.78    -0.58 1.00     1652     1675
+## rosNorm      -0.45      0.20    -0.81    -0.03 1.00     1450     1635
 ## 
 ## Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 ## and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -530,7 +520,12 @@ voulues
 (<code>expand.grid(rosNorm=seq(-1.6,1.6,l=30),period=unique(dat$period),...)</code>).
 Illustrez les prédictions du modèle et leurs intervalles de crédibilité
 pour les différentes périodes pour un individu de 7 ans.</p>
-<pre class="r"><code>post_pred &lt;- posterior_epred(res_br,
+<pre class="r"><code># nous faisons la premiere prédiction en changeant l&#39;age pour 0.
+# ceci résult en un controle de cette variable inutile dans le graphique
+# l&#39;argument re_formula nous permet de controller quel effets aléatoires 
+# sont considérer lors de la prédiction.
+
+post_pred &lt;- posterior_epred(res_br,
                               newdata = mutate(dat,ages=0,age2=0),
                               re_formula =~(rosNorm|period))
 dat$y=apply(post_pred,2,mean)
@@ -539,6 +534,10 @@ dat$ymin=apply(post_pred,2,function(x) quantile(x,0.025))
 dat$ymax=apply(post_pred,2,function(x) quantile(x,0.975))
 pt &lt;- dat %&gt;% group_by(period,year) %&gt;% summarise_if(is.numeric,mean)
 
+# nous pouvons aussi partir d&#39;un nouveau data.frame ou
+# nous générons une séquence de valeurs de ros allant du minimum au maximum.
+# si cette sequence contien assez de point, les relier les un au autre 
+# résultera uine une courbe de prédiction
 newd=expand.grid(ages=0,age2=0,rosNorm=seq(-1.6,1.6,l=30),period=unique(dat$period),id=&quot;W16&quot;)
 post_pred2 &lt;- posterior_epred(res_br,newdata =newd, re_formula =~(rosNorm|period) )
 newd$y=apply(post_pred2,2,mean)
@@ -551,8 +550,10 @@ ggplot(newd,aes(x=rosNorm,y=y))+
   geom_point(data=pt)+
   geom_ribbon(aes(fill=period,ymin=ymin,ymax=ymax),alpha=0.2)+
   geom_path(aes(color=period))</code></pre>
-<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<pre class="r"><code>post_pred &lt;- posterior_epred(res_br,
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre class="r"><code># on peut recommencer pour l&#39;effet de l&#39;age. en fixant ros à sa
+# moyenne (0 puisque normallisé)
+post_pred &lt;- posterior_epred(res_br,
                               newdata = mutate(dat,rosNorm=0),
                               re_formula =NA)
 dat$y=apply(post_pred,2,mean)
@@ -574,7 +575,7 @@ ggplot(newd)+
   geom_line(aes(x=age,y=y,ymin=ymin,ymax=ymax))</code></pre>
 <pre><code>## Warning in geom_line(aes(x = age, y = y, ymin = ymin, ymax = ymax)): Ignoring
 ## unknown aesthetics: ymin and ymax</code></pre>
-<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="09bR-Modeles_bayesiens2_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
 
 
