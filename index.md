@@ -61,7 +61,7 @@ Labo évalué: [Modeles additifs generalises](labos/E07-Modeles_additifs_general
 
 8. [Introduction a l'analyse bayesienne(solutions)](labos/08R-Intro_Bayes.html) ([PDF](labos/08R-Intro_Bayes.pdf)) - Données: [thermal_range.csv](donnees/thermal_range.csv)
 
-9. [Modeles hierarchiques bayesiens](labos/09-Modeles_hierarchiques_bayesiens.html) ([PDF](labos/09-Modeles_hierarchiques_bayesiens.pdf)) - Data: [rikz.csv](donnees/rikz.csv)
+9. [Modeles hierarchiques bayesiens](labos/09b-Modeles_bayesiens2.html) ([PDF](labos/09b-Modeles_bayesiens2.pdf)) - Data: [SvalbardDat.csv](donnees/SvalbardDat.csv) [ROS.csv](donnees/ROS.csv)  
 
 10. Labo évalué: [Modeles hierarchiques bayesiens 2]<!--(labos/E10-Modeles_hierarchiques_bayesiens2.html) ([PDF](labos/E10-Modeles_hierarchiques_bayesiens2.pdf))-->
 

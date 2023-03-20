@@ -1,5 +1,5 @@
 ---
-title: "Modèles hiérarchiques bayésiens 2"
+title: "Bayesiens hierarchical models 2"
 output:
   pdf_document:
     toc: yes
