@@ -26,7 +26,7 @@ title: "ECL8202 - Analyses des données complexes"
 
 9. [Hierarchical Bayesian models](notes_cours/09E-Modeles_hierarchiques_bayesiens.html) ([PDF](notes_cours/09E-Modeles_hierarchiques_bayesiens.pdf)) - Data: [rikz.csv](donnees/rikz.csv)
 
-10. [Hierarchical Bayesian models 2]<!--(notes_cours/10E-Modeles_hierarchiques_bayesiens2.html) ([PDF](notes_cours/10E-Modeles_hierarchiques_bayesiens2.pdf)) - Data: [rikz.csv](donnees/rikz.csv)-->
+10. [Hierarchical Bayesian models 2](notes_cours/10E-Modeles_hierarchiques_bayesiens2.html) ([PDF](notes_cours/10E-Modeles_hierarchiques_bayesiens2.pdf)) - Data: [rikz.csv](donnees/rikz.csv)
 
 11. [Time series]<!--(notes_cours/11E-Series_temporelles.html) ([PDF](notes_cours/11E-Series_temporelles.pdf)) - Data: [sea_ice.txt](donnees/sea_ice.txt), [dendro_wa082.csv](donnees/dendro_wa082.csv)-->
 
@@ -60,7 +60,9 @@ Graded lab: [Generalized additive models](labos/E07E-Modeles_additifs_generalise
 
 9. [Hierarchical Bayesian models(solution)](labos/09bER-Modeles_bayesiens2.html) ([PDF](labos/09bER-Modeles_bayesiens2.pdf)) - Data: [SvalbardDat.csv](donnees/SvalbardDat.csv) [ROS.csv](donnees/ROS.csv)  
 
-10. Graded lab: [Hierarchical Bayesian models 2](labos/E10E-Modeles_hierarchiques_bayesiens2.html) ([PDF](labos/E10E-Modeles_hierarchiques_bayesiens2.pdf))
+9. Graded lab: [Hierarchical Bayesian models](labos/E10E-Modeles_hierarchiques_bayesiens2.html) ([PDF](labos/E10E-Modeles_hierarchiques_bayesiens2.pdf))
+
+10. [Hierarchical Bayesian models 2](labos/09E-Modeles_hierarchiques_bayesiens) ([PDF](labos/09E-Modeles_hierarchiques_bayesiens)) - Data: [rikz.csv](donnees/rikz.csv) 
 
 11. [Time series<!-- (solutions)-->]<!--(labos/11RE-Series_temporelles.html) ([PDF](labos/11RE-Series_temporelles.pdf)) - Data: [oak_seeds.csv](donnees/oak_seeds.csv), [oak_weather.csv](donnees/oak_weather.csv)-->
 

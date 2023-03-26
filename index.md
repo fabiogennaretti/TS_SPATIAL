@@ -29,7 +29,7 @@ output:
 
 9. [Modeles hierarchiques bayesiens](notes_cours/09-Modeles_hierarchiques_bayesiens.html) ([PDF](notes_cours/09-Modeles_hierarchiques_bayesiens.pdf)) - Data: [rikz.csv](donnees/rikz.csv)
 
-10. [Modeles hierarchiques bayesiens 2]<!--(notes_cours/10-Modeles_hierarchiques_bayesiens2.html) ([PDF](notes_cours/10-Modeles_hierarchiques_bayesiens2.pdf)) - Data: [rikz.csv](donnees/rikz.csv)-->
+10. [Modeles hierarchiques bayesiens 2](notes_cours/10-Modeles_hierarchiques_bayesiens2.html) ([PDF](notes_cours/10-Modeles_hierarchiques_bayesiens2.pdf)) - Data: [rikz.csv](donnees/rikz.csv)
 
 11. [Series temporelles]<!--(notes_cours/11-Series_temporelles.html) ([PDF](notes_cours/11-Series_temporelles.pdf)) - Data: [sea_ice.txt](donnees/sea_ice.txt), [dendro_wa082.csv](donnees/dendro_wa082.csv)-->
 
@@ -63,7 +63,9 @@ Labo évalué: [Modeles additifs generalises](labos/E07-Modeles_additifs_general
 
 9. [Modeles hierarchiques bayesiens(solution)](labos/09bR-Modeles_bayesiens2.html) ([PDF](labos/09bR-Modeles_bayesiens2.pdf)) - Data: [SvalbardDat.csv](donnees/SvalbardDat.csv) [ROS.csv](donnees/ROS.csv)  
 
-10. Labo évalué: [Modeles hierarchiques bayesiens 2](labos/E10-Modeles_hierarchiques_bayesiens2.html) ([PDF](labos/E10-Modeles_hierarchiques_bayesiens2.pdf))
+9. Labo évalué: [Modeles hierarchiques bayesiens](labos/E10-Modeles_hierarchiques_bayesiens2.html) ([PDF](labos/E10-Modeles_hierarchiques_bayesiens2.pdf))
+
+10. [Modeles hierarchiques bayesiens(solution)](labos/09-Modeles_hierarchiques_bayesiens.html) ([PDF](labos/09-Modeles_hierarchiques_bayesiens.pdf)) - Data: [rikz.csv](donnees/rikz.csv) 
 
 11. [Series temporelles<!-- (solutions)-->]<!--(labos/11R-Series_temporelles.html) ([PDF](labos/11R-Series_temporelles.pdf)) - Data: [oak_seeds.csv](donnees/oak_seeds.csv), [oak_weather.csv](donnees/oak_weather.csv)-->
 
