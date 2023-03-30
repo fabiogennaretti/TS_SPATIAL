@@ -31,7 +31,7 @@ output:
 
 10. [Modeles hierarchiques bayesiens 2](notes_cours/10-Modeles_hierarchiques_bayesiens2.html) ([PDF](notes_cours/10-Modeles_hierarchiques_bayesiens2.pdf)) - Data: [rikz.csv](donnees/rikz.csv)
 
-11. [Series temporelles]<!--(notes_cours/11-Series_temporelles.html) ([PDF](notes_cours/11-Series_temporelles.pdf)) - Data: [sea_ice.txt](donnees/sea_ice.txt), [dendro_wa082.csv](donnees/dendro_wa082.csv)-->
+11. [Series temporelles](notes_cours/11-Series_temporelles.html) ([PDF](notes_cours/11-Series_temporelles.pdf)) - Data: [sea_ice.txt](donnees/sea_ice.txt), [dendro_wa082.csv](donnees/dendro_wa082.csv)
 
 12. [Données spatiales]<!--(notes_cours/12-Donnees_spatiales.html) ([PDF](notes_cours/12-Donnees_spatiales.pdf)) - Data: [semis_xy.csv](donnees/semis_xy.csv)-->
 
@@ -67,7 +67,7 @@ Labo évalué: [Modeles additifs generalises](labos/E07-Modeles_additifs_general
 
 10. [Modeles hierarchiques bayesiens(solution)](labos/09-Modeles_hierarchiques_bayesiens.html) ([PDF](labos/09-Modeles_hierarchiques_bayesiens.pdf)) - Data: [rikz.csv](donnees/rikz.csv) 
 
-11. [Series temporelles<!-- (solutions)-->]<!--(labos/11R-Series_temporelles.html) ([PDF](labos/11R-Series_temporelles.pdf)) - Data: [oak_seeds.csv](donnees/oak_seeds.csv), [oak_weather.csv](donnees/oak_weather.csv)-->
+11. [Series temporelles<!-- (solutions)-->](labos/11-Series_temporelles.html) ([PDF](labos/11-Series_temporelles.pdf)) - Data: [oak_seeds.csv](donnees/oak_seeds.csv), [oak_weather.csv](donnees/oak_weather.csv)
 
 Labo évalué: [Series temporelles]<!--(labos/E11-Series_temporelles.html) ([PDF](labos/E11-Series_temporelles.pdf)) - Données: [EOBS_fluxnet2.csv](donnees/EOBS_fluxnet2.csv), [EOBS_fluxnet_inmet2.txt](donnees/EOBS_fluxnet_inmet2.txt)-->
 
