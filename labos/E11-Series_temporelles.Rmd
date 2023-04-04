@@ -15,7 +15,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Ce laboratoire devra être soumis sur Moodle le 22 avril.
+Ce laboratoire devra être soumis sur Moodle le 21 avril.
 
 ## Données
 
@@ -25,7 +25,13 @@ Pour cet exercice, nous utiliserons les données d'une tour à flux située dans
 
 Les tours à flux mesurent la productivité nette d’un écosystème et la quantité de gaz (CO2, H2O et CH4) échangée entre l'atmosphère et l'écosystème à l'aide de la méthode de covariance des tourbillons (*eddy covariance*).
 
-> **Weblink**: https://www.battelleecology.org/data-collection/flux-tower-measurements
+> **Weblink**: https://www.neonscience.org/3d-interactive-flux-tower
+
+> **Weblink**: https://www.youtube.com/watch?v=CR4Anc8Mkas
+
+> **Weblink**: https://www.neonscience.org/data-collection/flux-tower-measurements
+
+> **Weblink**: https://www.neonscience.org/data-collection/meteorology
 
 Nous commencerons par charger les packages requis et les données.
 

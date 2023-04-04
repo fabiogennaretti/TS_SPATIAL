@@ -30,7 +30,7 @@ title: "ECL8202 - Analyses des données complexes"
 
 11. [Time series](notes_cours/11E-Series_temporelles.html) ([PDF](notes_cours/11E-Series_temporelles.pdf)) - Data: [sea_ice.txt](donnees/sea_ice.txt), [dendro_wa082.csv](donnees/dendro_wa082.csv)
 
-12. [Spatial data]<!--(notes_cours/12E-Donnees_spatiales.html) ([PDF](notes_cours/12E-Donnees_spatiales.pdf)) - Data: [semis_xy.csv](donnees/semis_xy.csv)-->
+12. [Spatial data](notes_cours/12E-Donnees_spatiales.html) ([PDF](notes_cours/12E-Donnees_spatiales.pdf)) - Data: [semis_xy.csv](donnees/semis_xy.csv)
 
 ## Exercises
 
@@ -64,9 +64,9 @@ Graded lab: [Generalized additive models](labos/E07E-Modeles_additifs_generalise
 
 10. [Hierarchical Bayesian models 2](labos/09E-Modeles_hierarchiques_bayesiens) ([PDF](labos/09E-Modeles_hierarchiques_bayesiens)) - Data: [rikz.csv](donnees/rikz.csv) 
 
-11. [Time series<!-- (solutions)-->](labos/11E-Series_temporelles.html) ([PDF](labos/11RE-Series_temporelles.pdf)) - Data: [oak_seeds.csv](donnees/oak_seeds.csv), [oak_weather.csv](donnees/oak_weather.csv)
+11. [Time series (solutions)](labos/11RE-Series_temporelles.html) ([PDF](labos/11RE-Series_temporelles.pdf)) - Data: [oak_seeds.csv](donnees/oak_seeds.csv), [oak_weather.csv](donnees/oak_weather.csv)
 
-Graded lab: [Time series]<!--(labos/E11E-Series_temporelles.html) ([PDF](labos/E11E-Series_temporelles.pdf)) - Data: [EOBS_fluxnet2.csv](donnees/EOBS_fluxnet2.csv), [EOBS_fluxnet_inmet2.txt](donnees/EOBS_fluxnet_inmet2.txt)-->
+Graded lab: [Time series](labos/E11E-Series_temporelles.html) ([PDF](labos/E11E-Series_temporelles.pdf)) - Data: [EOBS_fluxnet2.csv](donnees/EOBS_fluxnet2.csv), [EOBS_fluxnet_inmet2.txt](donnees/EOBS_fluxnet_inmet2.txt)
 
-12. [Spatial data<!-- (solutions)]<!--(labos/12RE-Donnees_spatiales_updated.html) ([PDF](labos/12RE-Donnees_spatiales_updated.pdf)) - Data: [bryo_belg.csv](donnees/bryo_belg.csv)-->
+12. [Spatial data<!-- (solutions)-->](labos/12E-Donnees_spatiales_updated.html) ([PDF](labos/12E-Donnees_spatiales_updated.pdf)) - Data: [bryo_belg.csv](donnees/bryo_belg.csv)
 

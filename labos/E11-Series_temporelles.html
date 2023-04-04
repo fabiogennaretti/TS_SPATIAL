@@ -13,7 +13,7 @@
 
 <title>Laboratoire évalué : séries temporelles</title>
 
-<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
@@ -63,6 +63,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -84,6 +85,9 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
 pre code {
   padding: 0;
 }
@@ -103,8 +107,8 @@ pre code {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -112,16 +116,9 @@ pre code {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -245,7 +242,7 @@ temporelles</h1>
 </div>
 
 
-<p>Ce laboratoire devra être soumis sur Moodle le 22 avril.</p>
+<p>Ce laboratoire devra être soumis sur Moodle le 21 avril.</p>
 <div id="données" class="section level2">
 <h2>Données</h2>
 <p>Pour cet exercice, nous utiliserons les données d’une tour à flux
@@ -264,8 +261,23 @@ l’écosystème à l’aide de la méthode de covariance des tourbillons
 (<em>eddy covariance</em>).</p>
 <blockquote>
 <p><strong>Weblink</strong>: <a
-href="https://www.battelleecology.org/data-collection/flux-tower-measurements"
-class="uri">https://www.battelleecology.org/data-collection/flux-tower-measurements</a></p>
+href="https://www.neonscience.org/3d-interactive-flux-tower"
+class="uri">https://www.neonscience.org/3d-interactive-flux-tower</a></p>
+</blockquote>
+<blockquote>
+<p><strong>Weblink</strong>: <a
+href="https://www.youtube.com/watch?v=CR4Anc8Mkas"
+class="uri">https://www.youtube.com/watch?v=CR4Anc8Mkas</a></p>
+</blockquote>
+<blockquote>
+<p><strong>Weblink</strong>: <a
+href="https://www.neonscience.org/data-collection/flux-tower-measurements"
+class="uri">https://www.neonscience.org/data-collection/flux-tower-measurements</a></p>
+</blockquote>
+<blockquote>
+<p><strong>Weblink</strong>: <a
+href="https://www.neonscience.org/data-collection/meteorology"
+class="uri">https://www.neonscience.org/data-collection/meteorology</a></p>
 </blockquote>
 <p>Nous commencerons par charger les packages requis et les données.</p>
 <pre class="r"><code>library(fpp3)

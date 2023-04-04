@@ -1,21 +1,21 @@
 ---
 title: 'Graded lab: Time series'
 output:
-  pdf_document:
-    toc: yes
   html_document:
     self_contained: no
     lib_dir: libs
     theme: spacelab
     toc: yes
     toc_float: yes
+  pdf_document:
+    toc: yes
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This lab should be submitted to Moodle on April 22nd.
+This lab should be submitted to Moodle on April 21st.
 
 ## Data
 
@@ -25,7 +25,13 @@ For this exercise we will use data from a flux tower located in a black spruce f
 
 Flux towers measure net ecosystem exchange or the amount of gas that is exchanged between the atmosphere and the ecosystem using eddy covariance technique.
 
-> **Weblink**: https://www.battelleecology.org/data-collection/flux-tower-measurements
+> **Weblink**: https://www.neonscience.org/3d-interactive-flux-tower
+
+> **Weblink**: https://www.youtube.com/watch?v=CR4Anc8Mkas
+
+> **Weblink**: https://www.neonscience.org/data-collection/flux-tower-measurements
+
+> **Weblink**: https://www.neonscience.org/data-collection/meteorology
 
 We will start loading the required packages and the data.
 
