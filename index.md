@@ -14,7 +14,7 @@ Laboratory Class 1a. [Fitting ARIMA models in R<!-- (solutions)-->](labos/11E-Se
 
 Laboratory Class 1b. [Fitting ARIMA models in R<!-- (solutions)-->](labos/E11E-Series_temporelles.html) ([PDF](labos/E11E-Series_temporelles.pdf)) - Data: [EOBS_fluxnet2.csv](donnees/EOBS_fluxnet2.csv), [EOBS_fluxnet_inmet2.txt](donnees/EOBS_fluxnet_inmet2.txt)
 
-Laboratory Class 2.[Temporal correlations in additive and Bayesian models]
+Laboratory Class 2. [Temporal correlations in additive and Bayesian models]
 
 Lecture 2. [Spatial data](notes_cours/12E-Donnees_spatiales.html) ([PDF](notes_cours/12E-Donnees_spatiales.pdf)) - Data: [semis_xy.csv](donnees/semis_xy.csv)
 
