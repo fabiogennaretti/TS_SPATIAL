@@ -1,75 +1,24 @@
 ---
-title: "ECL8202 - Analyses des données complexes"
-output:
-  html_document:
-    df_print: paged
+title: "Analysis and Modelling of Time Series and Spatial Data"
 ---
 
-<!--[Capsules vidéo du cours (YouTube)](https://www.youtube.com/channel/UCfU-xwzWWTo3G_sTkquzOQg/playlists?view=50&sort=dd&shelf_id=2&view_as=subscriber)-->
+<!--[Recorded lectures (YouTube)](https://www.youtube.com/channel/UCfU-xwzWWTo3G_sTkquzOQg/playlists?view=50&sort=dd&shelf_id=2&view_as=subscriber)-->
 
-[Plan de cours](plan_de_cours/ECL8202_H2023.pdf)
+[Course plan](plan_de_cours/Time_Series_Spatial_Data.pdf)
 
-## Notes de cours
+## Program
 
-1. [La méthode du bootstrap](notes_cours/01-Bootstrap.html) ([PDF](notes_cours/01-Bootstrap.pdf)) - Données: [pruche.csv](donnees/pruche.csv)
+Lecture 1. [Time series](notes_cours/11E-Series_temporelles.html) ([PDF](notes_cours/11E-Series_temporelles.pdf)) - Data: [sea_ice.txt](donnees/sea_ice.txt), [dendro_wa082.csv](donnees/dendro_wa082.csv)
 
-2. [Tests de randomisation](notes_cours/02-Tests_randomisation.html) ([PDF](notes_cours/02-Tests_randomisation.pdf)) - Données: [sphagnum_cover.csv](donnees/sphagnum_cover.csv), [environment.csv](donnees/environment.csv)
+Laboratory Class 1a. [Fitting ARIMA models in R<!-- (solutions)-->](labos/11E-Series_temporelles.html) ([PDF](labos/11E-Series_temporelles.pdf)) - Data: [oak_seeds.csv](donnees/oak_seeds.csv), [oak_weather.csv](donnees/oak_weather.csv)
 
-3. [Maximum de vraisemblance](notes_cours/03-Maximum_vraisemblance.html) ([PDF](notes_cours/03-Maximum_vraisemblance.pdf)) - Données: [galapagos.csv](donnees/galapagos.csv)
+Laboratory Class 1b. [Fitting ARIMA models in R<!-- (solutions)-->](labos/E11E-Series_temporelles.html) ([PDF](labos/E11E-Series_temporelles.pdf)) - Data: [EOBS_fluxnet2.csv](donnees/EOBS_fluxnet2.csv), [EOBS_fluxnet_inmet2.txt](donnees/EOBS_fluxnet_inmet2.txt)
 
-4. [Régression robuste aux valeurs extrêmes](notes_cours/04-Regression_robuste.html) ([PDF](notes_cours/04-Regression_robuste.pdf))
+Laboratory Class 2.[Temporal correlations in additive and Bayesian models]
 
-5. [Modèles linéaires généralisés à effets mixtes](notes_cours/05-Modeles_generalises_mixtes.html) ([PDF](notes_cours/05-Modeles_generalises_mixtes.pdf)) - Données: [rikz.csv](donnees/rikz.csv)
+Lecture 2. [Spatial data](notes_cours/12E-Donnees_spatiales.html) ([PDF](notes_cours/12E-Donnees_spatiales.pdf)) - Data: [semis_xy.csv](donnees/semis_xy.csv)
 
-6. [Modèles linéaires généralisés à effets mixtes 2](notes_cours/06-Modeles_generalises_mixtes2.html) ([PDF](notes_cours/06-Modeles_generalises_mixtes2.pdf)) - Données: [acer_transplant.csv](donnees/acer_transplant.csv)
+Laboratory Class 3. [Point patterns in R<!-- (solutions)-->]
 
-7. [Modeles additifs generalises](notes_cours/07-Modeles_additifs_generalises.html) ([PDF](notes_cours/07-Modeles_additifs_generalises.pdf))
-
-8. [Introduction a l'analyse bayesienne](notes_cours/08-Intro_Bayes.html) ([PDF](notes_cours/08-Intro_Bayes.pdf)) - Données: [galapagos.csv](donnees/galapagos.csv)
-
-9. [Modeles hierarchiques bayesiens](notes_cours/09-Modeles_hierarchiques_bayesiens.html) ([PDF](notes_cours/09-Modeles_hierarchiques_bayesiens.pdf)) - Data: [rikz.csv](donnees/rikz.csv)
-
-10. [Modeles hierarchiques bayesiens 2](notes_cours/10-Modeles_hierarchiques_bayesiens2.html) ([PDF](notes_cours/10-Modeles_hierarchiques_bayesiens2.pdf)) - Data: [rikz.csv](donnees/rikz.csv)
-
-11. [Series temporelles](notes_cours/11-Series_temporelles.html) ([PDF](notes_cours/11-Series_temporelles.pdf)) - Data: [sea_ice.txt](donnees/sea_ice.txt), [dendro_wa082.csv](donnees/dendro_wa082.csv)
-
-12. [Données spatiales](notes_cours/12-Donnees_spatiales.html) ([PDF](notes_cours/12-Donnees_spatiales.pdf)) - Data: [semis_xy.csv](donnees/semis_xy.csv)
-
-## Exercices
-
-1. [La méthode du bootstrap (solutions)](labos/01R-Bootstrap.html) ([PDF](labos/01R-Bootstrap.pdf)) - Données: [sphagnum_cover.csv](donnees/sphagnum_cover.csv)
-
-2. [Tests de randomisation (solutions)](labos/02R-Tests_randomisation.html) ([PDF](labos/02R-Tests_randomisation.pdf)) - Données: [sablefish.csv](donnees/sablefish.csv)
-
-Labo évalué: [Tests de randomisation et bootstrap](labos/E02-Tests_randomisation.html) ([PDF](labos/E02-Tests_randomisation.pdf)) - Données: [portal_surveys.csv](donnees/portal_surveys.csv), [portal_plots.csv](donnees/portal_plots.csv)
-
-3. [Maximum de vraisemblance (solutions)](labos/03R-Maximum_vraisemblance.html) ([PDF](labos/03R-Maximum_vraisemblance.pdf)) - Données: [thermal_range.csv](donnees/thermal_range.csv)
-
-4. [Régression robuste aux valeurs extrêmes (solutions)](labos/04R-Regression_robuste.html) ([PDF](labos/04R-Regression_robuste.pdf))
-
-Labo évalué: [Régression robuste aux valeurs extrêmes](labos/E04-Regression_robuste.html) ([PDF](labos/E04-Regression_robuste.pdf)) - Données: [dailyTWD.csv](donnees/dailyTWD.csv)
-
-5. [Modèles linéaires généralisés à effets mixtes (solutions)](labos/05R-Modeles_generalises_mixtes.html) ([PDF](labos/05R-Modeles_generalises_mixtes.pdf)) - Données: [portal_surveys.csv](donnees/portal_surveys.csv), [portal_species.csv](donnees/portal_species.csv), [portal_plots.csv](donnees/portal_plots.csv)
-
-6. [Modèles linéaires généralisés à effets mixtes 2 (solutions)](labos/06R-Modeles_generalises_mixtes2.html) ([PDF](labos/06R-Modeles_generalises_mixtes2.pdf)) - Données: [aiv_ducks.csv](donnees/aiv_ducks.csv)
-
-Labo évalué: [Modèles linéaires généralisés à effets mixtes 2](labos/E06-GLMM_NEW.html) ([PDF](labos/E06-GLMM_NEW.pdf)) - [spatial_df.csv](donnees/spatial_df.csv)
-
-7. [Modeles additifs generalises (solutions)](labos/07R-Modeles_additifs_generalises.html) ([PDF](labos/07R-Modeles_additifs_generalises.pdf)) - Données: [dendro_wa082.csv](donnees/dendro_wa082.csv)
-
-Labo évalué: [Modeles additifs generalises](labos/E07-Modeles_additifs_generalises.html) ([PDF](labos/E07-Modeles_additifs_generalises.pdf)) - Données: [portal_ot.csv](donnees/portal_ot.csv)
-
-8. [Introduction a l'analyse bayesienne(solutions)](labos/08R-Intro_Bayes.html) ([PDF](labos/08R-Intro_Bayes.pdf)) - Données: [thermal_range.csv](donnees/thermal_range.csv)
-
-9. [Modeles hierarchiques bayesiens(solution)](labos/09bR-Modeles_bayesiens2.html) ([PDF](labos/09bR-Modeles_bayesiens2.pdf)) - Data: [SvalbardDat.csv](donnees/SvalbardDat.csv) [ROS.csv](donnees/ROS.csv)  
-
-9. Labo évalué: [Modeles hierarchiques bayesiens](labos/E10-Modeles_hierarchiques_bayesiens2.html) ([PDF](labos/E10-Modeles_hierarchiques_bayesiens2.pdf))
-
-10. [Modeles hierarchiques bayesiens(solution)](labos/09-Modeles_hierarchiques_bayesiens.html) ([PDF](labos/09-Modeles_hierarchiques_bayesiens.pdf)) - Data: [rikz.csv](donnees/rikz.csv) 
-
-11. [Series temporelles (solutions)](labos/11R-Series_temporelles.html) ([PDF](labos/11R-Series_temporelles.pdf)) - Data: [oak_seeds.csv](donnees/oak_seeds.csv), [oak_weather.csv](donnees/oak_weather.csv)
-
-Labo évalué: [Series temporelles](labos/E11-Series_temporelles.html) ([PDF](labos/E11-Series_temporelles.pdf)) - Données: [EOBS_fluxnet2.csv](donnees/EOBS_fluxnet2.csv), [EOBS_fluxnet_inmet2.txt](donnees/EOBS_fluxnet_inmet2.txt)
-
-12. [Données spatiales<!-- (solutions)-->](labos/12-Donnees_spatiales_updated.html) ([PDF](labos/12-Donnees_spatiales_updated.pdf)) - Data: [bryo_belg.csv](donnees/bryo_belg.csv)
+Laboratory Class 4. [Geostatistical models and areal data in R<!-- (solutions)-->](labos/12E-Donnees_spatiales_updated.html) ([PDF](labos/12E-Donnees_spatiales_updated.pdf)) - Data: [bryo_belg.csv](donnees/bryo_belg.csv)
 

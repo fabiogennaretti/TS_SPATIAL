@@ -1,4 +1,0 @@
-\contentsline {subsection}{Data}{1}{section*.2}%
-\contentsline {subsection}{1. Randomization tests}{2}{section*.3}%
-\contentsline {subsection}{2. Bootstrap}{8}{section*.4}%
-\contentsline {subsection}{evaluation grid}{10}{section*.5}%
