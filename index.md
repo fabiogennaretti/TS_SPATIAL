@@ -6,6 +6,12 @@ title: "Analysis and Modelling of Time Series and Spatial Data"
 
 [Course plan](plan_de_cours/Time_Series_Spatial_Data.pdf)
 
+## Working with Dates and Time in R
+
+Link 1. https://www.stat.berkeley.edu/~s133/dates.html
+
+Link 2. https://images.datacamp.com/image/upload/v1671098755/Marketing/Blog/Working_with_Dates_and_Time_in_R.pdf
+
 ## Program
 
 Lecture 1. [Time series](notes_cours/11E-Series_temporelles.html) ([PDF](notes_cours/11E-Series_temporelles.pdf)) - Data: [sea_ice.txt](donnees/sea_ice.txt), [dendro_wa082.csv](donnees/dendro_wa082.csv)

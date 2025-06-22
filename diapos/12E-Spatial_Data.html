@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Spatial Data</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.26/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles-xar8202.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Spatial Data
+]
+.date[
+### Analysis and Modelling of Time Series and Spatial Data - 2025
+]
+
+---
+
+
+
+
+
+# Course Content
+
+- Introduction to spatial statistics
+
+- Analysis of point patterns
+
+- Geostatistical models
+
+- Areal data models
+
+---
+
+# Analysis of point patterns
+
+- Point data: position of individuals or events in space.
+
+--
+
+- Determine whether points are randomly or clustered; determine whether two types of points are independently or dependently arranged.
+
+--
+
+- Requires a full census within a study area.
+
+---
+
+# Geostatistical models
+
+- Point data: sampling points and associated measurements.
+
+--
+
+- Autocorrelation models of measurements based on distance between points.  
+
+--
+
+- Spatial smoothing of data and predictions for new points.
+
+---
+
+# Areal data models
+
+- Measurements taken over regions of space. 
+
+--
+
+- Neighborhood relationships between regions (network or grid).
+
+--
+
+- Models including autocorrelation between neighboring regions.
+
+---
+
+# Stationarity
+
+- Summary statistics (mean, variance, and correlations between measurements of a variable) do not vary with spatial translation.
+
+--
+
+- Absence of large-scale trend (gradient).
+
+--
+
+- For point patterns, no large-scale trend in point density; this is also referred to as pattern homogeneity.
+
+---
+
+# Isotropy
+
+- Spatial correlations depend only on the distance between measurements, not on the direction.
+
+--
+
+- Summary statistics do not vary with a rotation in space.
+
+---
+
+# Georeferenced data
+
+- More and more data come from geospatial data sources (e.g., climate, remote sensing).
+
+--
+
+- Processing these data requires concepts related to geographic information systems (GIS); not covered in this course.
+
+--
+
+- Geospatial data are often used as predictors to explain a response at different sites. The use of spatial statistics is only necessary when there is spatial correlation in the residuals.
+
+---
+
+class: inverse, center, middle
+
+# Analysis of point patterns
+
+---
+
+# Point Process
+
+- A point pattern describes the spatial position (most often in 2D) of individuals or events, represented by points, within a given study area (spatial window).
+
+--
+
+- Each point is assumed to have negligible spatial extent.
+
+--
+
+- A point process is a statistical model that can be used to simulate point patterns or explain an observed point pattern.
+
+---
+
+# Complete Spatial Randomness
+
+- *Complete spatial randomness*: Simplest null model for a point pattern.
+
+--
+
+- The presence of a point at a given location is independent of the presence of points in its neighborhood.
+
+--
+
+- Homogeneous Poisson process: the number of points in a region `\(A\)` is given by `\(N(A) \sim \text{Pois}(\lambda A)\)` where `\(\lambda\)` is the *intensity* of the process. `\(N\)` is independent between two disjoint regions.
+
+---
+
+# Example
+
+- Which of these patterns is completely random?
+
+
+
+![](12E-Spatial_Data_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+
+---
+
+# Example
+
+![](12E-Spatial_Data_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+---
+
+# Ripley's `\(K\)` Function
+
+- `\(K(r)\)` measures the average number of points within a distance `\(r\)` from a point in the pattern, normalized by the intensity `\(\lambda\)`.
+
+--
+
+- For a completely random pattern, the mean of `\(N(r)\)` is `\(\lambda \pi r^2\)`, so theoretically `\(K(r) = \pi r^2\)`.
+
+--
+
+- A distribution of `\(K(r)\)` under the null hypothesis (completely spatially random structure) is obtained by generating random patterns with the same intensity as the observed one.
+
+---
+
+# Example
+
+
+
+![](12E-Spatial_Data_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+---
+
+# Effect of heterogeneity
+
+- An intensity gradient can be mistaken for spatial clustering of points.
+
+
+
+![](12E-Spatial_Data_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+---
+
+# Effect of heterogeneity
+
+- The function `\(K\)` can be corrected by taking into account the estimated local intensity for each point.
+
+--
+
+- The null model in this case is a heterogeneous Poisson process.
+
+--
+
+
+
+![](12E-Spatial_Data_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+---
+
+# Effect of heterogeneity
+
+- Heterogeneity can be distinguished from aggregation if the two processes operate at different scales.
+
+--
+
+- Example: Large-scale density gradient combined with small-scale point aggregation.
+
+---
+
+# Relationship between two point patterns
+
+.pull-left[
+- Example: Positions of trees of two species in a plot.
+
+- Does the probability of observing a tree of one species depend on the presence of a tree of the other species at a given distance?
+]
+
+.pull-right[
+
+![](12E-Spatial_Data_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# Bivariate Ripley's K function
+
+- `\(K_{12}(r)\)`: Average number of points from pattern 2 within distance `\(r\)` of a point from pattern 1, normalized by the density of pattern 2.
+
+--
+
+- `\(K_{12}(r) = K_{21}(r)\)` in theory.
+
+--
+
+- To determine significant attraction or repulsion between the two patterns, randomize their relative positions while preserving their internal structure.
+
+---
+
+# Toroidal translation
+
+- One of the two patterns is shifted horizontally and/or vertically. The part that "exits" on one side is reattached on the opposite side.
+
+![](12E-Spatial_Data_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+
+---
+
+# For further reading
+
+Wiegand, T. and Moloney, K.A. (2013) *Handbook of Spatial Point-Pattern Analysis in Ecology*, CRC Press.
+
+--
+
+- Besides Ripley's `\(K\)`, several other summary statistics to describe point patterns (e.g., mean nearest neighbor distance).
+
+--
+
+- Methods for estimating summary statistics accounting for edge effects.
+
+--
+
+- Analyses of point characteristics (e.g., tree mortality random or spatially aggregated).
+
+---
+
+class: inverse, center, middle
+
+# Geostatistical models
+
+---
+
+# Geostatistics
+
+- Group of techniques originating in Earth sciences.
+
+--
+
+- Variables continuously distributed in space, for which the distribution is estimated by sampling a number of points.
+
+--
+
+- Consider a variable `\(z(x, y)\)` measured at different coordinates `\((x, y)\)`.
+
+--
+
+- Assumption: `\(z\)` is stationary.
+
+---
+
+# Variogram
+
+- The variogram `\(\gamma_z(h)\)` of `\(z\)` indicates the mean squared difference between the values of `\(z\)` for two points `\((x_i, y_i)\)` and `\((x_j, y_j)\)` separated by a distance `\(h\)`.
+
+--
+
+`$$\gamma_z(h) = \frac{1}{2} \text{E} \left[ \left( z(x_i, y_i) - z(x_j, y_j) \right)^2 \right]_{d_{ij} = h}$$`
+
+--
+
+- The variogram is related to the autocorrelation `\(\rho_z(h)\)` by the equation:
+
+`$$\gamma_z = \sigma_z^2(1 - \rho_z)$$`
+
+--
+
+- `\(\gamma\)` is sometimes called the "semivariogram" or "semivariance" because of the factor 1/2, but note that in the absence of spatial correlation, `\(\gamma_z = \sigma^2_z\)`.
+
+---
+
+# Exponential variogram model
+
+`$$\rho_z(h) = e^{-h/r}$$`
+
+--
+
+- Correlation multiplied by `\(1/e \approx 0.37\)` for each increase of the distance by `\(r\)`, where `\(r\)` is the correlation range.
+
+--
+
+`$$\gamma_z(h) = \sigma_z^2 (1 - e^{-h/r})$$`
+
+---
+
+# Variogram components
+
+`$$\gamma_z(h) = s (1 - e^{-h/r})$$`
+
+![](12E-Spatial_Data_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+
+---
+
+# Variogram components
+
+`$$\gamma_z(h) = n + (s - n) (1 - e^{-h/r})$$`
+
+![](12E-Spatial_Data_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+
+---
+
+# Theoretical variogram models
+
+ Model | `\(\rho(h)\)` | `\(\gamma(h)\)`
+-------|-----------|-------------
+Exponential | `\(\exp\left(-\frac{h}{r}\right)\)` | `\(s \left(1 - \exp\left(-\frac{h}{r}\right)\right)\)`
+Gaussian | `\(\exp\left(-\frac{h^2}{r^2}\right)\)` | `\(s \left(1 - \exp\left(-\frac{h^2}{r^2}\right)\right)\)`
+Spherical `\((h &lt; r)\)` * | `\(1 - \frac{3}{2}\frac{h}{r} + \frac{1}{2}\frac{h^3}{r^3}\)` | `\(s \left(\frac{3}{2}\frac{h}{r} - \frac{1}{2}\frac{h^3}{r^3} \right)\)`
+
+\* For the spherical model, `\(\rho = 0\)` and `\(\gamma = s\)` if `\(h \ge r\)`.
+
+---
+
+# Theoretical variogram models
+
+![](12E-Spatial_Data_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+
+---
+
+# Empirical variogram
+
+- Estimation of `\(\gamma_z(h)\)` from the mean squared difference for pairs of points separated by a distance approximately `\(h \; (\pm \delta)\)`. 
+
+`$$\hat{\gamma_z}(h) = \frac{1}{2 N_{\text{pairs}}} \sum \left[ \left( z(x_i, y_i) - z(x_j, y_j) \right)^2 \right]_{d_{ij} = h \pm \delta}$$`
+
+---
+
+# Variogram and temporal data
+
+- A variogram can also be estimated based on time lags (considered as space in 1 dimension).
+
+--
+
+- This allows modeling temporal dependence for a series with irregular intervals.
+
+---
+
+# Regression model with spatial correlation
+
+`$$v = \beta_0 + \sum_i \beta_i u_i + z + \epsilon$$`
+
+- Response variable `\(v\)` and predictors `\(u\)`.
+
+--
+
+- `\(z\)`: Spatially correlated residual.
+
+- `\(\epsilon\)`: Independent residual.
+
+---
+
+# Regression model with spatial correlation
+
+`$$v = \beta_0 + \sum_i \beta_i u_i + z + \epsilon$$`
+
+1. Fit the regression model without spatial correlation.
+
+--
+
+2. Check for the presence of spatial correlation using the empirical variogram of the residuals.
+
+--
+
+3. Fit one or more regression models with spatial correlation (compare with AIC if needed).
+
+---
+
+class: inverse, center, middle
+
+# Areal data models
+
+---
+
+# Areal data
+
+- Variables attached to regions of space defined by polygons.
+
+--
+
+- Common data type in social sciences and epidemiology, but also in natural resource management.
+
+---
+
+# Example: Forest management units
+
+![](../images/cartes_unites.png)
+
+*Source*: Ministère des Forêts, de la Faune et des Parcs du Québec.
+
+---
+
+# Neighborhood network
+
+- Geostatistical methods could be applied by calculating, for example, the distance between the centers of polygons.
+
+--
+
+- Another option: define a network where each region is connected to neighboring regions by a link.
+
+--
+
+- It is assumed that variables are directly correlated only between neighboring regions.
+
+--
+
+- The level of correlation can vary between links if different weights are assigned to them.
+
+---
+
+# Neighborhood network
+
+- Weight matrix `\(W\)`: `\(w_{ij}\)` is the weight of the link between regions `\(i\)` and `\(j\)`. 
+
+- We have `\(w_{ii} = 0\)`.
+
+--
+
+- Binary weights: `\(w_{ij}\)` is 1 if the regions are neighbors, otherwise 0.
+
+--
+
+- Applies to data defined on a grid. In this case, each cell can have 4 or 8 neighboring cells (including diagonals or not).
+
+---
+
+# Moran's Index
+
+- Autocorrelation coefficient of `\(z\)` weighted by weights `\(w_{ij}\)` (ranges between -1 and 1).
+
+`$$I = \frac{N}{\sum_i \sum_j w_{ij}} \frac{\sum_i \sum_j w_{ij} (z_i - \bar{z}) (z_j - \bar{z})}{\sum_i (z_i - \bar{z})^2}$$`
+
+- `\(N\)` is the number of regions.
+
+--
+
+- Allows testing the hypothesis of no spatial correlation between neighboring regions.
+
+--
+
+- Can also be applied to point data. In this case, point pairs are divided into distance classes and `\(I\)` is calculated for each distance class.
+
+---
+
+# Spatial autoregressive models
+
+`$$v = \beta_0 + \sum_i \beta_i u_i + z + \epsilon$$`
+
+- Response variable `\(v\)` and predictors `\(u\)`.
+
+--
+
+- `\(z\)`: Spatially correlated residual between neighboring regions.
+
+- `\(\epsilon\)`: Independent residual.
+
+--
+
+- Two types of autoregressive models for `\(z\)`: conditional autoregression (CAR) or simultaneous autoregression (SAR).
+
+---
+
+# Conditional autoregression (CAR)
+
+`$$z_i \sim \text{N}\left(\sum_j \rho w_{ij} z_j,\sigma_{z_i} \right)$$`
+--
+
+- `\(\rho\)`: Correlation parameter.
+
+- `\(w_{ij}\)`: Weight of the link between regions `\(i\)` and `\(j\)`.
+
+- `\(\sigma_{z_i}\)`: Residual standard deviation for `\(z_i\)`.
+
+--
+
+*Note*: If `\(w_{ij}\)` is a binary matrix (0/1), then `\(\rho\)` is the partial correlation coefficient between neighboring regions.
+
+---
+
+# Simultaneous autoregression (SAR)
+
+`$$z_i = \sum_j \rho w_{ij} z_j + \nu_i$$`
+
+--
+
+- `\(\nu_i\)` is an independent residual with standard deviation `\(\sigma_z\)`.
+
+--
+
+- Unlike the CAR model, `\(\rho\)` is not directly equal to the partial correlation here.
+
+---
+
+# Spatial autoregressive models
+
+- AIC can be used for model selection (CAR or SAR, definition of weights).
+
+--
+
+- By specifying correlations only between neighboring regions, a CAR or SAR model is generally faster to compute than a geostatistical model where correlations have a global range.
+
+--
+
+- There are also moving average (MA) models in a spatial context; their application is rarer.
+
+---
+
+# References
+
+Ver Hoef, J.M., Peterson, E.E., Hooten, M.B., Hanks, E.M. and Fortin, M.-J. (2018) Spatial autoregressive models for statistical inference from ecological data. *Ecological Monographs* 88: 36-59.
+
+Fortin, M.-J. and Dale, M.R.T. (2005) *Spatial Analysis: A Guide for Ecologists*. Cambridge University Press: Cambridge, UK.
+
+---
+
+class: inverse, center, middle
+
+# Spatial correlation in complex models
+
+---
+
+# Geostatistical models with *nlme*
+
+- The *nlme* package contains spatial correlation functions, including exponential correlation (`corExp`), Gaussian (`corGaus`), and spherical (`corSpher`).
+
+--
+
+- Integration into a linear mixed model with `lme` (`x` and `y` are spatial coordinates).
+
+
+``` r
+library(nlme)
+mod &lt;- lme(v ~ u, data, random = list(groupe = ~1),
+           correlation = corExp(form = ~ x + y, nugget = TRUE))
+```
+
+--
+
+- The usual limitations of this package apply (no crossed random effects, no generalized models).
+
+---
+
+# Geostatistical models with *nlme*
+
+- Integration into a linear model (without random effect) with `gls`:
+
+
+``` r
+library(nlme)
+mod &lt;- gls(v ~ u, data,
+           correlation = corExp(form = ~ x + y, nugget = TRUE))
+```
+
+--
+
+- Integration into an additive model with `gamm` (package *mgcv*):
+
+
+``` r
+library(mgcv)
+mod &lt;- gamm(v ~ s(u), data, random = list(groupe = ~1), 
+            correlation = corExp(form = ~ x + y, nugget = TRUE))
+```
+
+---
+
+# Geostatistical models with *brms*
+
+- Spatial correlation as a function of distance modeled by a Gaussian process (function `gp`).
+
+
+``` r
+library(brms)
+mod &lt;- brm(v ~ u + gp(x, y, cov = "exp_quad"), data)
+```
+
+--
+
+- Currently, only the Gaussian correlation (`exp_quad`) is available.
+
+---
+
+# Spatial autoregressive models with *brms*
+
+- Currently only possible with a response following a normal or `\(t\)` distribution.
+
+
+``` r
+library(brms)
+mod_sar &lt;- brm(v ~ u + sar(W, type = "error"), data,
+               data2 = list(W = W))
+mod_car &lt;- brm(v ~ u + car(W), data,
+               data2 = list(W = W))
+```
+
+--
+
+- `W` is the weight matrix (must be provided as a separate argument `data2`). 
+
+- `type = "error"` is the SAR type covered in this course.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

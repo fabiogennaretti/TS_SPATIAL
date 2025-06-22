@@ -1,0 +1,758 @@
+---
+title: "Spatial Data"
+date: "Analysis and Modelling of Time Series and Spatial Data - 2025"
+output: 
+  xaringan::moon_reader:
+    css: ["default", "metropolis", "metropolis-fonts", "styles-xar8202.css"]
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE,
+                      fig.dim = c(8, 5))
+library(tidyverse)
+library(cowplot)
+theme_set(
+  theme_cowplot(font_size = 18) +
+    theme(panel.background = element_rect(fill = "#fafafa"),
+          plot.background = element_rect(fill = "#fafafa"))
+)
+
+set.seed(8202)
+```
+
+
+# Course Content
+
+- Introduction to spatial statistics
+
+- Analysis of point patterns
+
+- Geostatistical models
+
+- Areal data models
+
+---
+
+# Analysis of point patterns
+
+- Point data: position of individuals or events in space.
+
+--
+
+- Determine whether points are randomly or clustered; determine whether two types of points are independently or dependently arranged.
+
+--
+
+- Requires a full census within a study area.
+
+---
+
+# Geostatistical models
+
+- Point data: sampling points and associated measurements.
+
+--
+
+- Autocorrelation models of measurements based on distance between points.  
+
+--
+
+- Spatial smoothing of data and predictions for new points.
+
+---
+
+# Areal data models
+
+- Measurements taken over regions of space. 
+
+--
+
+- Neighborhood relationships between regions (network or grid).
+
+--
+
+- Models including autocorrelation between neighboring regions.
+
+---
+
+# Stationarity
+
+- Summary statistics (mean, variance, and correlations between measurements of a variable) do not vary with spatial translation.
+
+--
+
+- Absence of large-scale trend (gradient).
+
+--
+
+- For point patterns, no large-scale trend in point density; this is also referred to as pattern homogeneity.
+
+---
+
+# Isotropy
+
+- Spatial correlations depend only on the distance between measurements, not on the direction.
+
+--
+
+- Summary statistics do not vary with a rotation in space.
+
+---
+
+# Georeferenced data
+
+- More and more data come from geospatial data sources (e.g., climate, remote sensing).
+
+--
+
+- Processing these data requires concepts related to geographic information systems (GIS); not covered in this course.
+
+--
+
+- Geospatial data are often used as predictors to explain a response at different sites. The use of spatial statistics is only necessary when there is spatial correlation in the residuals.
+
+---
+
+class: inverse, center, middle
+
+# Analysis of point patterns
+
+---
+
+# Point Process
+
+- A point pattern describes the spatial position (most often in 2D) of individuals or events, represented by points, within a given study area (spatial window).
+
+--
+
+- Each point is assumed to have negligible spatial extent.
+
+--
+
+- A point process is a statistical model that can be used to simulate point patterns or explain an observed point pattern.
+
+---
+
+# Complete Spatial Randomness
+
+- *Complete spatial randomness*: Simplest null model for a point pattern.
+
+--
+
+- The presence of a point at a given location is independent of the presence of points in its neighborhood.
+
+--
+
+- Homogeneous Poisson process: the number of points in a region $A$ is given by $N(A) \sim \text{Pois}(\lambda A)$ where $\lambda$ is the *intensity* of the process. $N$ is independent between two disjoint regions.
+
+---
+
+# Example
+
+- Which of these patterns is completely random?
+
+```{r, include = FALSE}
+library(spatstat)
+```
+
+```{r, fig.dim = c(12, 5), echo = FALSE}
+csrp <- rpoispp(lambda = 100)
+aggp <- rMatClust(20, 0.1, 5)
+evenp <- rMaternII(150, 0.05)
+par(mfrow = c(1, 3), bg = "#fafafa")
+plot(aggp, main = "", pch = 19)
+plot(evenp, main = "", pch = 19)
+plot(csrp, main = "", pch = 19)
+```
+
+---
+
+# Example
+
+```{r, fig.dim = c(12, 5), echo = FALSE}
+par(mfrow = c(1, 3), bg = "#fafafa", cex.main = 2)
+plot(aggp, main = "Agrégation", pch = 19)
+plot(evenp, main = "Répulsion", pch = 19)
+plot(csrp, main = "Aléatoire", pch = 19)
+```
+
+---
+
+# Ripley's $K$ Function
+
+- $K(r)$ measures the average number of points within a distance $r$ from a point in the pattern, normalized by the intensity $\lambda$.
+
+--
+
+- For a completely random pattern, the mean of $N(r)$ is $\lambda \pi r^2$, so theoretically $K(r) = \pi r^2$.
+
+--
+
+- A distribution of $K(r)$ under the null hypothesis (completely spatially random structure) is obtained by generating random patterns with the same intensity as the observed one.
+
+---
+
+# Example
+
+```{r, include = FALSE}
+kagg <- envelope(aggp, Kest, correction = "iso") 
+keven <- envelope(evenp, Kest, correction = "iso")
+kcsr <- envelope(csrp, Kest, correction = "iso")
+```
+
+```{r, echo = FALSE, fig.dim = c(14, 5)}
+par(mfrow = c(1, 3), bg = "#fafafa", cex.main = 2, cex.lab = 1.5, mex = 1.5, mgp = c(2, 1, 0))
+plot(kagg, main = "Agrégation", legend = FALSE)
+plot(keven, main = "Répulsion", legend = FALSE)
+plot(kcsr, main = "Aléatoire", legend = FALSE)
+```
+
+---
+
+# Effect of heterogeneity
+
+- An intensity gradient can be mistaken for spatial clustering of points.
+
+```{r, include = FALSE}
+lam_gr <- function(x, y) ifelse(x < 0.5, 500*(1-x), 200*(1-x))
+hetp <- rpoispp(lam_gr)
+khet <- envelope(hetp, Kest, correction = "iso")
+```
+
+```{r, echo = FALSE, fig.dim = c(10, 5)}
+par(mfrow = c(1, 2), bg = "#fafafa")
+plot(hetp, pch = 19, main = "")
+plot(khet, main = "", legend = FALSE)
+```
+
+---
+
+# Effect of heterogeneity
+
+- The function $K$ can be corrected by taking into account the estimated local intensity for each point.
+
+--
+
+- The null model in this case is a heterogeneous Poisson process.
+
+--
+
+```{r, include = FALSE}
+khet2 <- envelope(hetp, Kinhom, simulate = function(x) rpoispp(lam_gr), 
+                  correction = "iso")
+```
+
+```{r, echo = FALSE}
+par(bg = "#fafafa")
+plot(khet2, main = "", legend = FALSE)
+```
+
+---
+
+# Effect of heterogeneity
+
+- Heterogeneity can be distinguished from aggregation if the two processes operate at different scales.
+
+--
+
+- Example: Large-scale density gradient combined with small-scale point aggregation.
+
+---
+
+# Relationship between two point patterns
+
+.pull-left[
+- Example: Positions of trees of two species in a plot.
+
+- Does the probability of observing a tree of one species depend on the presence of a tree of the other species at a given distance?
+]
+
+.pull-right[
+
+```{r, echo = FALSE, fig.dim = c(6, 6)}
+data(lansing)
+lansing <- subset(lansing, marks %in% c("maple", "redoak"), drop = TRUE)
+par(bg = "#fafafa")
+plot(lansing, chars = 20, cols = c("#1b9e77", "#d95f02"), main = "", legend = FALSE)
+```
+]
+
+---
+
+# Bivariate Ripley's K function
+
+- $K_{12}(r)$: Average number of points from pattern 2 within distance $r$ of a point from pattern 1, normalized by the density of pattern 2.
+
+--
+
+- $K_{12}(r) = K_{21}(r)$ in theory.
+
+--
+
+- To determine significant attraction or repulsion between the two patterns, randomize their relative positions while preserving their internal structure.
+
+---
+
+# Toroidal translation
+
+- One of the two patterns is shifted horizontally and/or vertically. The part that "exits" on one side is reattached on the opposite side.
+
+```{r, echo = FALSE, fig.dim = c(10, 5)}
+par(mfrow = c(1, 2), bg = "#fafafa")
+rsh <- rshift(lansing, which = 1, width = 0.5, height = 0)
+plot(lansing, chars = 20, cols = c("#1b9e77", "#d95f02"), main = "Original", legend = FALSE)
+rect(xleft = 1 - rsh$x[8], xright = 1, ybottom = 0, ytop = 1, 
+     col = rgb(0, 0, 0, alpha = 0.1))
+plot(rsh, chars = 20, cols = c("#1b9e77", "#d95f02"), main = "Après translation", legend = FALSE)
+rect(xleft = 0, xright = rsh$x[8], ybottom = 0, ytop = 1, 
+     col = rgb(0, 0, 0, alpha = 0.1))
+```
+
+---
+
+# For further reading
+
+Wiegand, T. and Moloney, K.A. (2013) *Handbook of Spatial Point-Pattern Analysis in Ecology*, CRC Press.
+
+--
+
+- Besides Ripley's $K$, several other summary statistics to describe point patterns (e.g., mean nearest neighbor distance).
+
+--
+
+- Methods for estimating summary statistics accounting for edge effects.
+
+--
+
+- Analyses of point characteristics (e.g., tree mortality random or spatially aggregated).
+
+---
+
+class: inverse, center, middle
+
+# Geostatistical models
+
+---
+
+# Geostatistics
+
+- Group of techniques originating in Earth sciences.
+
+--
+
+- Variables continuously distributed in space, for which the distribution is estimated by sampling a number of points.
+
+--
+
+- Consider a variable $z(x, y)$ measured at different coordinates $(x, y)$.
+
+--
+
+- Assumption: $z$ is stationary.
+
+---
+
+# Variogram
+
+- The variogram $\gamma_z(h)$ of $z$ indicates the mean squared difference between the values of $z$ for two points $(x_i, y_i)$ and $(x_j, y_j)$ separated by a distance $h$.
+
+--
+
+$$\gamma_z(h) = \frac{1}{2} \text{E} \left[ \left( z(x_i, y_i) - z(x_j, y_j) \right)^2 \right]_{d_{ij} = h}$$
+
+--
+
+- The variogram is related to the autocorrelation $\rho_z(h)$ by the equation:
+
+$$\gamma_z = \sigma_z^2(1 - \rho_z)$$
+
+--
+
+- $\gamma$ is sometimes called the "semivariogram" or "semivariance" because of the factor 1/2, but note that in the absence of spatial correlation, $\gamma_z = \sigma^2_z$.
+
+---
+
+# Exponential variogram model
+
+$$\rho_z(h) = e^{-h/r}$$
+
+--
+
+- Correlation multiplied by $1/e \approx 0.37$ for each increase of the distance by $r$, where $r$ is the correlation range.
+
+--
+
+$$\gamma_z(h) = \sigma_z^2 (1 - e^{-h/r})$$
+
+---
+
+# Variogram components
+
+$$\gamma_z(h) = s (1 - e^{-h/r})$$
+
+```{r, echo = FALSE}
+ggplot() +
+    labs(x = "h", y = expression(gamma)) +
+    stat_function(fun = function(x) 5 * (1 - exp(-x/3)),
+                  geom = "line", color = "#b3452c", linewidth = 1) +
+    geom_hline(yintercept = 5, linetype = "dotted") +
+    geom_segment(aes(x = 0, xend = 2.8, y = 5*(1-exp(-1)),
+                     yend = 5*(1-exp(-1))), 
+                arrow = arrow(length = unit(0.05, "inches"), ends = "both", type = "closed")) +
+    annotate("text", x = 1.5, y = 3.5, label = "range", size = 7) +
+    annotate("text", x = 9, y = 5.5, label = "sill", size = 7) +
+    scale_y_continuous(limits = c(0, 6)) +
+    scale_x_continuous(limits = c(0, 10))
+```
+
+---
+
+# Variogram components
+
+$$\gamma_z(h) = n + (s - n) (1 - e^{-h/r})$$
+
+```{r, echo = FALSE}
+ggplot() +
+    labs(x = "h", y = expression(gamma)) +
+    stat_function(fun = function(x) 4 * (1 - exp(-x/3)) + 1,
+                  geom = "line", color = "#b3452c", linewidth = 1) +
+    geom_hline(yintercept = 5, linetype = "dotted") +
+    geom_segment(aes(x = 0, xend = 2.8, y = 4*(1-exp(-1)) + 1,
+                     yend = 4*(1-exp(-1)) + 1), 
+                arrow = arrow(length = unit(0.05, "inches"), 
+                              ends = "both", type = "closed")) +
+    geom_segment(aes(x = 0, xend = 0, y = 0, yend = 0.9),
+                 arrow = arrow(length = unit(0.05, "inches"),
+                               ends = "both", type = "closed")) +
+    annotate("text", x = 1.5, y = 4, label = "range", size = 7) +
+    annotate("text", x = 9, y = 5.5, label = "sill", size = 7) +
+    annotate("text", x = 1.5, y = 0.5, label = "nugget", size = 7) +
+    scale_y_continuous(limits = c(0, 6)) +
+    scale_x_continuous(limits = c(0, 10))
+```
+
+---
+
+# Theoretical variogram models
+
+ Model | $\rho(h)$ | $\gamma(h)$
+-------|-----------|-------------
+Exponential | $\exp\left(-\frac{h}{r}\right)$ | $s \left(1 - \exp\left(-\frac{h}{r}\right)\right)$
+Gaussian | $\exp\left(-\frac{h^2}{r^2}\right)$ | $s \left(1 - \exp\left(-\frac{h^2}{r^2}\right)\right)$
+Spherical $(h < r)$ * | $1 - \frac{3}{2}\frac{h}{r} + \frac{1}{2}\frac{h^3}{r^3}$ | $s \left(\frac{3}{2}\frac{h}{r} - \frac{1}{2}\frac{h^3}{r^3} \right)$
+
+\* For the spherical model, $\rho = 0$ and $\gamma = s$ if $h \ge r$.
+
+---
+
+# Theoretical variogram models
+
+```{r, echo = FALSE, fig.dim = c(12, 5)}
+vexp <- ggplot() +
+    labs(x = "h", y = expression(gamma), title = "Exponentiel") +
+    stat_function(fun = function(x) 5 * (1 - exp(-x/3)),
+                  geom = "line", color = "#b3452c", linewidth = 1) +
+    geom_hline(yintercept = 5, linetype = "dotted") +
+    scale_x_continuous(limits = c(0, 10))
+    
+
+vgau <- ggplot() +
+    labs(x = "h", y = expression(gamma), title = "Gaussien") +
+    stat_function(fun = function(x) 5 * (1 - exp(-x^2/4^2)),
+                  geom = "line", color = "#b3452c", linewidth = 1) +
+    geom_hline(yintercept = 5, linetype = "dotted") +
+    scale_x_continuous(limits = c(0, 10))
+
+vsph <- ggplot() +
+    labs(x = "h", y = expression(gamma), title = "Sphérique") +
+    stat_function(fun = function(x) ifelse(x < 8, 5 * (1.5*x/8 - 0.5*x^3/8^3), 5),
+                  geom = "line", color = "#b3452c", linewidth = 1) +
+    geom_hline(yintercept = 5, linetype = "dotted") +
+    scale_x_continuous(limits = c(0, 10))
+
+plot_grid(vexp, vgau, vsph, nrow = 1)
+```
+
+---
+
+# Empirical variogram
+
+- Estimation of $\gamma_z(h)$ from the mean squared difference for pairs of points separated by a distance approximately $h \; (\pm \delta)$. 
+
+$$\hat{\gamma_z}(h) = \frac{1}{2 N_{\text{pairs}}} \sum \left[ \left( z(x_i, y_i) - z(x_j, y_j) \right)^2 \right]_{d_{ij} = h \pm \delta}$$
+
+---
+
+# Variogram and temporal data
+
+- A variogram can also be estimated based on time lags (considered as space in 1 dimension).
+
+--
+
+- This allows modeling temporal dependence for a series with irregular intervals.
+
+---
+
+# Regression model with spatial correlation
+
+$$v = \beta_0 + \sum_i \beta_i u_i + z + \epsilon$$
+
+- Response variable $v$ and predictors $u$.
+
+--
+
+- $z$: Spatially correlated residual.
+
+- $\epsilon$: Independent residual.
+
+---
+
+# Regression model with spatial correlation
+
+$$v = \beta_0 + \sum_i \beta_i u_i + z + \epsilon$$
+
+1. Fit the regression model without spatial correlation.
+
+--
+
+2. Check for the presence of spatial correlation using the empirical variogram of the residuals.
+
+--
+
+3. Fit one or more regression models with spatial correlation (compare with AIC if needed).
+
+---
+
+class: inverse, center, middle
+
+# Areal data models
+
+---
+
+# Areal data
+
+- Variables attached to regions of space defined by polygons.
+
+--
+
+- Common data type in social sciences and epidemiology, but also in natural resource management.
+
+---
+
+# Example: Forest management units
+
+![](../images/cartes_unites.png)
+
+*Source*: Ministère des Forêts, de la Faune et des Parcs du Québec.
+
+---
+
+# Neighborhood network
+
+- Geostatistical methods could be applied by calculating, for example, the distance between the centers of polygons.
+
+--
+
+- Another option: define a network where each region is connected to neighboring regions by a link.
+
+--
+
+- It is assumed that variables are directly correlated only between neighboring regions.
+
+--
+
+- The level of correlation can vary between links if different weights are assigned to them.
+
+---
+
+# Neighborhood network
+
+- Weight matrix $W$: $w_{ij}$ is the weight of the link between regions $i$ and $j$. 
+
+- We have $w_{ii} = 0$.
+
+--
+
+- Binary weights: $w_{ij}$ is 1 if the regions are neighbors, otherwise 0.
+
+--
+
+- Applies to data defined on a grid. In this case, each cell can have 4 or 8 neighboring cells (including diagonals or not).
+
+---
+
+# Moran's Index
+
+- Autocorrelation coefficient of $z$ weighted by weights $w_{ij}$ (ranges between -1 and 1).
+
+$$I = \frac{N}{\sum_i \sum_j w_{ij}} \frac{\sum_i \sum_j w_{ij} (z_i - \bar{z}) (z_j - \bar{z})}{\sum_i (z_i - \bar{z})^2}$$
+
+- $N$ is the number of regions.
+
+--
+
+- Allows testing the hypothesis of no spatial correlation between neighboring regions.
+
+--
+
+- Can also be applied to point data. In this case, point pairs are divided into distance classes and $I$ is calculated for each distance class.
+
+---
+
+# Spatial autoregressive models
+
+$$v = \beta_0 + \sum_i \beta_i u_i + z + \epsilon$$
+
+- Response variable $v$ and predictors $u$.
+
+--
+
+- $z$: Spatially correlated residual between neighboring regions.
+
+- $\epsilon$: Independent residual.
+
+--
+
+- Two types of autoregressive models for $z$: conditional autoregression (CAR) or simultaneous autoregression (SAR).
+
+---
+
+# Conditional autoregression (CAR)
+
+$$z_i \sim \text{N}\left(\sum_j \rho w_{ij} z_j,\sigma_{z_i} \right)$$
+--
+
+- $\rho$: Correlation parameter.
+
+- $w_{ij}$: Weight of the link between regions $i$ and $j$.
+
+- $\sigma_{z_i}$: Residual standard deviation for $z_i$.
+
+--
+
+*Note*: If $w_{ij}$ is a binary matrix (0/1), then $\rho$ is the partial correlation coefficient between neighboring regions.
+
+---
+
+# Simultaneous autoregression (SAR)
+
+$$z_i = \sum_j \rho w_{ij} z_j + \nu_i$$
+
+--
+
+- $\nu_i$ is an independent residual with standard deviation $\sigma_z$.
+
+--
+
+- Unlike the CAR model, $\rho$ is not directly equal to the partial correlation here.
+
+---
+
+# Spatial autoregressive models
+
+- AIC can be used for model selection (CAR or SAR, definition of weights).
+
+--
+
+- By specifying correlations only between neighboring regions, a CAR or SAR model is generally faster to compute than a geostatistical model where correlations have a global range.
+
+--
+
+- There are also moving average (MA) models in a spatial context; their application is rarer.
+
+---
+
+# References
+
+Ver Hoef, J.M., Peterson, E.E., Hooten, M.B., Hanks, E.M. and Fortin, M.-J. (2018) Spatial autoregressive models for statistical inference from ecological data. *Ecological Monographs* 88: 36-59.
+
+Fortin, M.-J. and Dale, M.R.T. (2005) *Spatial Analysis: A Guide for Ecologists*. Cambridge University Press: Cambridge, UK.
+
+---
+
+class: inverse, center, middle
+
+# Spatial correlation in complex models
+
+---
+
+# Geostatistical models with *nlme*
+
+- The *nlme* package contains spatial correlation functions, including exponential correlation (`corExp`), Gaussian (`corGaus`), and spherical (`corSpher`).
+
+--
+
+- Integration into a linear mixed model with `lme` (`x` and `y` are spatial coordinates).
+
+```{r, eval = FALSE}
+library(nlme)
+mod <- lme(v ~ u, data, random = list(groupe = ~1),
+           correlation = corExp(form = ~ x + y, nugget = TRUE))
+```
+
+--
+
+- The usual limitations of this package apply (no crossed random effects, no generalized models).
+
+---
+
+# Geostatistical models with *nlme*
+
+- Integration into a linear model (without random effect) with `gls`:
+
+```{r, eval = FALSE}
+library(nlme)
+mod <- gls(v ~ u, data,
+           correlation = corExp(form = ~ x + y, nugget = TRUE))
+```
+
+--
+
+- Integration into an additive model with `gamm` (package *mgcv*):
+
+```{r, eval = FALSE}
+library(mgcv)
+mod <- gamm(v ~ s(u), data, random = list(groupe = ~1), 
+            correlation = corExp(form = ~ x + y, nugget = TRUE))
+```
+
+---
+
+# Geostatistical models with *brms*
+
+- Spatial correlation as a function of distance modeled by a Gaussian process (function `gp`).
+
+```{r, eval = FALSE}
+library(brms)
+mod <- brm(v ~ u + gp(x, y, cov = "exp_quad"), data)
+```
+
+--
+
+- Currently, only the Gaussian correlation (`exp_quad`) is available.
+
+---
+
+# Spatial autoregressive models with *brms*
+
+- Currently only possible with a response following a normal or $t$ distribution.
+
+```{r, eval = FALSE}
+library(brms)
+mod_sar <- brm(v ~ u + sar(W, type = "error"), data,
+               data2 = list(W = W))
+mod_car <- brm(v ~ u + car(W), data,
+               data2 = list(W = W))
+```
+
+--
+
+- `W` is the weight matrix (must be provided as a separate argument `data2`). 
+
+- `type = "error"` is the SAR type covered in this course.
