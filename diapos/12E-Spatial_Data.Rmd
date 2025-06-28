@@ -177,9 +177,9 @@ plot(csrp, main = "", pch = 19)
 
 ```{r, fig.dim = c(12, 5), echo = FALSE}
 par(mfrow = c(1, 3), bg = "#fafafa", cex.main = 2)
-plot(aggp, main = "Agrégation", pch = 19)
-plot(evenp, main = "Répulsion", pch = 19)
-plot(csrp, main = "Aléatoire", pch = 19)
+plot(aggp, main = "Agregation", pch = 19)
+plot(evenp, main = "Repulsion", pch = 19)
+plot(csrp, main = "Random", pch = 19)
 ```
 
 ---
@@ -208,9 +208,9 @@ kcsr <- envelope(csrp, Kest, correction = "iso")
 
 ```{r, echo = FALSE, fig.dim = c(14, 5)}
 par(mfrow = c(1, 3), bg = "#fafafa", cex.main = 2, cex.lab = 1.5, mex = 1.5, mgp = c(2, 1, 0))
-plot(kagg, main = "Agrégation", legend = FALSE)
-plot(keven, main = "Répulsion", legend = FALSE)
-plot(kcsr, main = "Aléatoire", legend = FALSE)
+plot(kagg, main = "Agregation", legend = FALSE)
+plot(keven, main = "Repulsion", legend = FALSE)
+plot(kcsr, main = "Random", legend = FALSE)
 ```
 
 ---
@@ -309,7 +309,7 @@ rsh <- rshift(lansing, which = 1, width = 0.5, height = 0)
 plot(lansing, chars = 20, cols = c("#1b9e77", "#d95f02"), main = "Original", legend = FALSE)
 rect(xleft = 1 - rsh$x[8], xright = 1, ybottom = 0, ytop = 1, 
      col = rgb(0, 0, 0, alpha = 0.1))
-plot(rsh, chars = 20, cols = c("#1b9e77", "#d95f02"), main = "Après translation", legend = FALSE)
+plot(rsh, chars = 20, cols = c("#1b9e77", "#d95f02"), main = "After translation", legend = FALSE)
 rect(xleft = 0, xright = rsh$x[8], ybottom = 0, ytop = 1, 
      col = rgb(0, 0, 0, alpha = 0.1))
 ```
