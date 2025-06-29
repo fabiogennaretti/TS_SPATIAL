@@ -1,0 +1,46 @@
+---
+title: "Lab: Point Pattern Analysis"
+output:
+  html_document:
+    self_contained: no
+    lib_dir: libs
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+  pdf_document:
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Lab Objective
+
+Analyze spatial point patterns using CSR (complete spatial randomness) as a null model. Detect clustering or repulsion, evaluate the effect of spatial heterogeneity, and test the independence between two point patterns.
+
+## Part 1: Introduction and CSR
+
+**(1a) Generate a point pattern with complete spatial randomness (CSR) using intensity $\lambda$ = 100. Plot it.**
+
+**(1b) What is complete spatial randomness (CSR) and which statistical model represents it?**
+
+**(1C) Generate: an aggregated pattern using rMatClust(), a repulsive pattern using rMaternII(). Plot all three patterns (CSR, aggregation, repulsion) side-by-side.**
+
+**(1d) What visual differences do you observe between the three patterns?**
+
+## Part 2: Ripley’s K and null model testing
+
+**(2a) Compute and plot Ripley’s K function with simulation envelopes for each of the three patterns.**
+
+**(2b) How do you interpret a K(r) curve above or below the theoretical curve? Which of the patterns significantly deviates from CSR? At what range of distances?**
+
+## Part 3: Heterogeneous intensity
+
+**(3a) Simulate a heterogeneous point pattern with a non-uniform intensity function as argument of *rpoispp*. Plot the pattern.**
+
+**(3b) Why can a density gradient be mistaken for spatial analyses?**
+
+**(3c) Compare K estimates with and without correcting for heterogeneity (express the pattern in the *simulate* argument of the function *envelope*).**
+
+**(3d) Which characteristic helps distinguish a density gradient from true clustering/aggregation?**
