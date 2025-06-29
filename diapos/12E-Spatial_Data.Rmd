@@ -455,7 +455,7 @@ Spherical $(h < r)$ * | $1 - \frac{3}{2}\frac{h}{r} + \frac{1}{2}\frac{h^3}{r^3}
 
 ```{r, echo = FALSE, fig.dim = c(12, 5)}
 vexp <- ggplot() +
-    labs(x = "h", y = expression(gamma), title = "Exponentiel") +
+    labs(x = "h", y = expression(gamma), title = "Exponential") +
     stat_function(fun = function(x) 5 * (1 - exp(-x/3)),
                   geom = "line", color = "#b3452c", linewidth = 1) +
     geom_hline(yintercept = 5, linetype = "dotted") +
@@ -463,14 +463,14 @@ vexp <- ggplot() +
     
 
 vgau <- ggplot() +
-    labs(x = "h", y = expression(gamma), title = "Gaussien") +
+    labs(x = "h", y = expression(gamma), title = "Gaussian") +
     stat_function(fun = function(x) 5 * (1 - exp(-x^2/4^2)),
                   geom = "line", color = "#b3452c", linewidth = 1) +
     geom_hline(yintercept = 5, linetype = "dotted") +
     scale_x_continuous(limits = c(0, 10))
 
 vsph <- ggplot() +
-    labs(x = "h", y = expression(gamma), title = "Sphérique") +
+    labs(x = "h", y = expression(gamma), title = "Spherical") +
     stat_function(fun = function(x) ifelse(x < 8, 5 * (1.5*x/8 - 0.5*x^3/8^3), 5),
                   geom = "line", color = "#b3452c", linewidth = 1) +
     geom_hline(yintercept = 5, linetype = "dotted") +

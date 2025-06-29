@@ -16,11 +16,9 @@ Link 2. https://images.datacamp.com/image/upload/v1671098755/Marketing/Blog/Work
 
 Lecture 1. [Time series](notes_cours/11E-Series_temporelles.html) ([PDF](notes_cours/11E-Series_temporelles.pdf)) - Data: [sea_ice.txt](donnees/sea_ice.txt), [dendro_wa082.csv](donnees/dendro_wa082.csv)
 
-Laboratory Class 1a. [Fitting ARIMA models in R<!-- (solutions)-->](labos/11E-Series_temporelles.html) ([PDF](labos/11E-Series_temporelles.pdf)) - Data: [oak_seeds.csv](donnees/oak_seeds.csv), [oak_weather.csv](donnees/oak_weather.csv)
+Laboratory Class 1. [Fitting ARIMA models in R<!-- (solutions)-->](labos/11E-Series_temporelles.html) ([PDF](labos/11E-Series_temporelles.pdf)) - Data: [oak_seeds.csv](donnees/oak_seeds.csv), [oak_weather.csv](donnees/oak_weather.csv)
 
-Laboratory Class 1b. [Fitting ARIMA models in R<!-- (solutions)-->](labos/E11E-Series_temporelles.html) ([PDF](labos/E11E-Series_temporelles.pdf)) - Data: [EOBS_fluxnet2.csv](donnees/EOBS_fluxnet2.csv), [EOBS_fluxnet_inmet2.txt](donnees/EOBS_fluxnet_inmet2.txt)
-
-Laboratory Class 2. [Temporal correlations in additive and Bayesian models]
+Laboratory Class 2. [Temporal correlations in additive models<!-- (solutions)-->](labos/11_2_E-Series_temporelles.html) ([PDF](labos/11_2_E-Series_temporelles.pdf)) - Data: [EOBS_fluxnet2.csv](donnees/EOBS_fluxnet2.csv), [EOBS_fluxnet_inmet2.txt](donnees/EOBS_fluxnet_inmet2.txt)
 
 Lecture 2. [Spatial data](notes_cours/12E-Donnees_spatiales.html) ([PDF](notes_cours/12E-Donnees_spatiales.pdf)) - Data: [semis_xy.csv](donnees/semis_xy.csv)
 
