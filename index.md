@@ -12,6 +12,12 @@ Link 1. https://www.stat.berkeley.edu/~s133/dates.html
 
 Link 2. https://images.datacamp.com/image/upload/v1671098755/Marketing/Blog/Working_with_Dates_and_Time_in_R.pdf
 
+## Spatial data in R
+
+Link 1. https://www.paulamoraga.com/book-spatial/spatial-data-in-r.html
+
+Link 2 (sf package). https://rstudio.github.io/cheatsheets/sf.pdf
+
 ## Program
 
 Lecture 1. [Time series](notes_cours/11E-Series_temporelles.html) ([PDF](notes_cours/11E-Series_temporelles.pdf)) - Data: [sea_ice.txt](donnees/sea_ice.txt), [dendro_wa082.csv](donnees/dendro_wa082.csv)
