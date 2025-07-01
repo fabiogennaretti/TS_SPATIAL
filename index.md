@@ -22,7 +22,7 @@ Link 2 (sf package). https://rstudio.github.io/cheatsheets/sf.pdf
 
 Lecture 1. [Time series](notes_cours/11E-Series_temporelles.html) ([PDF](notes_cours/11E-Series_temporelles.pdf)) - Data: [sea_ice.txt](donnees/sea_ice.txt), [dendro_wa082.csv](donnees/dendro_wa082.csv)
 
-Laboratory Class 1. [Fitting ARIMA models in R<!-- (solutions)-->](labos/11E-Series_temporelles.html) ([PDF](labos/11E-Series_temporelles.pdf)) - Data: [oak_seeds.csv](donnees/oak_seeds.csv), [oak_weather.csv](donnees/oak_weather.csv)
+Laboratory Class 1. [Fitting ARIMA models in R<!-- (solutions)-->](labos/11RE-Series_temporelles.html) ([PDF](labos/11RE-Series_temporelles.pdf)) - Data: [oak_seeds.csv](donnees/oak_seeds.csv), [oak_weather.csv](donnees/oak_weather.csv)
 
 Laboratory Class 2. [Temporal correlations in additive models<!-- (solutions)-->](labos/11_2_E-Series_temporelles.html) ([PDF](labos/11_2_E-Series_temporelles.pdf)) - Data: [EOBS_fluxnet2.csv](donnees/EOBS_fluxnet2.csv), [EOBS_fluxnet_inmet2.txt](donnees/EOBS_fluxnet_inmet2.txt)
 
