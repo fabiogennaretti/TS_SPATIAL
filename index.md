@@ -28,7 +28,7 @@ Laboratory Class 2. [Temporal correlations in additive models<!-- (solutions)-->
 
 Lecture 2. [Spatial data](notes_cours/12E-Donnees_spatiales.html) ([PDF](notes_cours/12E-Donnees_spatiales.pdf)) - Data: [semis_xy.csv](donnees/semis_xy.csv)
 
-Laboratory Class 3. [Point patterns in R<!-- (solutions)-->](labos/12_2_E-point_pattern_lab.html) ([PDF](labos/12_2_E-point_pattern_lab.pdf))
+Laboratory Class 3. [Point patterns in R<!-- (solutions)-->](labos/12_2_RE-point_pattern_lab.html) ([PDF](labos/12_2_RE-point_pattern_lab.pdf))
 
-Laboratory Class 4. [Geostatistical models and areal data in R<!-- (solutions)-->](labos/12E-Donnees_spatiales_updated.html) ([PDF](labos/12E-Donnees_spatiales_updated.pdf)) - Data: [bryo_belg.csv](donnees/bryo_belg.csv)
+Laboratory Class 4. [Geostatistical models and areal data in R<!-- (solutions)-->](labos/12RE-Donnees_spatiales_updated.html) ([PDF](labos/12RE-Donnees_spatiales_updated.pdf)) - Data: [bryo_belg.csv](donnees/bryo_belg.csv)
 
