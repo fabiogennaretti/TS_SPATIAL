@@ -32,3 +32,14 @@ Laboratory Class 3. [Point patterns in R<!-- (solutions)-->](labos/12_2_RE-point
 
 Laboratory Class 4. [Geostatistical models and areal data in R<!-- (solutions)-->](labos/12RE-Donnees_spatiales_updated.html) ([PDF](labos/12RE-Donnees_spatiales_updated.pdf)) - Data: [bryo_belg.csv](donnees/bryo_belg.csv)
 
+## Student data analysis 2025
+
+Data: [Clima_Tronto.csv](donnees/Clima_Tronto.csv), [Clima_Tronto_coordinate_33N.csv](donnees/Clima_Tronto_coordinate_33N.csv)
+
+Script: [Script.r](labos/Clima_Tronto.R)
+
+
+
+
+
+
